@@ -34,7 +34,7 @@ module.exports = {
             if (typeof(p) !== 'string') {
                 p = JSON.stringify(p);
             }
-            print("PARAMS: ".cyan + p.white, true);
+            print("PARAMS: ".yellow + p.white, true);
         }
     },
 
@@ -59,10 +59,6 @@ module.exports = {
         if (e.query) {
 
         }
-    },
-
-    log: function (msg, color) {
-
     },
 
     attach: function (options, override) {
