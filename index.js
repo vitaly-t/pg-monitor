@@ -20,30 +20,42 @@ module.exports = {
         print(("Disconnecting from: " + cp.database).white);
     },
 
-    transact: function (e) {
-
-    },
-
     query: function (e) {
         if (!e || !('query' in e)) {
             throw new Error(errorMsg);
         }
         var q = e.query;
-        if(typeof(q) !== 'string'){
+        if (typeof(q) !== 'string') {
             q = JSON.stringify(q);
         }
         print(q.white);
         if (e.params) {
             var p = e.params;
-            if(typeof(p) !== 'string'){
+            if (typeof(p) !== 'string') {
                 p = JSON.stringify(p);
             }
             print("PARAMS: ".cyan + p.white, true);
         }
     },
 
+    transact: function (e) {
+        if (!e || !e.ctx) {
+            throw new Error(errorMsg);
+        }
+        var msg;
+        if (e.ctx.finish) {
+            msg = "TX-FINISH".cyan;
+        } else {
+            msg = "TX-START".cyan;
+        }
+        if (typeof(e.ctx.tag) === 'string') {
+            msg += "(".cyan + e.ctx.tag.white + ")".cyan;
+        }
+        print(msg);
+    },
+
     error: function (err, e) {
-        print(err, colors.red);
+        print(err.red);
         if (e.query) {
 
         }
@@ -51,15 +63,79 @@ module.exports = {
 
     log: function (msg, color) {
 
+    },
+
+    attach: function (options, override) {
+
+        if (typeof(options) !== 'object') {
+            throw new Error("Object 'options' must be specified.");
+        }
+
+        var self = this;
+
+        // attaching to 'connect' event:
+        if (typeof(options.connect) === 'function' && !override) {
+            var f = options.connect;
+            options.connect = function (client) {
+                self.connect(client);
+                f(client);
+            };
+        } else {
+            options.connect = self.connect;
+        }
+
+        // attaching to 'disconnect' event:
+        if (typeof(options.disconnect) === 'function' && !override) {
+            var f = options.disconnect;
+            options.disconnect = function (client) {
+                self.disconnect(client);
+                f(client);
+            };
+        } else {
+            options.disconnect = self.disconnect;
+        }
+
+        // attaching to 'query' event:
+        if (typeof(options.query) === 'function' && !override) {
+            var f = options.query;
+            options.query = function (e) {
+                self.query(e);
+                f(e);
+            };
+        } else {
+            options.query = self.query;
+        }
+
+        // attaching to 'transact' event:
+        if (typeof(options.transact) === 'function' && !override) {
+            var f = options.transact;
+            options.transact = function (e) {
+                self.transact(e);
+                f(e);
+            };
+        } else {
+            options.transact = self.transact;
+        }
+
+        // attaching to 'error' event:
+        if (typeof(options.error) === 'function' && !override) {
+            var f = options.error;
+            options.error = function (err, e) {
+                self.error(err, e);
+                f(err, e);
+            };
+        } else {
+            options.error = self.error;
+        }
+
     }
 };
 
-function print(txt, color, nextLine) {
-    var msg = nextLine ? "" : getTime();
-    if (color) {
-        msg += color(txt);
+function print(text, extraLine) {
+    if (!extraLine) {
+        text = getTime() + text;
     }
-    console.log(msg);
+    console.log(text);
 }
 
 function getTime() {
@@ -68,9 +144,11 @@ function getTime() {
     return s.bgWhite.black;
 }
 
-Number.prototype.padZeros = function (n) {
-    var str = this.toString();
-    while (str.length < n)
-        str = '0' + str;
-    return str;
-};
+if (!Number.prototype.padZeros) {
+    Number.prototype.padZeros = function (n) {
+        var str = this.toString();
+        while (str.length < n)
+            str = '0' + str;
+        return str;
+    };
+}
