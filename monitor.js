@@ -56,9 +56,11 @@ module.exports = {
 
     error: function (err, e) {
         print(err.red);
-        if (e.query) {
-
+        var q = e.query;
+        if (typeof(q) !== 'string') {
+            q = JSON.stringify(q);
         }
+        print("QUERY".blue + ": " + q.red, true);
     },
 
     attach: function (options, override) {
@@ -71,10 +73,10 @@ module.exports = {
 
         // attaching to 'connect' event:
         if (typeof(options.connect) === 'function' && !override) {
-            var f = options.connect;
+            var cn = options.connect;
             options.connect = function (client) {
                 self.connect(client);
-                f(client);
+                cn(client);
             };
         } else {
             options.connect = self.connect;
@@ -82,10 +84,10 @@ module.exports = {
 
         // attaching to 'disconnect' event:
         if (typeof(options.disconnect) === 'function' && !override) {
-            var f = options.disconnect;
+            var dis = options.disconnect;
             options.disconnect = function (client) {
                 self.disconnect(client);
-                f(client);
+                dis(client);
             };
         } else {
             options.disconnect = self.disconnect;
@@ -93,10 +95,10 @@ module.exports = {
 
         // attaching to 'query' event:
         if (typeof(options.query) === 'function' && !override) {
-            var f = options.query;
+            var q = options.query;
             options.query = function (e) {
                 self.query(e);
-                f(e);
+                q(e);
             };
         } else {
             options.query = self.query;
@@ -104,10 +106,10 @@ module.exports = {
 
         // attaching to 'transact' event:
         if (typeof(options.transact) === 'function' && !override) {
-            var f = options.transact;
+            var tx = options.transact;
             options.transact = function (e) {
                 self.transact(e);
-                f(e);
+                tx(e);
             };
         } else {
             options.transact = self.transact;
@@ -115,10 +117,10 @@ module.exports = {
 
         // attaching to 'error' event:
         if (typeof(options.error) === 'function' && !override) {
-            var f = options.error;
+            var er = options.error;
             options.error = function (err, e) {
                 self.error(err, e);
-                f(err, e);
+                er(err, e);
             };
         } else {
             options.error = self.error;
@@ -128,7 +130,7 @@ module.exports = {
 
 function print(text, extraLine) {
     if (!extraLine) {
-        text = getTime() + text;
+        text = getTime() + ' ' + text;
     }
     console.log(text);
 
@@ -141,7 +143,7 @@ function print(text, extraLine) {
 
 function getTime() {
     var t = new Date();
-    var s = t.getHours().padZeros(2) + ':' + t.getMinutes().padZeros(2) + ':' + t.getSeconds().padZeros(2) + ' ';
+    var s = t.getHours().padZeros(2) + ':' + t.getMinutes().padZeros(2) + ':' + t.getSeconds().padZeros(2);
     return s.bgWhite.black;
 }
 
