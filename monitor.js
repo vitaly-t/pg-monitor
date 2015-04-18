@@ -9,7 +9,7 @@ module.exports = {
         if (!cp) {
             throw new Error(errorMsg);
         }
-        print(("Connected to: " + cp.database).white);
+        print("Connected to: ".white + cp.database.white);
     },
 
     disconnect: function (client) {
@@ -17,7 +17,7 @@ module.exports = {
         if (!cp) {
             throw new Error(errorMsg);
         }
-        print(("Disconnecting from: " + cp.database).white);
+        print("Disconnecting from: ".white + cp.database.white);
     },
 
     query: function (e) {
@@ -34,7 +34,7 @@ module.exports = {
             if (typeof(p) !== 'string') {
                 p = JSON.stringify(p);
             }
-            print("PARAMS: ".yellow + p.white, true);
+            print("PARAMS: ".blue + p.white, true);
         }
     },
 
@@ -44,9 +44,9 @@ module.exports = {
         }
         var msg;
         if (e.ctx.finish) {
-            msg = "TX-FINISH".cyan;
+            msg = "TX-Finish".cyan;
         } else {
-            msg = "TX-START".cyan;
+            msg = "TX-Start".cyan;
         }
         if (typeof(e.ctx.tag) === 'string') {
             msg += "(".cyan + e.ctx.tag.white + ")".cyan;
@@ -60,7 +60,10 @@ module.exports = {
         if (typeof(q) !== 'string') {
             q = JSON.stringify(q);
         }
-        print("QUERY".blue + ": " + q.red, true);
+        print("Query: ".cyan + q.white, true);
+        if (e.params) {
+            print("Params: ".cyan + JSON.stringify(e.params), true);
+        }
     },
 
     attach: function (options, override) {
@@ -130,7 +133,7 @@ module.exports = {
 
 function print(text, extraLine) {
     if (!extraLine) {
-        text = getTime() + ' ' + text;
+        text = getTime().bgWhite.black + ' ' + text;
     }
     console.log(text);
 
@@ -143,8 +146,7 @@ function print(text, extraLine) {
 
 function getTime() {
     var t = new Date();
-    var s = t.getHours().padZeros(2) + ':' + t.getMinutes().padZeros(2) + ':' + t.getSeconds().padZeros(2);
-    return s.bgWhite.black;
+    return t.getHours().padZeros(2) + ':' + t.getMinutes().padZeros(2) + ':' + t.getSeconds().padZeros(2);
 }
 
 if (!Number.prototype.padZeros) {
