@@ -127,7 +127,6 @@ module.exports = {
         } else {
             options.error = self.error;
         }
-
     }
 };
 
@@ -136,9 +135,11 @@ function print(text, extraLine) {
         text = getTime() + text;
     }
     console.log(text);
-    var func = module.exports.notify;
-    if (typeof(func) === 'function') {
-        func(text);
+
+    // notify the client of a new line;
+    var nf = module.exports.notify;
+    if (typeof(nf) === 'function') {
+        nf(removeColors(text));
     }
 }
 
@@ -155,4 +156,8 @@ if (!Number.prototype.padZeros) {
             str = '0' + str;
         return str;
     };
+}
+
+function removeColors(text) {
+    return text.replace(/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]/g, '');
 }
