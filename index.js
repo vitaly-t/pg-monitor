@@ -136,6 +136,10 @@ function print(text, extraLine) {
         text = getTime() + text;
     }
     console.log(text);
+    var func = module.exports.notify;
+    if (typeof(func) === 'function') {
+        func(text);
+    }
 }
 
 function getTime() {
