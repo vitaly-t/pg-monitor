@@ -1,13 +1,23 @@
 var colors = require("colors");
 
+var errorMsg = "Invalid event redirect into pg-monitor.";
+
 module.exports = {
 
     connect: function (client) {
-
+        var cp = client ? client.connectionParameters : null;
+        if (!cp) {
+            throw new Error(errorMsg);
+        }
+        print(("Connected to: " + cp.database).white);
     },
 
     disconnect: function (client) {
-
+        var cp = client ? client.connectionParameters : null;
+        if (!cp) {
+            throw new Error(errorMsg);
+        }
+        print(("Disconnecting from: " + cp.database).white);
     },
 
     transact: function (e) {
@@ -15,11 +25,28 @@ module.exports = {
     },
 
     query: function (e) {
-        print(e.query);
+        if (!e || !('query' in e)) {
+            throw new Error(errorMsg);
+        }
+        var q = e.query;
+        if(typeof(q) !== 'string'){
+            q = JSON.stringify(q);
+        }
+        print(q.white);
+        if (e.params) {
+            var p = e.params;
+            if(typeof(p) !== 'string'){
+                p = JSON.stringify(p);
+            }
+            print("PARAMS: ".cyan + p.white, true);
+        }
     },
 
     error: function (err, e) {
         print(err, colors.red);
+        if (e.query) {
+
+        }
     },
 
     log: function (msg, color) {
@@ -27,12 +54,10 @@ module.exports = {
     }
 };
 
-function print(txt, color) {
-    var msg = getTime();
+function print(txt, color, nextLine) {
+    var msg = nextLine ? "" : getTime();
     if (color) {
         msg += color(txt);
-    } else {
-        msg += txt.white;
     }
     console.log(msg);
 }
