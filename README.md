@@ -1,5 +1,5 @@
 # pg-monitor
 
-Event monitor for pg-promise - work in progress.
+Event monitor for pg-promise.
 
-This will be an excellent event screener for pg-promise, when it is finished.
+** This project is a work-in-progress, not ready to be used. **
