@@ -9,7 +9,7 @@ module.exports = {
         if (!cp) {
             throw new Error(errorMsg);
         }
-        print("Connected to: ".white + cp.database.white);
+        print("CONNECT: ".cyan + cp.database.white);
     },
 
     disconnect: function (client) {
@@ -17,7 +17,7 @@ module.exports = {
         if (!cp) {
             throw new Error(errorMsg);
         }
-        print("Disconnecting from: ".white + cp.database.white);
+        print("DISCONNECT: ".cyan + cp.database.white);
     },
 
     query: function (e) {
@@ -34,7 +34,7 @@ module.exports = {
             if (typeof(p) !== 'string') {
                 p = JSON.stringify(p);
             }
-            print("PARAMS: ".blue + p.white, true);
+            print("Params: ".cyan + p.white, true);
         }
     },
 
@@ -44,9 +44,9 @@ module.exports = {
         }
         var msg;
         if (e.ctx.finish) {
-            msg = "TX-Finish".cyan;
+            msg = "TX-FINISH".cyan;
         } else {
-            msg = "TX-Start".cyan;
+            msg = "TX-START".cyan;
         }
         if (typeof(e.ctx.tag) === 'string') {
             msg += "(".cyan + e.ctx.tag.white + ")".cyan;
@@ -55,7 +55,7 @@ module.exports = {
     },
 
     error: function (err, e) {
-        print(err.red);
+        print("ERROR: ".cyan + err.red);
         var q = e.query;
         if (typeof(q) !== 'string') {
             q = JSON.stringify(q);
@@ -146,16 +146,11 @@ function print(text, extraLine) {
 
 function getTime() {
     var t = new Date();
-    return t.getHours().padZeros(2) + ':' + t.getMinutes().padZeros(2) + ':' + t.getSeconds().padZeros(2);
+    return pad(t.getHours()) + ':' + pad(t.getMinutes()) + ':' + pad(t.getSeconds());
 }
 
-if (!Number.prototype.padZeros) {
-    Number.prototype.padZeros = function (n) {
-        var str = this.toString();
-        while (str.length < n)
-            str = '0' + str;
-        return str;
-    };
+function pad(d) {
+    return d < 10 ? '0' + d : d;
 }
 
 function removeColors(text) {
