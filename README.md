@@ -1,6 +1,7 @@
 # pg-monitor
 
-Event monitor for pg-promise.
+Event monitor for [pg-promise]:
 
-**This project is a work-in-progress, not ready to be used.**
+- plugs into [pg-promise] events to display them nicely on screen.
 
+[pg-promise]:https://github.com/brianc/node-postgres
