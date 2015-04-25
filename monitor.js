@@ -55,6 +55,10 @@ module.exports = {
         if (typeof(e.ctx.tag) === 'string') {
             msg += "(".cyan + e.ctx.tag.white + ")".cyan;
         }
+        if (e.ctx.finish) {
+            var duration = formatDuration(e.ctx.finish - e.ctx.start);
+            msg += "; Duration: ".cyan + duration.white;
+        }
         print(msg);
     },
 
@@ -170,16 +174,42 @@ function print(text, isExtraLine) {
 
 function getTime() {
     var t = new Date();
-    return pad(t.getHours()) + ':' + pad(t.getMinutes()) + ':' + pad(t.getSeconds());
+    return t.getHours().padZeros(2) + ':' + t.getMinutes().padZeros(2) + ':' + t.getSeconds().padZeros(2);
 }
 
-function pad(d) {
-    return d < 10 ? '0' + d : d;
+// converts duration value (in milliseconds) into '00:00:00.000' string,
+// shortened to just the values that are applicable.
+function formatDuration(d) {
+    var hours = Math.floor(d / 3600000);
+    var minutes = Math.floor((d - hours * 3600000) / 60000);
+    var seconds = Math.floor((d - hours * 3600000 - minutes * 60000) / 1000);
+    var ms = d - hours * 3600000 - minutes * 60000 - seconds * 1000;
+    var s = "." + ms.padZeros(3); // milliseconds are shown always;
+    if (d >= 1000) {
+        // seconds are to be shown;
+        s = seconds.padZeros(2) + s;
+        if (d >= 60000) {
+            // minutes are to be shown;
+            s = minutes.padZeros(2) + ':' + s;
+            if (d >= 3600000) {
+                // hours are to be shown;
+                s = hours.padZeros(2) + ':' + s;
+            }
+        }
+    }
+    return s;
 }
 
 function removeColors(text) {
     return text.replace(/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]/g, '');
 }
+
+Number.prototype.padZeros = function (n) {
+    var str = this.toString();
+    while (str.length < n)
+        str = '0' + str;
+    return str;
+};
 
 // reusable error messages;
 var errors = {
