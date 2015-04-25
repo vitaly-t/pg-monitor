@@ -160,20 +160,23 @@ module.exports = {
 };
 
 function print(text, isExtraLine) {
+    var t, s = text;
     if (!isExtraLine) {
-        text = getTime().bgWhite.black + ' ' + text;
+        t = new Date();
+        s = formatTime(t).bgWhite.black + ' ' + text;
     }
-    console.log(text);
-
+    console.log(s);
     // notify the client of a new log line;
     var nf = module.exports.notify;
     if (typeof(nf) === 'function') {
-        nf(removeColors(text));
+        nf(removeColors(s), {
+            time: t,
+            text: removeColors(text)
+        });
     }
 }
 
-function getTime() {
-    var t = new Date();
+function formatTime(t) {
     return t.getHours().padZeros(2) + ':' + t.getMinutes().padZeros(2) + ':' + t.getSeconds().padZeros(2);
 }
 
