@@ -26,6 +26,6 @@
     "npm": ">=1.4"
   },
   "dependencies": {
-    "colors": "1.x"
+    "cli-color": "1.x"
   }
 }
