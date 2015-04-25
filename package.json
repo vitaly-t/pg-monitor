@@ -1,6 +1,6 @@
 {
   "name": "pg-monitor",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Event monitor for pg-promise.",
   "main": "monitor.js",
   "homepage": "https://github.com/vitaly-t/pg-monitor",
@@ -13,7 +13,8 @@
   },
   "keywords": [
     "pg-promise",
-    "monitor"
+    "monitor",
+    "node-postgres"
   ],
   "author": {
     "name": "Vitaly Tomilov",
