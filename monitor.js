@@ -1,3 +1,5 @@
+'use strict';
+
 var themes = require("./themes");
 
 module.exports = {
@@ -167,7 +169,7 @@ module.exports = {
             }
         }
     },
-    colors: theme['matrix']
+    theme: themes['matrix']
 };
 
 function print(text, isExtraLine) {

@@ -71,15 +71,15 @@ var themes = {
     },
 
     matrix: {
-        time: colors.bgGreen.white,
+        time: colors.bgGreen.black,
         value: colors.white,
         cn: colors.green,
         tx: colors.green,
         paramVerb: colors.green,
-        errorVerb: colors.greenBright,
+        errorVerb: colors.green,
         query: colors.whiteBright,
-        special: colors.white,
-        error: colors.red
+        special: colors.whiteBright,
+        error: colors.greenBright
     }
 
 };
