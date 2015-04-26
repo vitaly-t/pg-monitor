@@ -1,16 +1,4 @@
-var colors = require("cli-color");
-
-var cl = {
-    time: colors.bgWhite.black, // timestamp;
-    value: colors.white,        // value;
-    cn: colors.yellowBright,      // connection: connect/disconnect;
-    tx: colors.cyan,          // transaction: start/finish;
-    paramVerb: colors.magenta,      // parameter verb;
-    errorVerb: colors.redBright,  // error verb;
-    query: colors.whiteBright,        // regular query;
-    special: colors.green,       // special query: begin/commit/rollback;
-    error: colors.red           // error message;
-};
+var themes = require("./themes");
 
 module.exports = {
 
@@ -19,7 +7,7 @@ module.exports = {
         if (!cp) {
             throw new Error(errors.redirectParams('connect'));
         }
-        print(cl.cn("CONNECT: ") + cl.value(cp.database));
+        print(cl.cn("connect(") + cl.value(cp.database) + cl.cn(")"));
     },
 
     disconnect: function (client) {
@@ -27,7 +15,7 @@ module.exports = {
         if (!cp) {
             throw new Error(errors.redirectParams('disconnect'));
         }
-        print(cl.cn("DISCONNECT: ") + cl.value(cp.database));
+        print(cl.cn("disconnect(") + cl.value(cp.database) + cl.cn(")"));
     },
 
     query: function (e) {
@@ -61,7 +49,7 @@ module.exports = {
             if (typeof(p) !== 'string') {
                 p = JSON.stringify(p);
             }
-            print(cl.paramVerb("PARAMS: ") + cl.value(p), true);
+            print(cl.paramVerb("params: ") + cl.value(p), true);
         }
     },
 
@@ -71,16 +59,16 @@ module.exports = {
         }
         var msg;
         if (e.ctx.finish) {
-            msg = cl.tx("TX-FINISH");
+            msg = cl.tx("tx-end");
         } else {
-            msg = cl.tx("TX-START");
+            msg = cl.tx("tx-start");
         }
         if (typeof(e.ctx.tag) === 'string') {
             msg += cl.tx("(") + cl.value(e.ctx.tag) + cl.tx(")");
         }
         if (e.ctx.finish) {
             var duration = formatDuration(e.ctx.finish - e.ctx.start);
-            msg += cl.tx("; Duration: ") + cl.value(duration);
+            msg += cl.tx("; duration: ") + cl.value(duration);
         }
         print(msg);
     },
@@ -89,14 +77,14 @@ module.exports = {
         if (typeof(err) !== 'string' || typeof(e) !== 'object') {
             throw new Error(errors.redirectParams('error'));
         }
-        print(cl.errorVerb("ERROR: ") + cl.error(err));
+        print(cl.errorVerb("error: ") + cl.error(err));
         var q = e.query;
         if (typeof(q) !== 'string') {
             q = JSON.stringify(q);
         }
-        print(cl.paramVerb(timeGap + "QUERY: ") + cl.value(q), true);
+        print(cl.paramVerb(timeGap + "query: ") + cl.value(q), true);
         if (e.params) {
-            print(timeGap + cl.paramVerb("PARAMS: ") + cl.value(JSON.stringify(e.params)), true);
+            print(timeGap + cl.paramVerb("params: ") + cl.value(JSON.stringify(e.params)), true);
         }
     },
 
@@ -178,7 +166,8 @@ module.exports = {
                 options.error = self.error;
             }
         }
-    }
+    },
+    colors: theme['matrix']
 };
 
 function print(text, isExtraLine) {
@@ -244,3 +233,5 @@ var errors = {
 };
 
 var timeGap = '         '; // 9 spaces to align event parameters with original message;
+
+var cl = module.exports.theme;
