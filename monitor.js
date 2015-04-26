@@ -70,7 +70,7 @@ module.exports = {
         }
         if (e.ctx.finish) {
             var duration = formatDuration(e.ctx.finish - e.ctx.start);
-            msg += cl.tx("; duration: ") + cl.value(duration);
+            msg += cl.tx("; duration: ") + cl.value(duration) + cl.tx(", success: ") + cl.value(e.ctx.success);
         }
         print(msg);
     },
