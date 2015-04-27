@@ -3,7 +3,7 @@ pg-monitor
 
 This library plugs into [pg-promise] events to display them nicely on screen.
 
-![matrix](http://s2.postimg.org/4hgqhkzih/matrix.gif)
+[![matrix](http://s2.postimg.org/4hgqhkzih/matrix.gif)](http://s2.postimg.org/4hgqhkzih/matrix.gif)
 
 * [Installing](#installing)
 * [Using](#using)
