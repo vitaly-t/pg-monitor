@@ -32,3 +32,5 @@ monitor.attach(options); // attach to all events at once;
 
 *Documentation is being written.*
 
+And for the time being check out the [nice themes support](https://github.com/vitaly-t/pg-monitor/wiki/Color-Themes),
+or the [simple code behind](https://github.com/vitaly-t/pg-monitor/blob/master/lib/index.js).
