@@ -1,12 +1,9 @@
 pg-monitor
 ===========
 
-
 This library plugs into [pg-promise] events to display them nicely on screen.
 
-[](http://s2.postimg.org/4hgqhkzih/matrix.gif)
-
----
+![matrix](http://s2.postimg.org/4hgqhkzih/matrix.gif)
 
 # Installing
 ```
