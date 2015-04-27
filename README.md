@@ -5,6 +5,10 @@ This library plugs into [pg-promise] events to display them nicely on screen.
 
 ![matrix](http://s2.postimg.org/4hgqhkzih/matrix.gif)
 
+* [Installing](#installing)
+* [Using](#using)
+* [API](#api)
+
 # Installing
 ```
 $ npm install pg-monitor
@@ -23,3 +27,8 @@ monitor.attach(options); // attach to all events at once;
 ```
 
 [pg-promise]:https://github.com/vitaly-t/pg-promise
+
+# API
+
+*Documentation is being written.*
+
