@@ -173,7 +173,7 @@ For details, see [Color Themes](https://github.com/vitaly-t/pg-monitor/wiki/Colo
 
 ## log
 
-This optional event is to let your application log everything that appears on screen
+This optional event is to let your application save everything that appears on screen
 into your log file:
 
 ```javascript
