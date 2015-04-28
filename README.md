@@ -182,7 +182,7 @@ monitor.log = function(msg, info){
 };
 ```
 
-The notification occurs for every single line that appears on the screen, so you can
+The notification occurs for every single line of text that appears on the screen, so you can
 maintain a log file with exactly the same content.
 
 #### msg
