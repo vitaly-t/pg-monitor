@@ -12,8 +12,10 @@ This library plugs into [pg-promise] events to display them nicely on screen.
  - [connect](#connectclient-detailed)
  - [disconnect](#disconnectclient-detailed)
  - [query](#querye-detailed)
- - [error](#error-detailed)
-  
+ - [error](#errorerr-e-detailed)
+ - [detailed](#detailed) 
+ - [setTheme](#detailed)
+   
 # Installing
 ```
 $ npm install pg-monitor
@@ -138,11 +140,22 @@ Error context passed to the event.
 #### detailed
 Optional. When set, it reports available transaction context details. 
 
+## detailed
 
-## Themes
+This property provides the default for every method that accepts parameter `detailed`.
 
-And for the time being check out the [nice themes support](https://github.com/vitaly-t/pg-monitor/wiki/Color-Themes),
-or the [simple code behind](https://github.com/vitaly-t/pg-monitor/blob/master/lib/index.js).
+By default, it is set to be `true`. Setting this parameter to `false` will automatically
+switch off all details in events that have optional details, unless they have their own
+parameter `detailed` set to be `true`, which then overrides this global one.
 
+## setTheme(t)
+
+Activates either a predefined or a custom color theme.
+
+### t
+
+Either a predefined theme name or a custom theme object.
+
+For details, see [Color Themes](https://github.com/vitaly-t/pg-monitor/wiki/Color-Themes). 
 
 [pg-promise]:https://github.com/vitaly-t/pg-promise
