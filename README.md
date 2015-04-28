@@ -15,6 +15,7 @@ pg-monitor
  - [detailed](#detailed-4) 
  - [setTheme](#setthemet)
  - [log](#log)
+* [Themes](#themes)
  
 # About
    
@@ -192,5 +193,12 @@ Object with additional details about the new line of text:
 * time - time object as used on the screen, or `null` when it is an extra line with
 the event's details.
 * text - Message text without the date in front of it (color details removed).
+
+# Themes
+
+The library provides a flexible theme support to choose any color palette that you like,
+with a few of them predefined for your convenience.
+
+For details, see [Color Themes](https://github.com/vitaly-t/pg-monitor/wiki/Color-Themes). 
 
 [pg-promise]:https://github.com/vitaly-t/pg-promise
