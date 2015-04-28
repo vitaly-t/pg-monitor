@@ -13,8 +13,8 @@ This library plugs into [pg-promise] events to display them nicely on screen.
  - [disconnect](#disconnectclient-detailed)
  - [query](#querye-detailed)
  - [error](#errorerr-e-detailed)
- - [detailed](#detailed) 
- - [setTheme](#detailed)
+ - [detailed](#detailed-4) 
+ - [setTheme](#setthemet)
    
 # Installing
 ```
@@ -142,7 +142,7 @@ Optional. When set, it reports available transaction context details.
 
 ## detailed
 
-This property provides the default for every method that accepts parameter `detailed`.
+This boolean property provides the default for every method that accepts parameter `detailed`.
 
 By default, it is set to be `true`. Setting this parameter to `false` will automatically
 switch off all details in events that have optional details, unless they have their own
