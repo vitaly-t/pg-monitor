@@ -191,7 +191,7 @@ New message line, exactly as shown on the screen, with color details removed.
 #### info
 Object with additional details about the new line of text:
 
-* time - time object as used on the screen, or `null` when it is an extra line with
+* time - Date object that was used for the screen, or `null` when it is an extra line with
 the event's details.
 * text - Message text without the date in front of it (color details removed).
 
