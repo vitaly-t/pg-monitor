@@ -156,7 +156,7 @@ Optional. When set, it reports available transaction details.
 This boolean property provides the default for every method that accepts parameter `detailed`.
 
 By default, it is set to be `true`. Setting this parameter to `false` will automatically
-switch off all details in events that have optional details, unless they have their own
+switch off all details in events that support optional details, unless they have their own
 parameter `detailed` set to be `true`, which then overrides this global one.
 
 ## setTheme(t)
