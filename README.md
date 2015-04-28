@@ -16,6 +16,7 @@ pg-monitor
  - [setTheme](#setthemet)
  - [log](#log)
 * [Themes](#themes)
+* [Useful Tips](#useful-tips)
  
 # About
    
@@ -200,5 +201,36 @@ The library provides a flexible theme support to choose any color palette that y
 with a few of them predefined for your convenience.
 
 For details, see [Color Themes](https://github.com/vitaly-t/pg-monitor/wiki/Color-Themes). 
+
+# Useful Tips
+
+If your application uses more than one transaction, it is a good idea to tag them,
+so they provide informative context for every query event that's being logged, i.e.
+so your can easily see in which transaction context queries are executed.
+
+Tagging transactions with [pg-promise] is very easy, by taking this call: 
+```javascript
+db.tx(function (t) {
+    // transaction queries; 
+});
+``` 
+and replacing it with this one:
+```javascript
+db.tx(tag, function (t) {
+    // transaction queries; 
+});
+```
+where `tag` is any object or value. In most cases you would want `tag` to be just
+a string that represents the transaction name, like this:
+```javascript
+db.tx("TX-1", function (t) {
+    // transaction queries; 
+});
+```
+But `tag` can be anything, including an object, so you can use it for own reference
+when handling events. If you want to use it that way, while also allowing this library
+to log the transaction pseudo-name/alias, then make sure your object implements its
+own function `toString()` to return such name, which this library will then call to report
+the name along with the transaction.
 
 [pg-promise]:https://github.com/vitaly-t/pg-promise
