@@ -88,6 +88,15 @@ Example of overriding all known event handlers:
 monitor.attach(options, null, true);
 ```
 
+## connect(client, [detailed])
+Monitors and reports event [connect](https://github.com/vitaly-t/pg-promise#connect).
+
+#### client
+Connection object passed to the event.
+
+#### detailed
+Optional, reports such connection details as user@database. 
+
 ## Themes
 
 And for the time being check out the [nice themes support](https://github.com/vitaly-t/pg-monitor/wiki/Color-Themes),
