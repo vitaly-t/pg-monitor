@@ -32,8 +32,8 @@ monitor.attach(options); // attach to all events at once;
 Method `attach` is to provide the quickest way to start using the library,
 by attaching to a set of events automatically.
 
-If, however, you want to have full control over how and to which events
-to attach, then use the manual event forwarding instead.
+If, however, you want to have full control over event handling,
+then use the manual event forwarding instead.
 
 Example of forwarding events `query` and `error` manually:
 
@@ -73,7 +73,7 @@ Example of attaching to just events `query` and `error`:
 monitor.attach(options, ['query', 'error']);
 ```
 
-Query-related events supported by pg-promise: `connect`, `disconnect`, `query`, `transact`, `error`.
+Query-related events supported by pg-promise: `connect`, `disconnect`, `query`, `transact` and `error`.
 See [Initialization Options](https://github.com/vitaly-t/pg-promise#initialization-options).
 
 #### override
