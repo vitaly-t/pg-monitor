@@ -14,7 +14,8 @@ pg-monitor
  - [error](#errorerr-e-detailed)
  - [detailed](#detailed-4) 
  - [setTheme](#setthemet)
-
+ - [log](#log)
+ 
 # About
    
    This library takes the flexible event system provided by [pg-promise],
