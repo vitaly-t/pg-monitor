@@ -34,16 +34,29 @@ See the API below for other options that you have.
 
 # API
 
-## attach(options, [events], [override])
+## attach(options, [events, override])
 
 Adds event handlers to object `options` that's used when [initializing pg-promise](https://github.com/vitaly-t/pg-promise#2-initializing) library:
 ```javascript
 var pgp = pgpLib(options);
 ```
-Parameters:
+
 #### events
+
 Optional array of event names to which to attach. Passing `null`/`undefined` will attach
 to all known events.
+
+Example of attaching to just events `query` and `error`:
+```javascript
+monitor.attach(options, ['query', 'error']);
+```
+
+#### override
+
+By default, the method will the provide the derivation logic, so it will call the already configured
+event handler, if you have one, and only then will call the internal one.
+
+If, however, you want to override your own handlers, pass `override` = `true`.
 
 *Documentation is being written.*
 
