@@ -44,13 +44,13 @@ var options = {
 monitor.attach(options); // attach to all events at once;
 ```
 
-Method `attach` is to provide the quickest way to start using the library,
+Method [attach](#attach) is to provide the quickest way to start using the library,
 by attaching to a set of events automatically.
 
 If, however, you want to have full control over event handling,
 then use the manual event forwarding instead.
 
-Example of forwarding events `query` and `error` manually:
+Example of forwarding events [query](https://github.com/vitaly-t/pg-promise#query) and [error](https://github.com/vitaly-t/pg-promise#error) manually:
 
 ```javascript
 var options = {
