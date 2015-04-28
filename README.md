@@ -18,7 +18,7 @@ pg-monitor
 # About
    
    This library takes the flexible event system provided by [pg-promise],
-   and outputs it on screen with full details available, and in the most informative way.
+   and outputs it on screen, with full details available, and in the most informative way.
     
    It is to give you the full picture of how the database is used in your application,
    providing full details with the context, such as transactions, in which
@@ -44,7 +44,7 @@ var options = {
 monitor.attach(options); // attach to all events at once;
 ```
 
-Method [attach](#attach) is to provide the quickest way to start using the library,
+Method [attach](#attachoptions-events-override) is to provide the quickest way to start using the library,
 by attaching to a set of events automatically.
 
 If, however, you want to have full control over event handling,
