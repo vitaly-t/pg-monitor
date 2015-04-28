@@ -227,8 +227,8 @@ db.tx("TX-1", function (t) {
     // transaction queries; 
 });
 ```
-But `tag` can be anything, including an object, so you can use it for own reference
-when handling events. If you want to use it that way, while also allowing this library
+But `tag` can be anything, including an object, so you can use it for your own reference
+when handling events. And if you want to use it that way, while also allowing this library
 to log the transaction pseudo-name/alias, then make sure your object implements its
 own function `toString()` to return such name, which this library will then call to report
 the name along with the transaction.
