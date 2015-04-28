@@ -24,6 +24,8 @@ pg-monitor
    It is to give you the full picture of how the database is used in your application,
    providing full details with the context, such as transactions, in which
    queries are executed.
+   
+   In addition, it simplifies [event logging](#log) for your application.
       
 # Installing
 ```
@@ -187,9 +189,8 @@ New message line, exactly as shown on the screen, with color details removed.
 #### info
 Object with additional details about the new line of text:
 
-* time - Date that's shown on the screen, or `null` when it is an extra line with
+* time - time object as used on the screen, or `null` when it is an extra line with
 the event's details.
 * text - Message text without the date in front of it (color details removed).
-
 
 [pg-promise]:https://github.com/vitaly-t/pg-promise
