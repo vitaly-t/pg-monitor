@@ -34,7 +34,7 @@ See the API below for other options that you have.
 
 # API
 
-### attach(options, [events], [override])
+## attach(options, [events], [override])
 
 Adds event handlers to object `options` that's used when [initializing pg-promise](https://github.com/vitaly-t/pg-promise#2-initializing) library:
 ```javascript
