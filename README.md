@@ -14,12 +14,11 @@ This library plugs into [pg-promise] events to display them nicely on screen.
 $ npm install pg-monitor
 ```
 
-The library has no dependency on [pg-promise], it just sets up known event handlers,
-and will work with any version 1.x or later of [pg-promise].
+The library has no dependency on [pg-promise], it just sets up the known event handlers,
+and will work with any version (1.x or later) of [pg-promise].
 
 # Using
 
-The quickest way to start is by using method `attach`:
 ```javascript
 var monitor = require("pg-monitor");
 
@@ -30,7 +29,30 @@ var options = {
 monitor.attach(options); // attach to all events at once;
 ```
 
-See the API below for other options that you have.
+Method `attach` is to provide the quickest way to start using the library,
+by attaching to a set of events automatically.
+
+If, however, you want to have full control over how and to which events
+to attach, then use the manual event forwarding instead.
+
+Example of forwarding events `query` and `error` manually:
+
+```javascript
+var options = {
+    query: function (e) {
+        /* do some of your own processing, if needed */
+
+        monitor.query(e); // monitor the event;
+    },
+    error: function (err, e) {
+        /* do some of your own processing, if needed */
+        
+        monitor.error(err, e); // monitor the event;
+    }
+};
+```
+
+See the API below for all the methods and options that you have.
 
 # API
 
@@ -66,6 +88,7 @@ Example of overriding all known event handlers:
 monitor.attach(options, null, true);
 ```
 
+## Themes
 
 And for the time being check out the [nice themes support](https://github.com/vitaly-t/pg-monitor/wiki/Color-Themes),
 or the [simple code behind](https://github.com/vitaly-t/pg-monitor/blob/master/lib/index.js).
