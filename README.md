@@ -22,7 +22,9 @@ This library plugs into [pg-promise] events to display them nicely on screen.
    This library takes the flexible event system provided by [pg-promise],
    and outputs it on screen with full details available, in the most informative way.
     
-   It is to give you the full picture of how the database is used in your application.
+   It is to give you the full picture of how the database is used in your application,
+   providing full query details and complete context, such as transactions, in which
+   queries are executed.
       
 # Installing
 ```
