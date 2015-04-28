@@ -8,6 +8,9 @@ This library plugs into [pg-promise] events to display them nicely on screen.
 * [Installing](#installing)
 * [Using](#using)
 * [API](#api)
+ - [attach](#attach)
+ - [connect](#connect)
+ - [disconnect](#disconnect)
 
 # Installing
 ```
@@ -95,7 +98,18 @@ Monitors and reports event [connect](https://github.com/vitaly-t/pg-promise#conn
 Connection object passed to the event.
 
 #### detailed
-Optional, reports such connection details as user@database. 
+Optional. When set, it reports such connection details as user@database. 
+
+## disconnect(client, [detailed])
+Monitors and reports event [connect](https://github.com/vitaly-t/pg-promise#disconnect).
+
+#### client
+Connection object passed to the event.
+
+#### detailed
+Optional. When set, it reports such connection details as user@database. 
+
+
 
 ## Themes
 
