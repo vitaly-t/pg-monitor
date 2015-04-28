@@ -96,7 +96,7 @@ See [Initialization Options](https://github.com/vitaly-t/pg-promise#initializati
 
 #### override
 
-By default, the method will the provide the derivation logic, so it will call the already configured
+By default, the method will the provide the derivation logic, so it will call the previously configured
 event handler, if you have one, and only then will call the internal implementation.
 
 If, however, you want to override your own handlers, pass `override` = `true`.
@@ -131,7 +131,7 @@ Monitors and reports event [query](https://github.com/vitaly-t/pg-promise#query)
 Context object passed to the event.
 
 #### detailed
-Optional. When set, it reports available transaction context details. 
+Optional. When set, it reports available transaction details. 
 
 ## transact(e)
 Monitors and reports event [transact](https://github.com/vitaly-t/pg-promise#transact).
@@ -149,7 +149,7 @@ Error message passed to the event.
 Error context passed to the event.
 
 #### detailed
-Optional. When set, it reports available transaction context details. 
+Optional. When set, it reports available transaction details. 
 
 ## detailed
 
