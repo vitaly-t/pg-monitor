@@ -1,8 +1,6 @@
 pg-monitor
 ===========
 
-This library plugs into [pg-promise] events to display them nicely on screen.
-
 [![matrix](http://s2.postimg.org/4hgqhkzih/matrix.gif)](http://s2.postimg.org/4hgqhkzih/matrix.gif)
 
 * [About](#about)
@@ -20,10 +18,10 @@ This library plugs into [pg-promise] events to display them nicely on screen.
 # About
    
    This library takes the flexible event system provided by [pg-promise],
-   and outputs it on screen with full details available, in the most informative way.
+   and outputs it on screen with full details available, and in the most informative way.
     
    It is to give you the full picture of how the database is used in your application,
-   providing full query details and complete context, such as transactions, in which
+   providing full details with the context, such as transactions, in which
    queries are executed.
       
 # Installing
