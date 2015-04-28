@@ -166,4 +166,29 @@ Either a predefined theme name or a custom theme object.
 
 For details, see [Color Themes](https://github.com/vitaly-t/pg-monitor/wiki/Color-Themes). 
 
+## log
+
+This optional event is to let your application log everything that appears on screen
+into your log file:
+
+```javascript
+monitor.log = function(msg, info){
+    // save the screen message into your own log file;
+};
+```
+
+The notification occurs for every single line that appears on the screen, so you can
+maintain a log file with exactly the same content.
+
+#### msg
+New message line, exactly as shown on the screen, with color details removed.
+
+#### info
+Object with additional details about the new line of text:
+
+* time - Date that's shown on the screen, or `null` when it is an extra line with
+the event's details.
+* text - Message text without the date in front of it (color details removed).
+
+
 [pg-promise]:https://github.com/vitaly-t/pg-promise
