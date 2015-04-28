@@ -192,8 +192,8 @@ New message line, exactly as shown on the screen, with color details removed.
 Object with additional details about the new line of text:
 
 * time - Date object that was used for the screen, or `null` when it is an extra line with
-the event's details.
-* text - Message text without the date in front of it (color details removed).
+the event's details;
+* text - Message text without the time in front of it (color details removed).
 
 # Themes
 
