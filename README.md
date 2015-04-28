@@ -11,8 +11,9 @@ This library plugs into [pg-promise] events to display them nicely on screen.
  - [attach](#attachoptions-events-override)
  - [connect](#connectclient-detailed)
  - [disconnect](#disconnectclient-detailed)
- - [query](#queryclient-detailed)
- 
+ - [query](#querye-detailed)
+ - [error](#error-detailed)
+  
 # Installing
 ```
 $ npm install pg-monitor
@@ -119,6 +120,23 @@ Context object passed to the event.
 #### detailed
 Optional. When set, it reports available transaction context details. 
 
+## transact(e)
+Monitors and reports event [transact](https://github.com/vitaly-t/pg-promise#transact).
+
+#### e
+Context object passed to the event.
+
+## error(err, e, [detailed])
+Monitors and reports event [error](https://github.com/vitaly-t/pg-promise#error).
+
+#### err
+Error message passed to the event.
+
+#### e
+Error context passed to the event.
+
+#### detailed
+Optional. When set, it reports available transaction context details. 
 
 
 ## Themes
