@@ -5,7 +5,7 @@ pg-monitor
 
 * [About](#about)
 * [Installing](#installing)
-* [Using](#using)
+* [Usage](#usage)
 * [API](#api)
  - [attach](#attachoptions-events-override)
  - [connect](#connectclient-detailed)
@@ -37,7 +37,7 @@ $ npm install pg-monitor
 The library has no dependency on [pg-promise], it just sets up the known event handlers,
 and will work with any version (1.x or later) of [pg-promise].
 
-# Using
+# Usage
 
 ```javascript
 var monitor = require("pg-monitor");
