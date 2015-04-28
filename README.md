@@ -51,14 +51,21 @@ Example of attaching to just events `query` and `error`:
 monitor.attach(options, ['query', 'error']);
 ```
 
+Query-related events supported by pg-promise: `connect`, `disconnect`, `query`, `transact`, `error`.
+See [Initialization Options](https://github.com/vitaly-t/pg-promise#initialization-options).
+
 #### override
 
 By default, the method will the provide the derivation logic, so it will call the already configured
-event handler, if you have one, and only then will call the internal one.
+event handler, if you have one, and only then will call the internal implementation.
 
 If, however, you want to override your own handlers, pass `override` = `true`.
 
-*Documentation is being written.*
+Example of overriding all known event handlers:
+```javascript
+monitor.attach(options, null, true);
+```
+
 
 And for the time being check out the [nice themes support](https://github.com/vitaly-t/pg-monitor/wiki/Color-Themes),
 or the [simple code behind](https://github.com/vitaly-t/pg-monitor/blob/master/lib/index.js).
