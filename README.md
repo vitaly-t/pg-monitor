@@ -189,11 +189,13 @@ maintain a log file with exactly the same content.
 New message line, exactly as shown on the screen, with color details removed.
 
 #### info
-Object with additional details about the new line of text:
 
-* time - Date object that was used for the screen, or `null` when it is an extra line with
-the event's details;
-* text - Message text without the time in front of it (color details removed).
+Object with additional information about the event:
+
+* `time` - Date object that was used for the screen, or `null` when it is an extra line with
+the event's context details;
+* `text` - message text without the time in front of it (color details removed);
+* `event` - name of the event being logged.
 
 # Themes
 
