@@ -186,7 +186,7 @@ The notification occurs for every single line of text that appears on the screen
 maintain a log file with exactly the same content.
 
 #### msg
-New message line, exactly as shown on the screen, with color details removed.
+New message line, exactly as shown on the screen, with color attributes removed.
 
 #### info
 
@@ -194,7 +194,7 @@ Object with additional information about the event:
 
 * `time` - Date object that was used for the screen, or `null` when it is an extra line with
 the event's context details;
-* `text` - message text without the time in front of it (color details removed);
+* `text` - message text without the time in front of it (color attributes removed);
 * `event` - name of the event being logged.
 
 # Themes
