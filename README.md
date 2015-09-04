@@ -11,6 +11,8 @@ pg-monitor
   - [connect](#connectclient-detailed)
   - [disconnect](#disconnectclient-detailed)
   - [query](#querye-detailed)
+  - [task](#task)  
+  - [transact](#transact)  
   - [error](#errorerr-e-detailed)
   - [detailed](#detailed-4) 
   - [setTheme](#setthemet)
@@ -24,7 +26,7 @@ pg-monitor
    and outputs it on screen, with full details available, and in the most informative way.
     
    It is to give you the full picture of how the database is used in your application,
-   providing full details with the context, such as transactions, in which
+   providing full details with the context, such as tasks and transactions, in which
    queries are executed.
    
    In addition, it simplifies [event logging](#log) for your application.
@@ -93,7 +95,7 @@ Example of attaching to just events `query` and `error`:
 monitor.attach(options, ['query', 'error']);
 ```
 
-Query-related events supported by pg-promise: `connect`, `disconnect`, `query`, `transact` and `error`.
+Query-related events supported by pg-promise: `connect`, `disconnect`, `query`, `task`, `transact` and `error`.
 See [Initialization Options](https://github.com/vitaly-t/pg-promise#initialization-options).
 
 #### override
@@ -134,6 +136,12 @@ Context object passed to the event.
 
 #### detailed
 Optional. When set, it reports available transaction details. 
+
+## task(e)
+Monitors and reports event [task](https://github.com/vitaly-t/pg-promise#task).
+
+#### e
+Context object passed to the event.
 
 ## transact(e)
 Monitors and reports event [transact](https://github.com/vitaly-t/pg-promise#transact).

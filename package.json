@@ -1,6 +1,6 @@
 {
   "name": "pg-monitor",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Event monitor for pg-promise.",
   "main": "lib/index.js",
   "homepage": "https://github.com/vitaly-t/pg-monitor",
