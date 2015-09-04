@@ -239,7 +239,7 @@ db.tx(tag, function (t) {
 where `tag` is any object or value. In most cases you would want `tag` to be just
 a string that represents the task/transaction name, like this:
 ```javascript
-db.tx("MyTask", function (t) {
+db.task("MyTask", function (t) {
     // task queries; 
 });
 db.tx("TX-1", function (t) {
