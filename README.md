@@ -214,32 +214,41 @@ For details, see [Color Themes](https://github.com/vitaly-t/pg-monitor/wiki/Colo
 
 # Useful Tips
 
-If your application uses more than one transaction, it is a good idea to tag them,
+If your application uses more than one task or transaction, it is a good idea to tag them,
 so they provide informative context for every query event that's being logged, i.e.
-so your can easily see in which transaction context queries are executed.
+so your can easily see in which task/transaction context queries are executed.
 
-Tagging transactions with [pg-promise] is very easy, by taking this call: 
+Tagging a task or transaction with [pg-promise] is very easy, by taking this code: 
 ```javascript
+db.task(function (t) {
+    // task queries; 
+});
 db.tx(function (t) {
     // transaction queries; 
 });
 ``` 
 and replacing it with this one:
 ```javascript
+db.task(tag, function (t) {
+    // task queries; 
+});
 db.tx(tag, function (t) {
     // transaction queries; 
 });
 ```
 where `tag` is any object or value. In most cases you would want `tag` to be just
-a string that represents the transaction name, like this:
+a string that represents the task/transaction name, like this:
 ```javascript
+db.tx("MyTask", function (t) {
+    // task queries; 
+});
 db.tx("TX-1", function (t) {
     // transaction queries; 
 });
 ```
 But `tag` can be anything, including an object, so you can use it for your own reference
 when handling events. And if you want to use it that way, while also allowing this library
-to log the transaction pseudo-name/alias, then make sure your tag object implements its
+to log the task/transaction pseudo-name/alias, then make sure your tag object implements its
 own function `toString()` to return such name, which this library will then call to report
 the name along with the transaction.
 
