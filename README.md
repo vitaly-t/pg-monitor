@@ -250,6 +250,6 @@ But `tag` can be anything, including an object, so you can use it for your own r
 when handling events. And if you want to use it that way, while also allowing this library
 to log the task/transaction pseudo-name/alias, then make sure your tag object implements its
 own function `toString()` to return such name, which this library will then call to report
-the name along with the transaction.
+the name along with the task/transaction.
 
 [pg-promise]:https://github.com/vitaly-t/pg-promise
