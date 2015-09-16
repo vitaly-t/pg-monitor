@@ -100,8 +100,8 @@ See [Initialization Options](https://github.com/vitaly-t/pg-promise#initializati
 
 #### override
 
-By default, the method will the provide the derivation logic, so it will call the previously configured
-event handler, if you have one, and only then will call the internal implementation.
+By default, the method uses the derivation logic - it will call the previously configured
+event handler, if you have one, and only then it will call the internal implementation.
 
 If, however, you want to override your own handlers, pass `override` = `true`.
 
