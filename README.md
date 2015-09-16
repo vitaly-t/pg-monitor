@@ -135,7 +135,7 @@ Monitors and reports event [query](https://github.com/vitaly-t/pg-promise#query)
 Context object passed to the event.
 
 #### detailed
-Optional. When set, it reports available transaction details. 
+Optional. When set, it reports details of the task/transaction context in which the query is executing. 
 
 ## task(e)
 Monitors and reports event [task](https://github.com/vitaly-t/pg-promise#task).
@@ -159,7 +159,7 @@ Error message passed to the event.
 Error context passed to the event.
 
 #### detailed
-Optional. When set, it reports available transaction details. 
+Optional. When set, it reports details of the task/transaction context in which the error occurred. 
 
 ## detailed
 
