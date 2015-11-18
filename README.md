@@ -36,8 +36,7 @@ pg-monitor
 $ npm install pg-monitor
 ```
 
-The library has no dependency on [pg-promise], it just sets up the known event handlers,
-and will work with any version (1.x or later) of [pg-promise].
+The library has no direct dependency on [pg-promise], and will work with any of its versions.
 
 # Usage
 
@@ -54,8 +53,7 @@ monitor.attach(options); // attach to all events at once;
 Method [attach](#attachoptions-events-override) is to provide the quickest way to start using the library,
 by attaching to a set of events automatically.
 
-If, however, you want to have full control over event handling,
-then use the manual event forwarding instead.
+If, however, you want to have full control over event handling, then use the manual event forwarding instead.
 
 Example of forwarding events [query](https://github.com/vitaly-t/pg-promise#query) and [error](https://github.com/vitaly-t/pg-promise#error) manually:
 
@@ -100,7 +98,7 @@ See [Initialization Options](https://github.com/vitaly-t/pg-promise#initializati
 
 #### override
 
-By default, the method uses the derivation logic - it will call the previously configured
+By default, the method uses derivation logic - it will call the previously configured
 event handler, if you have one, and only then it will call the internal implementation.
 
 If, however, you want to override your own handlers, pass `override` = `true`.
@@ -205,7 +203,7 @@ the event's context details;
 * `text` - message text without the time in front of it (color attributes removed);
 * `event` - name of the event being logged.
 
-If your intent is to log everything, while suppressing any screen output, you can
+If your intent is only to log events, while suppressing any screen output, you can
 do so on per-event basis, as shown below:
 ```js
 info.display = false; // suppress screen output for the event;
