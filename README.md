@@ -206,7 +206,7 @@ the event's context details;
 * `event` - name of the event being logged.
 
 If your intent is to log everything, while suppressing any screen output, you can
-do it on a per-event basis, as shown below:
+do so on per-event basis, as shown below:
 ```js
 info.display = false; // suppress screen output for the event;
 ```
