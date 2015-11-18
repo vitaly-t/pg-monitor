@@ -205,6 +205,12 @@ the event's context details;
 * `text` - message text without the time in front of it (color attributes removed);
 * `event` - name of the event being logged.
 
+If your intent is to log everything, while suppressing any screen output, you can
+do it on a per-event basis, as shown below:
+```js
+info.display = false; // suppress screen output for the event;
+```
+
 # Themes
 
 The library provides a flexible theme support to choose any color palette that you like,
