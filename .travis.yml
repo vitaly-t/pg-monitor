@@ -5,4 +5,5 @@ node_js:
    - "4"
    - "5"
 script:
-   npm run travis
+   npm test
+   
