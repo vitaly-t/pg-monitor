@@ -6,6 +6,6 @@ describe("Theme - Positive", function () {
 
 });
 
-describe("Theme -Negative", function () {
+describe("Theme - Negative", function () {
 
 });

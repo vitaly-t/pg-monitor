@@ -6,6 +6,6 @@ describe("Log - Positive", function () {
 
 });
 
-describe("Log -Negative", function () {
+describe("Log - Negative", function () {
 
 });
