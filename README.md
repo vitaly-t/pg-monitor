@@ -1,6 +1,10 @@
 pg-monitor
 ===========
 
+[![Build Status](https://travis-ci.org/vitaly-t/pg-monitor.svg?branch=master)](https://travis-ci.org/vitaly-t/pg-monitor)
+
+Event monitor for [pg-promise].
+
 [![matrix](http://s2.postimg.org/4hgqhkzih/matrix.gif)](http://s2.postimg.org/4hgqhkzih/matrix.gif)
 
 * [About](#about)
