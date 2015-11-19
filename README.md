@@ -10,6 +10,7 @@ Event monitor for [pg-promise].
 
 * [About](#about)
 * [Installing](#installing)
+* [Testing](#testing)
 * [Usage](#usage)
 * [API](#api)
   - [attach](#attachoptions-events-override)
@@ -42,6 +43,17 @@ $ npm install pg-monitor
 ```
 
 The library has no direct dependency on [pg-promise], and will work with any of its versions.
+
+# Testing
+
+```
+$ npm test
+```
+
+Testing with coverage:
+```
+$ npm run coverage
+```
 
 # Usage
 
