@@ -21,6 +21,7 @@ describe("Error - Positive", function () {
             options.error("errMsg", e);
         });
         it("must be successful", function () {
+            expect(text && text.length === 2).toBeTruthy();
             expect(text).toEqual(['error: errMsg', 'task(test): hello']);
         });
         afterEach(function () {
