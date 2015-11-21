@@ -3,26 +3,59 @@
 var mon = require("../../lib");
 
 describe("Disconnect - Positive", function () {
-    var options = {}, text;
     var client = {
         connectionParameters: {
             user: 'guest',
             database: 'test'
         }
     };
-    beforeEach(function () {
-        mon.attach(options, ['disconnect']);
-        mon.log = function (msg, info) {
-            text = info.text;
-            info.display = false;
-        };
-        options.disconnect(client);
+    describe("direct call", function () {
+        var options, text;
+        beforeEach(function () {
+            options = {}, text = null;
+            mon.attach(options, ['disconnect']);
+            mon.log = function (msg, info) {
+                text = info.text;
+                info.display = false;
+            };
+        });
+        it("must log detailed message", function () {
+            mon.disconnect(client);
+            expect(text).toBe('disconnect(guest@test)');
+        });
+        it("must log short message", function () {
+            mon.disconnect(client, false);
+            expect(text).toBe('disconnect');
+        });
+        afterEach(function () {
+            mon.log = null;
+        });
     });
-    it("must be successful", function () {
-        expect(text).toBe('disconnect(guest@test)');
-    });
-    afterEach(function () {
-        mon.log = null;
+
+    describe("indirect call", function () {
+        var options, text, ctx;
+        beforeEach(function () {
+            options = {
+                disconnect: function (c) {
+                    ctx = c;
+                }
+            }, text = null;
+            mon.attach(options, ['disconnect']);
+            mon.log = function (msg, info) {
+                text = info.text;
+                info.display = false;
+            };
+            options.disconnect(client);
+        });
+        it("must log detailed message", function () {
+            expect(text).toBe('disconnect(guest@test)');
+        });
+        it("must call the old method", function () {
+            expect(ctx).toEqual(client);
+        });
+        afterEach(function () {
+            mon.log = null;
+        });
     });
 });
 

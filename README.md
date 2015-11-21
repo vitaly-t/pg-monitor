@@ -132,7 +132,9 @@ Monitors and reports event [connect](https://github.com/vitaly-t/pg-promise#conn
 Connection object passed to the event.
 
 #### detailed
-Optional. When set, it reports such connection details as user@database. 
+Optional. When set, it reports such connection details as user@database.
+
+When not set, it defaults to the value of [monitor.detailed]. 
 
 ## disconnect(client, [detailed])
 Monitors and reports event [disconnect](https://github.com/vitaly-t/pg-promise#disconnect).
@@ -143,6 +145,8 @@ Connection object passed to the event.
 #### detailed
 Optional. When set, it reports such connection details as user@database. 
 
+When not set, it defaults to the value of [monitor.detailed].
+
 ## query(e, [detailed])
 Monitors and reports event [query](https://github.com/vitaly-t/pg-promise#query).
 
@@ -151,6 +155,8 @@ Context object passed to the event.
 
 #### detailed
 Optional. When set, it reports details of the task/transaction context in which the query is executing. 
+
+When not set, it defaults to the value of [monitor.detailed].
 
 ## task(e)
 Monitors and reports event [task](https://github.com/vitaly-t/pg-promise#task).
@@ -175,6 +181,8 @@ Error context passed to the event.
 
 #### detailed
 Optional. When set, it reports details of the task/transaction context in which the error occurred. 
+
+When not set, it defaults to the value of [monitor.detailed].
 
 ## detailed
 
@@ -274,3 +282,4 @@ own function `toString()` to return such name, which this library will then call
 the name along with the task/transaction.
 
 [pg-promise]:https://github.com/vitaly-t/pg-promise
+[monitor.detailed]:https://github.com/vitaly-t/pg-monitor#detailed-4
