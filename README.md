@@ -95,7 +95,7 @@ See the API below for all the methods and options that you have.
 
 ## attach(options, [events], [override])
 
-Adds event handlers to object `options` that's used when [initializing pg-promise](https://github.com/vitaly-t/pg-promise#2-initializing) library:
+Adds event handlers to object `options` that's used during [pg-promise initialization](https://github.com/vitaly-t/pg-promise#initializing):
 ```javascript
 var pgp = pgpLib(options);
 ```
@@ -136,7 +136,7 @@ Connection object passed to the event.
 
 #### [detailed]
 
-Optional. When set, it reports such connection details as user@database.
+Optional. When set, it reports such connection details as `user@database`.
 
 When not set, it defaults to the value of [monitor.detailed]. 
 
@@ -150,7 +150,7 @@ Connection object passed to the event.
 
 #### [detailed]
 
-Optional. When set, it reports such connection details as user@database. 
+Optional. When set, it reports such connection details as `user@database`. 
 
 When not set, it defaults to the value of [monitor.detailed].
 
