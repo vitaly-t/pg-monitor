@@ -111,7 +111,8 @@ monitor.attach(options, ['query', 'error']);
 ```
 
 Query-related events supported by pg-promise: `connect`, `disconnect`, `query`, `task`, `transact` and `error`.
-See [Initialization Options](https://github.com/vitaly-t/pg-promise#initialization-options).
+
+See also: [Initialization Options](https://github.com/vitaly-t/pg-promise#initialization-options).
 
 #### [override]
 
@@ -132,7 +133,7 @@ Monitors and reports event [connect](https://github.com/vitaly-t/pg-promise#conn
 
 #### client
 
-Connection object passed to the event.
+[Client] object passed to the event.
 
 #### [detailed]
 
@@ -146,7 +147,7 @@ Monitors and reports event [disconnect](https://github.com/vitaly-t/pg-promise#d
 
 #### client
 
-Connection object passed to the event.
+[Client] object passed to the event.
 
 #### [detailed]
 
@@ -160,7 +161,7 @@ Monitors and reports event [query](https://github.com/vitaly-t/pg-promise#query)
 
 #### e
 
-Context object passed to the event.
+Event context object.
 
 #### [detailed]
 
@@ -174,7 +175,7 @@ Monitors and reports event [task](https://github.com/vitaly-t/pg-promise#task).
 
 #### e
 
-Context object passed to the event.
+Event context object.
 
 ## transact(e)
 
@@ -182,7 +183,7 @@ Monitors and reports event [transact](https://github.com/vitaly-t/pg-promise#tra
 
 #### e
 
-Context object passed to the event.
+Event context object.
 
 ## error(err, e, [detailed])
 
@@ -194,7 +195,7 @@ Error message passed to the event.
 
 #### e
 
-Error context passed to the event.
+Event context object.
 
 #### [detailed]
 
@@ -303,3 +304,4 @@ that returns the tag name.
 
 [pg-promise]:https://github.com/vitaly-t/pg-promise
 [monitor.detailed]:https://github.com/vitaly-t/pg-monitor#detailed-4
+[Client]:https://github.com/brianc/node-postgres/blob/master/lib/client.js#L12
