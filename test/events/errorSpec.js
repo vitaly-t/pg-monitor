@@ -25,6 +25,7 @@ describe("Error - Positive", function () {
             expect(text).toEqual(['error: errMsg', 'task(test): hello']);
         });
         afterEach(function () {
+            mon.detach();
             mon.log = null;
         });
     });
@@ -54,6 +55,7 @@ describe("Error - Positive", function () {
             expect(cb.e).toEqual(context);
         });
         afterEach(function () {
+            mon.detach();
             mon.log = null;
         });
     });
@@ -75,6 +77,7 @@ describe("Error - Positive", function () {
             expect(text).toEqual(['error: errMsg', 'query: 123']);
         });
         afterEach(function () {
+            mon.detach();
             mon.log = null;
         });
     });
@@ -96,6 +99,7 @@ describe("Error - Positive", function () {
             expect(text).toEqual(['error: errMsg', 'connection: 123']);
         });
         afterEach(function () {
+            mon.detach();
             mon.log = null;
         });
     });
@@ -104,11 +108,16 @@ describe("Error - Positive", function () {
 describe("Error - Negative", function () {
     describe("invalid parameters", function () {
         var options = {};
-        mon.attach(options, ['error']);
+        beforeEach(function () {
+            mon.attach(options, ['error']);
+        });
         it("must report event correctly", function () {
             expect(function () {
                 options.error();
             }).toThrow("Invalid event 'error' redirect parameters.");
+        });
+        afterEach(function () {
+            mon.detach();
         });
     });
 });

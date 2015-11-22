@@ -28,6 +28,7 @@ describe("Disconnect - Positive", function () {
             expect(text).toBe('disconnect');
         });
         afterEach(function () {
+            mon.detach();
             mon.log = null;
         });
     });
@@ -39,7 +40,8 @@ describe("Disconnect - Positive", function () {
                 disconnect: function (c) {
                     ctx = c;
                 }
-            }, text = null;
+            };
+            text = null;
             mon.attach(options, ['disconnect']);
             mon.log = function (msg, info) {
                 text = info.text;
@@ -54,6 +56,7 @@ describe("Disconnect - Positive", function () {
             expect(ctx).toEqual(client);
         });
         afterEach(function () {
+            mon.detach();
             mon.log = null;
         });
     });
@@ -62,11 +65,16 @@ describe("Disconnect - Positive", function () {
 describe("Disconnect - Negative", function () {
     describe("invalid parameters", function () {
         var options = {};
-        mon.attach(options, ['disconnect']);
+        beforeEach(function () {
+            mon.attach(options, ['disconnect']);
+        });
         it("must report event correctly", function () {
             expect(function () {
                 options.disconnect();
             }).toThrow("Invalid event 'disconnect' redirect parameters.");
+        });
+        afterEach(function () {
+            mon.detach();
         });
     });
 });

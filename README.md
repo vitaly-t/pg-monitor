@@ -100,6 +100,8 @@ Adds event handlers to object `options` that's used during [pg-promise initializ
 var pgp = pgpLib(options);
 ```
 
+Calling second time (without calling [detach] first) will throw `Repeated attachments not supported, must call detach first.`
+
 #### [events]
 
 Optional array of event names to which to attach. Passing `null`/`undefined` will attach
@@ -126,6 +128,12 @@ Example of overriding all known event handlers:
 ```javascript
 monitor.attach(options, null, true);
 ```
+
+## detach()
+
+Detaches from all the events to which attached after the last successful call to [attach]. 
+
+Calling it while not attached will throw `Event monitor not attached.`
 
 ## connect(client, [detailed])
 
@@ -305,3 +313,5 @@ that returns the tag name.
 [pg-promise]:https://github.com/vitaly-t/pg-promise
 [monitor.detailed]:https://github.com/vitaly-t/pg-monitor#detailed-4
 [Client]:https://github.com/brianc/node-postgres/blob/master/lib/client.js#L12
+[attach]:https://github.com/vitaly-t/pg-monitor#attachoptions-events-override
+[detach]:https://github.com/vitaly-t/pg-monitor#detach

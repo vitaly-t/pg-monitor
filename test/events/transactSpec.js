@@ -23,6 +23,7 @@ describe("Transact - Positive", function () {
             expect(text).toBe('tx(test)/start');
         });
         afterEach(function () {
+            mon.detach();
             mon.log = null;
         });
     });
@@ -55,6 +56,7 @@ describe("Transact - Positive", function () {
             expect(cb).toEqual(e);
         });
         afterEach(function () {
+            mon.detach();
             mon.log = null;
         });
     });
@@ -63,11 +65,16 @@ describe("Transact - Positive", function () {
 describe("Transact - Negative", function () {
     describe("invalid parameters", function () {
         var options = {};
-        mon.attach(options, ['transact']);
+        beforeEach(function () {
+            mon.attach(options, ['transact']);
+        });
         it("must report event correctly", function () {
             expect(function () {
                 options.transact();
             }).toThrow("Invalid event 'transact' redirect parameters.");
+        });
+        afterEach(function () {
+            mon.detach();
         });
     });
 });

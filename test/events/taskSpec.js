@@ -24,6 +24,7 @@ describe("Task - Positive", function () {
             expect(text).toBe('task(test)/start');
         });
         afterEach(function () {
+            mon.detach();
             mon.log = null;
         });
     });
@@ -34,7 +35,6 @@ describe("Task - Positive", function () {
                 cb = e;
             }
         };
-
         var dt = new Date(), e = {
             ctx: {
                 start: dt,
@@ -61,6 +61,7 @@ describe("Task - Positive", function () {
             expect(cb).toEqual(e);
         });
         afterEach(function () {
+            mon.detach();
             mon.log = null;
         });
     });
@@ -70,11 +71,16 @@ describe("Task - Positive", function () {
 describe("Task - Negative", function () {
     describe("invalid parameters", function () {
         var options = {};
-        mon.attach(options, ['task']);
+        beforeEach(function () {
+            mon.attach(options, ['task']);
+        });
         it("must report event correctly", function () {
             expect(function () {
                 options.task();
             }).toThrow("Invalid event 'task' redirect parameters.");
+        });
+        afterEach(function () {
+            mon.detach();
         });
     });
 });

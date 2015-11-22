@@ -28,6 +28,7 @@ describe("Connect - Positive", function () {
             expect(text).toBe('connect');
         });
         afterEach(function () {
+            mon.detach();
             mon.log = null;
         });
     });
@@ -39,7 +40,8 @@ describe("Connect - Positive", function () {
                 connect: function (c) {
                     ctx = c;
                 }
-            }, text = null;
+            };
+            text = null;
             mon.attach(options, ['connect']);
             mon.log = function (msg, info) {
                 text = info.text;
@@ -54,6 +56,7 @@ describe("Connect - Positive", function () {
             expect(ctx).toEqual(client);
         });
         afterEach(function () {
+            mon.detach();
             mon.log = null;
         });
     });
@@ -62,11 +65,16 @@ describe("Connect - Positive", function () {
 describe("Connect - Negative", function () {
     describe("invalid parameters", function () {
         var options = {};
-        mon.attach(options, ['connect']);
+        beforeEach(function () {
+            mon.attach(options, ['connect']);
+        });
         it("must report event correctly", function () {
             expect(function () {
                 options.connect();
             }).toThrow("Invalid event 'connect' redirect parameters.");
+        });
+        afterEach(function () {
+            mon.detach();
         });
     });
 });
