@@ -14,6 +14,7 @@ Event monitor for [pg-promise].
 * [Usage](#usage)
 * [API](#api)
   - [attach](#attachoptions-events-override)
+  - [detach](#detach)  
   - [connect](#connectclient-detailed)
   - [disconnect](#disconnectclient-detailed)
   - [query](#querye-detailed)

@@ -39,6 +39,22 @@ describe("Attach - Positive", function () {
             mon.detach();
         });
     });
+
+    describe("restoring options", function () {
+        var opt1 = {
+            connect: 123,
+            disconnect: undefined
+        };
+        var opt2 = {
+            connect: 123,
+            disconnect: undefined
+        };
+        it("must restore all properties", function () {
+            mon.attach(opt1);
+            mon.detach();
+            expect(opt1).toEqual(opt2);
+        });
+    });
 });
 
 describe("Attach - Negative", function () {
