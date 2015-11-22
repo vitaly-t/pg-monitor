@@ -44,8 +44,7 @@ describe("Query - Positive", function () {
                 values: params
             },
             ctx: {
-                start: new Date(),
-                tag: "test"
+                start: new Date()
             }
         };
         beforeEach(function () {
@@ -57,7 +56,7 @@ describe("Query - Positive", function () {
             options.query(e);
         });
         it("must be successful", function () {
-            expect(text).toEqual('task(test): name="queryName", text="queryText", values=1,2,3');
+            expect(text).toEqual('task: name="queryName", text="queryText", values=1,2,3');
         });
         it("must call the old method", function () {
             expect(cb).toEqual(e);

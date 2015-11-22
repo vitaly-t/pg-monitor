@@ -31,7 +31,10 @@ describe("Error - Positive", function () {
     describe("inherited callback", function () {
         var context = {
             query: "hello",
-            params: [1, 2, 3]
+            params: [1, 2, 3],
+            ctx: {
+                start: new Date()
+            }
         };
         var cb = {}, options = {
             error: function (err, e) {
@@ -53,7 +56,48 @@ describe("Error - Positive", function () {
         afterEach(function () {
             mon.log = null;
         });
+    });
 
+    describe("query not a string", function () {
+        var context = {
+            query: 123
+        };
+        var options = {}, text = [];
+        beforeEach(function () {
+            mon.attach(options, ['error']);
+            mon.log = function (msg, info) {
+                text.push(info.text);
+                info.display = false;
+            };
+            options.error("errMsg", context);
+        });
+        it("must parse the value", function () {
+            expect(text).toEqual(['error: errMsg', 'query: 123']);
+        });
+        afterEach(function () {
+            mon.log = null;
+        });
+    });
+
+    describe("connection", function () {
+        var context = {
+            cn: 123
+        };
+        var options = {}, text = [];
+        beforeEach(function () {
+            mon.attach(options, ['error']);
+            mon.log = function (msg, info) {
+                text.push(info.text);
+                info.display = false;
+            };
+            options.error("errMsg", context);
+        });
+        it("must parse the value", function () {
+            expect(text).toEqual(['error: errMsg', 'connection: 123']);
+        });
+        afterEach(function () {
+            mon.log = null;
+        });
     });
 });
 
