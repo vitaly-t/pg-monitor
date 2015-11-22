@@ -3,6 +3,7 @@
 var mon = require("../../lib");
 
 describe("Task - Positive", function () {
+
     describe("start", function () {
         var options = {}, text;
         var e = {
@@ -28,12 +29,21 @@ describe("Task - Positive", function () {
     });
 
     describe("finish", function () {
-        var options = {}, text;
-        var e = {
+        var text, cb, options = {
+            task: function (e) {
+                cb = e;
+            }
+        };
+
+        var dt = new Date(), e = {
             ctx: {
-                start: new Date(),
-                finish: new Date(),
-                tag: "test"
+                start: dt,
+                finish: new Date(dt.getTime() + 12345678),
+                tag: {
+                    toString: function () {
+                        return "test";
+                    }
+                }
             }
         };
         beforeEach(function () {
@@ -45,12 +55,16 @@ describe("Task - Positive", function () {
             options.task(e);
         });
         it("must be successful", function () {
-            expect(text).toBe('task(test)/end; duration: .000, success: false');
+            expect(text).toBe('task(test)/end; duration: 03:25:45.678, success: false');
+        });
+        it("must call the old method", function () {
+            expect(cb).toEqual(e);
         });
         afterEach(function () {
             mon.log = null;
         });
     });
+
 });
 
 describe("Task - Negative", function () {

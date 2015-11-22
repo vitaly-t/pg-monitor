@@ -6,7 +6,7 @@ describe("Query - Positive", function () {
     describe("within transaction", function () {
         var options = {}, text = [], params = [1, 2, 3];
         var e = {
-            query: "hello",
+            query: "begin",
             params: params,
             ctx: {
                 start: new Date(),
@@ -23,7 +23,7 @@ describe("Query - Positive", function () {
         });
         it("must be successful", function () {
             expect(text && text.length === 2).toBeTruthy();
-            expect(text[0]).toBe('task(test): hello');
+            expect(text[0]).toBe('task(test): begin');
             expect(text[1]).toBe("params: [1,2,3]");
         });
         afterEach(function () {
@@ -32,7 +32,11 @@ describe("Query - Positive", function () {
     });
 
     describe("prepared statement", function () {
-        var options = {}, text, params = [1, 2, 3];
+        var cb, text, params = [1, 2, 3], options = {
+            query: function (e) {
+                cb = e;
+            }
+        };
         var e = {
             query: {
                 name: "queryName",
@@ -54,6 +58,9 @@ describe("Query - Positive", function () {
         });
         it("must be successful", function () {
             expect(text).toEqual('task(test): name="queryName", text="queryText", values=1,2,3');
+        });
+        it("must call the old method", function () {
+            expect(cb).toEqual(e);
         });
         afterEach(function () {
             mon.log = null;

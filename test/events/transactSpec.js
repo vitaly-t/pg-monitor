@@ -28,7 +28,11 @@ describe("Transact - Positive", function () {
     });
 
     describe("finish", function () {
-        var options = {}, text;
+        var text, cb, options = {
+            transact: function (e) {
+                cb = e;
+            }
+        };
         var e = {
             ctx: {
                 start: new Date(),
@@ -46,6 +50,9 @@ describe("Transact - Positive", function () {
         });
         it("must be successful", function () {
             expect(text).toBe('tx(test)/end; duration: .000, success: false');
+        });
+        it("must call the old method", function () {
+            expect(cb).toEqual(e);
         });
         afterEach(function () {
             mon.log = null;
