@@ -100,7 +100,7 @@ Adds event handlers to object `options` that's used during [pg-promise initializ
 var pgp = pgpLib(options);
 ```
 
-Calling second time (without calling [detach] first) will throw `Repeated attachments not supported, must call detach first.`
+A repeated call (without calling [detach] first) will throw `Repeated attachments not supported, must call detach first.`
 
 #### [events]
 
