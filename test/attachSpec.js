@@ -40,7 +40,7 @@ describe("Attach - Positive", function () {
         });
     });
 
-    describe("restoring options", function () {
+    describe("restoring all options", function () {
         var opt1 = {
             connect: 123,
             disconnect: undefined
@@ -55,6 +55,23 @@ describe("Attach - Positive", function () {
             expect(opt1).toEqual(opt2);
         });
     });
+
+    describe("restoring one option", function () {
+        var opt1 = {
+            connect: 123,
+            disconnect: undefined
+        };
+        var opt2 = {
+            connect: 123,
+            disconnect: undefined
+        };
+        it("must restore all properties", function () {
+            mon.attach(opt1, ['query']);
+            mon.detach();
+            expect(opt1).toEqual(opt2);
+        });
+    });
+
 });
 
 describe("Attach - Negative", function () {

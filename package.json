@@ -1,6 +1,6 @@
 {
   "name": "pg-monitor",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Event monitor for pg-promise.",
   "main": "lib/index.js",
   "scripts": {
