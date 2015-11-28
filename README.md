@@ -95,6 +95,7 @@ See the API below for all the methods and options that you have.
 # API
 
 ## attach(options, [events], [override])
+**Alternative Syntax:** `attach({options, events, override});` 
 
 Adds event handlers to object `options` that's used during [pg-promise initialization](https://github.com/vitaly-t/pg-promise#initializing):
 ```javascript
@@ -127,7 +128,7 @@ If, however, you want to override your own handlers, pass `override` = `true`.
 Example of overriding all known event handlers:
 
 ```javascript
-monitor.attach(options, null, true);
+monitor.attach({options: options, override: true});
 ```
 
 ## detach()

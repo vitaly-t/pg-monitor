@@ -81,7 +81,10 @@ describe("Attach - Negative", function () {
             mon.attach();
         }).toThrow("Initialization object 'options' must be specified.");
         expect(function () {
-            mon.attach({}, 123);
+            mon.attach({
+                options: {},
+                events: 123
+            });
         }).toThrow("Invalid parameter 'events' passed.");
     });
 
