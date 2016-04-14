@@ -1,6 +1,6 @@
 {
   "name": "pg-monitor",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Event monitor for pg-promise.",
   "main": "lib/index.js",
   "scripts": {
@@ -10,7 +10,8 @@
   },
   "files": [
     "lib",
-    "test"
+    "test",
+    "typescript"
   ],
   "homepage": "https://github.com/vitaly-t/pg-monitor",
   "repository": {
