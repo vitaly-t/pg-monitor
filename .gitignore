@@ -1,3 +1,5 @@
 .idea/
 node_modules/
 coverage/
+test/typescript/*.js
+test/typescript/*.map
