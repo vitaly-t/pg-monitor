@@ -1,4 +1,4 @@
-/// <reference path="../../typescript/pg-monitor.d.ts" />
+/// <reference path="../../typescript/pg-monitor" />
 
 import * as pgMonitor from "pg-monitor";
 
@@ -27,7 +27,7 @@ pgMonitor.setTheme({
     tx: null,
     paramTitle: null,
     errorTitle: null,
-    query: null,
+    query: ()=>{},
     special: null,
     error: null
 });

@@ -4,7 +4,7 @@
 
 declare module "pg-monitor" {
 
-    interface ColorTheme {
+    interface IColorTheme {
         time:Function;
         value:Function;
         cn:Function;
@@ -16,7 +16,7 @@ declare module "pg-monitor" {
         error:Function;
     }
 
-    interface EventInfo {
+    interface IEventInfo {
         time:Date;
         text:string;
         event:string;
@@ -26,7 +26,7 @@ declare module "pg-monitor" {
     namespace pgMonitor {
 
         export function attach(options:Object, events?:Array<string>, override?:boolean):void;
-
+        
         export function attach(options:{
             options:Object,
             events?:Array<string>,
@@ -35,9 +35,9 @@ declare module "pg-monitor" {
 
         export function detach():void;
 
-        export function setTheme(theme:string|ColorTheme):void;
+        export function setTheme(theme:string|IColorTheme):void;
 
-        export function log(msg:string, info:EventInfo):void;
+        export function log(msg:string, info:IEventInfo):void;
 
         export var detailed:boolean;
 
