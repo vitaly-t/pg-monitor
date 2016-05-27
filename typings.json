@@ -1,0 +1,7 @@
+{
+  "name": "pg-monitor",
+  "global": true,
+  "files": [
+    "typescript/pg-monitor.d.ts"
+  ]
+}
