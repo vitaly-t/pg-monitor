@@ -16,7 +16,7 @@ Add the library to your _typings.json_ file (commit hash example is for 0.5.5 re
 ```js
 {
   "globalDependencies": {
-    "pg-monitor": "github:vitaly-t/pg-monitor#08063e1424b62c9fc39fb5ea1b0a1e3c025b4f2a"
+    "pg-monitor": "github:vitaly-t/pg-monitor#f68711a4264e743ac24a832cf9646e34eda5909c"
   }
 }
 ```
