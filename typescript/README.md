@@ -10,18 +10,13 @@ Since all TypeScript files are distributed with the library, you can reference i
 /// <reference path='../node_modules/pg-monitor/typescript/pg-monitor' />
 ```
 
-Starting with version 0.5.5, the library includes file [typings.json] for integration with [Typings].
+Version 0.5.5 and later supports [Typings], and can be added to your project with this command:
 
-Add the library to your _typings.json_ file (commit hash example is for 0.5.5 release):
-```js
-{
-  "globalDependencies": {
-    "pg-monitor": "github:vitaly-t/pg-monitor#f68711a4264e743ac24a832cf9646e34eda5909c"
-  }
-}
+```
+ typings install --save --global  github:vitaly-t/pg-monitor
 ```
 
-After running `typings install` you will be able to rely on the generic reference:
+Then you can use the generic reference:
 
 ```ts
 /// <reference path='../typings/index' />
