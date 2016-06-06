@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-// Requires pg-monitor v0.5.0 or later.
+// Requires pg-monitor v0.5.8 or later.
 ////////////////////////////////////////
 
 declare module "pg-monitor" {
