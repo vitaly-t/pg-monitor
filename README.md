@@ -47,11 +47,26 @@ The library has no direct dependency on [pg-promise], and will work with any of 
 
 # Testing
 
+* Clone the repository (or download, if you prefer):
+
+```
+$ git clone https://github.com/vitaly-t/pg-monitor
+```
+
+* Install the library's DEV dependencies:
+
+```
+$ npm install
+```
+
+* To run all tests:
+
 ```
 $ npm test
 ```
 
-Testing with coverage:
+* To run all tests with coverage:
+
 ```
 $ npm run coverage
 ```
@@ -137,13 +152,21 @@ Detaches from all the events to which attached after the last successful call to
 
 Calling it while not attached will throw `Event monitor not attached.`
 
-## connect(client, [detailed])
+## connect(client, dc, fresh, [detailed])
 
-Monitors and reports event [connect](https://github.com/vitaly-t/pg-promise#connect).
+Monitors and reports event [connect](http://vitaly-t.github.io/pg-promise/global.html#event:connect).
 
 #### client
 
 [Client] object passed to the event.
+
+#### dc
+
+Database Context.
+
+#### fresh
+
+Fresh connection flag.
 
 #### [detailed]
 
@@ -151,13 +174,17 @@ Optional. When set, it reports such connection details as `user@database`.
 
 When not set, it defaults to the value of [monitor.detailed]. 
 
-## disconnect(client, [detailed])
+## disconnect(client, dc, [detailed])
 
-Monitors and reports event [disconnect](https://github.com/vitaly-t/pg-promise#disconnect).
+Monitors and reports event [disconnect](http://vitaly-t.github.io/pg-promise/global.html#event:disconnect).
 
 #### client
 
 [Client] object passed to the event.
+
+#### dc
+
+Database Context.
 
 #### [detailed]
 
@@ -167,7 +194,7 @@ When not set, it defaults to the value of [monitor.detailed].
 
 ## query(e, [detailed])
 
-Monitors and reports event [query](https://github.com/vitaly-t/pg-promise#query).
+Monitors and reports event [query](http://vitaly-t.github.io/pg-promise/global.html#event:query).
 
 #### e
 
@@ -181,7 +208,7 @@ When not set, it defaults to the value of [monitor.detailed].
 
 ## task(e)
 
-Monitors and reports event [task](https://github.com/vitaly-t/pg-promise#task).
+Monitors and reports event [task](http://vitaly-t.github.io/pg-promise/global.html#event:task).
 
 #### e
 
@@ -189,7 +216,7 @@ Event context object.
 
 ## transact(e)
 
-Monitors and reports event [transact](https://github.com/vitaly-t/pg-promise#transact).
+Monitors and reports event [transact](http://vitaly-t.github.io/pg-promise/global.html#event:transact).
 
 #### e
 
@@ -197,7 +224,7 @@ Event context object.
 
 ## error(err, e, [detailed])
 
-Monitors and reports event [error](https://github.com/vitaly-t/pg-promise#error).
+Monitors and reports event [error](http://vitaly-t.github.io/pg-promise/global.html#event:error).
 
 #### err
 

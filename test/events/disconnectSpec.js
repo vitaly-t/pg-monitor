@@ -24,7 +24,7 @@ describe("Disconnect - Positive", function () {
             expect(text).toBe('disconnect(guest@test)');
         });
         it("must log short message", function () {
-            mon.disconnect(client, false);
+            mon.disconnect(client, 123, false);
             expect(text).toBe('disconnect');
         });
         afterEach(function () {
@@ -47,7 +47,7 @@ describe("Disconnect - Positive", function () {
                 text = info.text;
                 info.display = false;
             };
-            options.disconnect(client);
+            options.disconnect(client, 123);
         });
         it("must log detailed message", function () {
             expect(text).toBe('disconnect(guest@test)');

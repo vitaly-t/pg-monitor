@@ -20,11 +20,11 @@ describe("Connect - Positive", function () {
             };
         });
         it("must log detailed message", function () {
-            mon.connect(client);
+            mon.connect(client, 123, true);
             expect(text).toBe('connect(guest@test)');
         });
         it("must log short message", function () {
-            mon.connect(client, false);
+            mon.connect(client, 123, true, false);
             expect(text).toBe('connect');
         });
         afterEach(function () {
@@ -47,7 +47,7 @@ describe("Connect - Positive", function () {
                 text = info.text;
                 info.display = false;
             };
-            options.connect(client);
+            options.connect(client, 123, false);
         });
         it("must log detailed message", function () {
             expect(text).toBe('connect(guest@test)');

@@ -26,7 +26,7 @@ declare module "pg-monitor" {
     namespace pgMonitor {
 
         export function attach(options:Object, events?:Array<string>, override?:boolean):void;
-        
+
         export function attach(options:{
             options:Object,
             events?:Array<string>,
@@ -41,9 +41,9 @@ declare module "pg-monitor" {
 
         export var detailed:boolean;
 
-        export function connect(client:Object, detailed?:boolean):void;
+        export function connect(client:Object, dc:any, fresh:boolean, detailed?:boolean):void;
 
-        export function disconnect(client:Object, detailed?:boolean):void;
+        export function disconnect(client:Object, dc:any, detailed?:boolean):void;
 
         export function query(e:Object, detailed?:boolean):void;
 

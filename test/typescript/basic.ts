@@ -34,8 +34,8 @@ pgMonitor.setTheme({
 
 pgMonitor.detailed = false;
 
-pgMonitor.connect({});
-pgMonitor.disconnect({});
+pgMonitor.connect({}, 123, true, false);
+pgMonitor.disconnect({}, null, true);
 pgMonitor.query({});
 pgMonitor.task({});
 pgMonitor.transact({});

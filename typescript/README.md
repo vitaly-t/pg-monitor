@@ -1,6 +1,6 @@
 ### TypeScript for pg-monitor
 
-Complete TypeScript ambient declarations for [pg-monitor] version 0.5.0 or later.
+Complete TypeScript ambient declarations for [pg-monitor] version 0.5.7 or later.
 
 #### Inclusion
 
