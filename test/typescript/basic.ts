@@ -1,6 +1,4 @@
-/// <reference path="../../typescript/pg-monitor" />
-
-import * as pgMonitor from "pg-monitor";
+import { pgMonitor } from "../../typescript/pg-monitor";
 
 var options = {};
 

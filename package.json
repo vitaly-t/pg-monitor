@@ -3,6 +3,7 @@
   "version": "0.5.11",
   "description": "Event monitor for pg-promise.",
   "main": "lib/index.js",
+  "typings": "typescript/pg-monitor.d.ts",
   "scripts": {
     "test": "jasmine-node test",
     "coverage": "istanbul cover ./node_modules/jasmine-node/bin/jasmine-node test",
@@ -40,6 +41,7 @@
   "devDependencies": {
     "coveralls": "2.x",
     "istanbul": "0.4",
-    "jasmine-node": "1.x"
+    "jasmine-node": "1.x",
+    "typescript": "2.0.x"
   }
 }
