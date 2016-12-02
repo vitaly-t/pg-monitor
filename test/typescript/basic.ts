@@ -1,4 +1,4 @@
-import { pgMonitor } from "../../typescript/pg-monitor";
+import {pgMonitor} from "../../typescript/pg-monitor";
 
 var options = {};
 
@@ -25,7 +25,8 @@ pgMonitor.setTheme({
     tx: null,
     paramTitle: null,
     errorTitle: null,
-    query: ()=>{},
+    query: () => {
+    },
     special: null,
     error: null
 });
