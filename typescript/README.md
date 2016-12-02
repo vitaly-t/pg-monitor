@@ -1,12 +1,12 @@
-### TypeScript for pg-monitor
+## TypeScript for pg-monitor
 
 Complete TypeScript 2.0 declarations for the [pg-monitor] module.
 
-#### Inclusion
+### Inclusion
 
 Typescript should be able to pick up the definitions without any manual configuration.
  
-#### Usage
+### Usage
 
 ```ts
 import * as pgMonitor from "pg-monitor";
