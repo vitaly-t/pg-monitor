@@ -15,10 +15,13 @@ describe("Query - Positive", function () {
         };
         beforeEach(function () {
             mon.attach(options, ['query']);
-            mon.log = function (msg, info) {
+
+            var log = function (msg, info) {
                 text.push(info.text);
                 info.display = false;
             };
+            mon.setLog(log);
+
             options.query(e);
         });
         it("must be successful", function () {
@@ -28,7 +31,7 @@ describe("Query - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
 
@@ -50,10 +53,13 @@ describe("Query - Positive", function () {
         };
         beforeEach(function () {
             mon.attach(options, ['query']);
-            mon.log = function (msg, info) {
+
+            var log = function (msg, info) {
                 text = info.text;
                 info.display = false;
             };
+            mon.setLog(log);
+
             options.query(e);
         });
         it("must be successful", function () {
@@ -64,7 +70,7 @@ describe("Query - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
 });

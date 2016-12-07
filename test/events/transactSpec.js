@@ -13,10 +13,13 @@ describe("Transact - Positive", function () {
         };
         beforeEach(function () {
             mon.attach(options, ['transact']);
-            mon.log = function (msg, info) {
+
+            var log = function (msg, info) {
                 text = info.text;
                 info.display = false;
             };
+            mon.setLog(log);
+
             options.transact(e);
         });
         it("must be successful", function () {
@@ -24,7 +27,7 @@ describe("Transact - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
 
@@ -43,10 +46,13 @@ describe("Transact - Positive", function () {
         };
         beforeEach(function () {
             mon.attach(options, ['transact']);
-            mon.log = function (msg, info) {
+
+            var log = function (msg, info) {
                 text = info.text;
                 info.display = false;
             };
+            mon.setLog(log);
+
             options.transact(e);
         });
         it("must be successful", function () {
@@ -57,7 +63,7 @@ describe("Transact - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
 });

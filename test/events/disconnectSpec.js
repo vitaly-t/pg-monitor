@@ -14,10 +14,13 @@ describe("Disconnect - Positive", function () {
         beforeEach(function () {
             options = {}, text = null;
             mon.attach(options, ['disconnect']);
-            mon.log = function (msg, info) {
+
+            var log = function (msg, info) {
                 text = info.text;
                 info.display = false;
             };
+            mon.setLog(log);
+
         });
         it("must log detailed message", function () {
             mon.disconnect(client);
@@ -29,7 +32,7 @@ describe("Disconnect - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
 
@@ -43,10 +46,13 @@ describe("Disconnect - Positive", function () {
             };
             text = null;
             mon.attach(options, ['disconnect']);
-            mon.log = function (msg, info) {
+
+            var log = function (msg, info) {
                 text = info.text;
                 info.display = false;
             };
+            mon.setLog(log);
+
             options.disconnect(client, 123);
         });
         it("must log detailed message", function () {
@@ -57,7 +63,7 @@ describe("Disconnect - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
 });
