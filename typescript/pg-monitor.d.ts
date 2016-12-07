@@ -33,9 +33,11 @@ export function detach(): void;
 
 export function setTheme(theme: string | IColorTheme): void;
 
-export function log(msg: string, info: IEventInfo): void;
+export function setLog(log: Function): void;
 
 export var detailed: boolean;
+
+export function setDetailed(value: boolean): void;
 
 export function connect(client: Object, dc: any, fresh: boolean, detailed?: boolean): void;
 
