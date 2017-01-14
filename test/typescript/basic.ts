@@ -1,4 +1,4 @@
-import {pgMonitor} from "../../typescript/pg-monitor";
+import * as pgMonitor from "../../typescript/pg-monitor";
 
 var options = {};
 
@@ -12,9 +12,11 @@ pgMonitor.attach({
 
 pgMonitor.detach();
 
-pgMonitor.log = function (msg, info) {
-    info.display = false;
-};
+let test = function(msg: string, info: pgMonitor.IEventInfo) {
+    console.log('Custom log: ', msg, info);
+}
+
+pgMonitor.setLog(test);
 
 pgMonitor.setTheme('matrix');
 
@@ -31,7 +33,7 @@ pgMonitor.setTheme({
     error: null
 });
 
-pgMonitor.detailed = false;
+pgMonitor.setDetailed(false);
 
 pgMonitor.connect({}, 123, true, false);
 pgMonitor.disconnect({}, null, true);

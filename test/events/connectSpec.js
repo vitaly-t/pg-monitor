@@ -14,10 +14,12 @@ describe("Connect - Positive", function () {
         beforeEach(function () {
             options = {}, text = null;
             mon.attach(options, ['connect']);
-            mon.log = function (msg, info) {
+
+            var log = function (msg, info) {
                 text = info.text;
                 info.display = false;
             };
+            mon.setLog(log);
         });
         it("must log detailed message", function () {
             mon.connect(client, 123, true);
@@ -29,7 +31,7 @@ describe("Connect - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
 
@@ -43,10 +45,12 @@ describe("Connect - Positive", function () {
             };
             text = null;
             mon.attach(options, ['connect']);
-            mon.log = function (msg, info) {
+            var log = function (msg, info) {
                 text = info.text;
                 info.display = false;
             };
+            mon.setLog(log);
+
             options.connect(client, 123, false);
         });
         it("must log detailed message", function () {
@@ -57,7 +61,7 @@ describe("Connect - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
 });
@@ -67,6 +71,7 @@ describe("Connect - Negative", function () {
         var options = {};
         beforeEach(function () {
             mon.attach(options, ['connect']);
+            mon.setDetailed(true);
         });
         it("must report event correctly", function () {
             expect(function () {

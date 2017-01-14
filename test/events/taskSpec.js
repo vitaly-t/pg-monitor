@@ -14,10 +14,13 @@ describe("Task - Positive", function () {
         };
         beforeEach(function () {
             mon.attach(options, ['task']);
-            mon.log = function (msg, info) {
+
+            var log = function (msg, info) {
                 text = info.text;
                 info.display = false;
             };
+            mon.setLog(log);
+
             options.task(e);
         });
         it("must be successful", function () {
@@ -25,7 +28,7 @@ describe("Task - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
 
@@ -48,10 +51,13 @@ describe("Task - Positive", function () {
         };
         beforeEach(function () {
             mon.attach(options, ['task']);
-            mon.log = function (msg, info) {
+
+            var log = function (msg, info) {
                 text = info.text;
                 info.display = false;
             };
+            mon.setLog(log);
+
             options.task(e);
         });
         it("must be successful", function () {
@@ -62,7 +68,7 @@ describe("Task - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
 

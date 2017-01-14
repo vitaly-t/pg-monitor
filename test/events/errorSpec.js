@@ -14,10 +14,13 @@ describe("Error - Positive", function () {
         var options = {}, text = [];
         beforeEach(function () {
             mon.attach(options, ['error']);
-            mon.log = function (msg, info) {
+
+            var log = function (msg, info) {
                 text.push(info.text);
                 info.display = false;
             };
+            mon.setLog(log);
+
             options.error("errMsg", context);
         });
         it("must be successful", function () {
@@ -26,7 +29,7 @@ describe("Error - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
     describe("inherited callback", function () {
@@ -45,9 +48,12 @@ describe("Error - Positive", function () {
         };
         beforeEach(function () {
             mon.attach(options, ['error']);
-            mon.log = function (msg, info) {
+
+            var log = function (msg, info) {
                 info.display = false;
             };
+            mon.setLog(log);
+
             options.error("errMsg", context);
         });
         it("must call the old method", function () {
@@ -56,7 +62,7 @@ describe("Error - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
 
@@ -67,10 +73,13 @@ describe("Error - Positive", function () {
         var options = {}, text = [];
         beforeEach(function () {
             mon.attach(options, ['error']);
-            mon.log = function (msg, info) {
+
+            var log = function (msg, info) {
                 text.push(info.text);
                 info.display = false;
             };
+            mon.setLog(log);
+
             options.error("errMsg", context);
         });
         it("must parse the value", function () {
@@ -78,7 +87,7 @@ describe("Error - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
 
@@ -89,10 +98,13 @@ describe("Error - Positive", function () {
         var options = {}, text = [];
         beforeEach(function () {
             mon.attach(options, ['error']);
-            mon.log = function (msg, info) {
+
+            var log = function (msg, info) {
                 text.push(info.text);
                 info.display = false;
             };
+            mon.setLog(log);
+
             options.error("errMsg", context);
         });
         it("must parse the value", function () {
@@ -100,7 +112,7 @@ describe("Error - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
 
@@ -111,10 +123,13 @@ describe("Error - Positive", function () {
         var options = {}, text = [];
         beforeEach(function () {
             mon.attach(options, ['error']);
-            mon.log = function (msg, info) {
+
+            var log = function (msg, info) {
                 text.push(info.text);
                 info.display = false;
             };
+            mon.setLog(log);
+
             options.error("errMsg", context);
         });
         it("must parse the value", function () {
@@ -122,7 +137,7 @@ describe("Error - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
 
@@ -133,10 +148,13 @@ describe("Error - Positive", function () {
         var options = {}, text = [];
         beforeEach(function () {
             mon.attach(options, ['error']);
-            mon.log = function (msg, info) {
+
+            var log = function (msg, info) {
                 text.push(info.text);
                 info.display = false;
             };
+            mon.setLog(log);
+
             options.error("errMsg", context);
         });
         it("must parse the value", function () {
@@ -144,7 +162,7 @@ describe("Error - Positive", function () {
         });
         afterEach(function () {
             mon.detach();
-            mon.log = null;
+            mon.setLog(null);
         });
     });
 });
