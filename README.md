@@ -39,6 +39,7 @@ Event monitor for [pg-promise].
    In addition, it simplifies [event logging](#log) for your application.
       
 # Installing
+
 ```
 $ npm install pg-monitor
 ```
@@ -73,7 +74,7 @@ $ npm run coverage
 
 # Usage
 
-```javascript
+```js
 var monitor = require("pg-monitor");
 
 var options = {
@@ -113,7 +114,7 @@ See the API below for all the methods and options that you have.
 **Alternative Syntax:** `attach({options, events, override});` 
 
 Adds event handlers to object `options` that's used during [pg-promise initialization](https://github.com/vitaly-t/pg-promise#initializing):
-```javascript
+```js
 var pgp = pgpLib(options);
 ```
 
@@ -125,7 +126,7 @@ Optional array of event names to which to attach. Passing `null`/`undefined` wil
 to all known events.
 
 Example of attaching to just events `query` and `error`:
-```javascript
+```js
 monitor.attach(options, ['query', 'error']);
 ```
 
@@ -142,7 +143,7 @@ If, however, you want to override your own handlers, pass `override` = `true`.
 
 Example of overriding all known event handlers:
 
-```javascript
+```js
 monitor.attach({options: options, override: true});
 ```
 
@@ -248,6 +249,8 @@ By default, it is set to be `true`. Setting this parameter to `false` will autom
 switch off all details in events that support optional details, unless they have their own
 parameter `detailed` passed in as `true`, which then overrides this global one.
 
+Use method `setDetailed` to change the value.
+
 ## setTheme(t)
 
 Activates either a predefined or a custom color theme.
@@ -262,10 +265,11 @@ For details, see [Color Themes](https://github.com/vitaly-t/pg-monitor/wiki/Colo
 
 This event is to let your application provide your own log for everything that appears on the screen.
 
-```javascript
-monitor.log = function(msg, info){
+```js
+var log = function(msg, info) {
     // save the screen message into your own log;
 };
+monitor.setLog(log);
 ```
 
 The notification occurs for every single line of text that appears on the screen, so you can
@@ -306,16 +310,18 @@ so your can easily see in which task/transaction context queries are executed.
 
 Tagging a task or transaction with [pg-promise] is very easy, by taking this code:
  
-```javascript
+```js
 db.task(function (t) {
     // task queries; 
 });
 db.tx(function (t) {
     // transaction queries; 
 });
-``` 
+```
+ 
 and replacing it with this one:
-```javascript
+
+```js
 db.task(tag, function (t) {
     // task queries; 
 });
@@ -325,11 +331,12 @@ db.tx(tag, function (t) {
 ```
 where `tag` is any object or value. In most cases you would want `tag` to be just
 a string that represents the task/transaction name, like this:
-```javascript
-db.task("MyTask", function (t) {
+
+```js
+db.task('MyTask', function (t) {
     // task queries; 
 });
-db.tx("MyTransaction", function (t) {
+db.tx('MyTransaction', function (t) {
     // transaction queries; 
 });
 ```
