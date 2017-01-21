@@ -4,7 +4,7 @@ pg-monitor
 [![Build Status](https://travis-ci.org/vitaly-t/pg-monitor.svg?branch=master)](https://travis-ci.org/vitaly-t/pg-monitor)
 [![Coverage Status](https://coveralls.io/repos/vitaly-t/pg-monitor/badge.svg?branch=master)](https://coveralls.io/r/vitaly-t/pg-monitor?branch=master)
 
-Event monitor for [pg-promise].
+Events monitor for [pg-promise].
 
 [![matrix](http://s2.postimg.org/4hgqhkzih/matrix.gif)](http://s2.postimg.org/4hgqhkzih/matrix.gif)
 
@@ -36,7 +36,7 @@ Event monitor for [pg-promise].
    providing full details with the context, such as tasks and transactions in which
    queries are executed.
    
-   In addition, it simplifies [event logging](#log) for your application.
+   In addition, it simplifies [events logging](#log) for your application.
       
 # Installing
 
