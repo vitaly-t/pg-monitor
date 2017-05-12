@@ -306,7 +306,7 @@ For details, see [Color Themes](https://github.com/vitaly-t/pg-monitor/wiki/Colo
 
 If your application uses more than one task or transaction, it is a good idea to tag them,
 so they provide informative context for every query event that's being logged, i.e.
-so your can easily see in which task/transaction context queries are executed.
+so you can easily see in which task/transaction context queries are executed.
 
 Tagging a task or transaction with [pg-promise] is very easy, by taking this code:
  
