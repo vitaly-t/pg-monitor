@@ -4,26 +4,29 @@ var mon = require("../../lib");
 
 describe("Transact - Positive", function () {
     describe("start", function () {
-        var options = {}, text;
+        var options = {}, info;
         var e = {
             ctx: {
                 start: new Date(),
-                tag: "test"
+                tag: "test",
+                isTX: true
             }
         };
         beforeEach(function () {
             mon.attach(options, ['transact']);
 
-            var log = function (msg, info) {
-                text = info.text;
-                info.display = false;
+            var log = function (msg, i) {
+                info = i;
+                i.display = false;
             };
             mon.setLog(log);
 
             options.transact(e);
         });
         it("must be successful", function () {
-            expect(text).toBe('tx(test)/start');
+            expect(info.text).toBe('tx(test)/start');
+            expect('ctx' in info).toBe(true);
+            expect(info.ctx.isTX).toBe(true);
         });
         afterEach(function () {
             mon.detach();

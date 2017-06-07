@@ -2,51 +2,70 @@
 // Requires pg-monitor v0.8.0 or later.
 ////////////////////////////////////////
 
+// Event context extension for tasks + transactions;
+// See: http://vitaly-t.github.io/pg-promise/Task.html#.ctx
+interface ITaskContext {
+
+    // these are set in the beginning of each task/transaction:
+    context: any
+    isFresh: boolean
+    isTX: boolean
+    start: Date
+    tag: any
+    dc: any
+
+    // these are set at the end of each task/transaction:
+    finish: Date
+    success: boolean
+    result: any
+}
+
 interface IColorTheme {
-    time: Function;
-    value: Function;
-    cn: Function;
-    tx: Function;
-    paramTitle: Function;
-    errorTitle: Function;
-    query: Function;
-    special: Function;
-    error: Function;
+    time: Function
+    value: Function
+    cn: Function
+    tx: Function
+    paramTitle: Function
+    errorTitle: Function
+    query: Function
+    special: Function
+    error: Function
 }
 
 interface IEventInfo {
-    time: Date;
-    text: string;
-    event: string;
-    display: boolean;
+    time: Date
+    text: string
+    event: string
+    display: boolean
+    ctx?: ITaskContext
 }
 
-export function attach(options: Object, events?: Array<string>, override?: boolean): void;
+export function attach(options: Object, events?: Array<string>, override?: boolean): void
 
 export function attach(options: {
     options: Object,
     events?: Array<string>,
     override?: boolean
-}): void;
+}): void
 
 export function detach(): void;
 
-export function setTheme(theme: string | IColorTheme): void;
+export function setTheme(theme: string | IColorTheme): void
 
-export function setLog(log: Function): void;
+export function setLog(log: Function): void
 
 export var detailed: boolean;
 
-export function setDetailed(value: boolean): void;
+export function setDetailed(value: boolean): void
 
-export function connect(client: Object, dc: any, fresh: boolean, detailed?: boolean): void;
+export function connect(client: Object, dc: any, fresh: boolean, detailed?: boolean): void
 
-export function disconnect(client: Object, dc: any, detailed?: boolean): void;
+export function disconnect(client: Object, dc: any, detailed?: boolean): void
 
-export function query(e: Object, detailed?: boolean): void;
+export function query(e: Object, detailed?: boolean): void
 
-export function task(e: Object): void;
+export function task(e: Object): void
 
-export function transact(e: Object): void;
+export function transact(e: Object): void
 
-export function error(err: any, e: Object, detailed?: boolean): void;
+export function error(err: any, e: Object, detailed?: boolean): void

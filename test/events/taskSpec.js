@@ -5,26 +5,27 @@ var mon = require("../../lib");
 describe("Task - Positive", function () {
 
     describe("start", function () {
-        var options = {}, text;
+        var options = {}, info;
         var e = {
             ctx: {
                 start: new Date(),
-                tag: "test"
+                tag: "test",
+                isTX: false
             }
         };
         beforeEach(function () {
             mon.attach(options, ['task']);
-
-            var log = function (msg, info) {
-                text = info.text;
-                info.display = false;
+            var log = function (msg, i) {
+                info = i;
+                i.display = false;
             };
             mon.setLog(log);
-
             options.task(e);
         });
         it("must be successful", function () {
-            expect(text).toBe('task(test)/start');
+            expect(info.text).toBe('task(test)/start');
+            expect('ctx' in info).toBe(true);
+            expect(info.ctx.isTX).toBe(false);
         });
         afterEach(function () {
             mon.detach();

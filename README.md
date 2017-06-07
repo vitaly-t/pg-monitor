@@ -283,10 +283,11 @@ New message line, exactly as shown on the screen, with color attributes removed.
 
 Object with additional information about the event:
 
-* `time` - Date object that was used for the screen, or `null` when it is an extra line with
+* `time` - `Date` object that was used for the screen, or `null` when it is an extra line with
 the event's context details;
 * `text` - message text without the time in front (color attributes removed);
 * `event` - name of the event being logged.
+* `ctx` - Optional, [task/transaction context](http://vitaly-t.github.io/pg-promise/Task.html#.ctx) when available.
 
 If your intent is only to log events, while suppressing any screen output, you can
 do so on per-event basis, as shown below:
