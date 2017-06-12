@@ -1,4 +1,4 @@
-import * as pgMonitor from "../../typescript/pg-monitor";
+import * as pgMonitor from '../../typescript/pg-monitor';
 
 var options = {};
 

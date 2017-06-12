@@ -1,14 +1,14 @@
 'use strict';
 
-var mon = require("../../lib");
+var mon = require('../../lib');
 
-describe("Error - Positive", function () {
-    describe("within transaction", function () {
+describe('Error - Positive', function () {
+    describe('within transaction', function () {
         var context = {
-            query: "hello",
+            query: 'hello',
             ctx: {
                 start: new Date(),
-                tag: "test"
+                tag: 'test'
             }
         };
         var options = {}, text = [];
@@ -21,9 +21,9 @@ describe("Error - Positive", function () {
             };
             mon.setLog(log);
 
-            options.error("errMsg", context);
+            options.error('errMsg', context);
         });
-        it("must be successful", function () {
+        it('must be successful', function () {
             expect(text && text.length === 2).toBeTruthy();
             expect(text).toEqual(['error: errMsg', 'task(test): hello']);
         });
@@ -32,9 +32,9 @@ describe("Error - Positive", function () {
             mon.setLog(null);
         });
     });
-    describe("inherited callback", function () {
+    describe('inherited callback', function () {
         var context = {
-            query: "hello",
+            query: 'hello',
             params: [1, 2, 3],
             ctx: {
                 start: new Date()
@@ -54,10 +54,10 @@ describe("Error - Positive", function () {
             };
             mon.setLog(log);
 
-            options.error("errMsg", context);
+            options.error('errMsg', context);
         });
-        it("must call the old method", function () {
-            expect(cb.err).toBe("errMsg");
+        it('must call the old method', function () {
+            expect(cb.err).toBe('errMsg');
             expect(cb.e).toEqual(context);
         });
         afterEach(function () {
@@ -66,7 +66,7 @@ describe("Error - Positive", function () {
         });
     });
 
-    describe("query not a string", function () {
+    describe('query not a string', function () {
         var context = {
             query: 123
         };
@@ -80,9 +80,9 @@ describe("Error - Positive", function () {
             };
             mon.setLog(log);
 
-            options.error("errMsg", context);
+            options.error('errMsg', context);
         });
-        it("must parse the value", function () {
+        it('must parse the value', function () {
             expect(text).toEqual(['error: errMsg', 'query: 123']);
         });
         afterEach(function () {
@@ -91,7 +91,7 @@ describe("Error - Positive", function () {
         });
     });
 
-    describe("query is a prepared statement with params", function () {
+    describe('query is a prepared statement with params', function () {
         var context = {
             query: {name: 'test-name', text: 'text-text', values: [123]}
         };
@@ -105,9 +105,9 @@ describe("Error - Positive", function () {
             };
             mon.setLog(log);
 
-            options.error("errMsg", context);
+            options.error('errMsg', context);
         });
-        it("must parse the value", function () {
+        it('must parse the value', function () {
             expect(text).toEqual(['error: errMsg', 'query: {"name":"test-name","text":"text-text","values":[123]}']);
         });
         afterEach(function () {
@@ -116,7 +116,7 @@ describe("Error - Positive", function () {
         });
     });
 
-    describe("query is a prepared statement without params", function () {
+    describe('query is a prepared statement without params', function () {
         var context = {
             query: {name: 'test-name', text: 'text-text'}
         };
@@ -130,9 +130,9 @@ describe("Error - Positive", function () {
             };
             mon.setLog(log);
 
-            options.error("errMsg", context);
+            options.error('errMsg', context);
         });
-        it("must parse the value", function () {
+        it('must parse the value', function () {
             expect(text).toEqual(['error: errMsg', 'query: {"name":"test-name","text":"text-text"}']);
         });
         afterEach(function () {
@@ -141,7 +141,7 @@ describe("Error - Positive", function () {
         });
     });
 
-    describe("connection", function () {
+    describe('connection', function () {
         var context = {
             cn: 123
         };
@@ -155,9 +155,9 @@ describe("Error - Positive", function () {
             };
             mon.setLog(log);
 
-            options.error("errMsg", context);
+            options.error('errMsg', context);
         });
-        it("must parse the value", function () {
+        it('must parse the value', function () {
             expect(text).toEqual(['error: errMsg', 'connection: 123']);
         });
         afterEach(function () {
@@ -167,16 +167,16 @@ describe("Error - Positive", function () {
     });
 });
 
-describe("Error - Negative", function () {
-    describe("invalid parameters", function () {
+describe('Error - Negative', function () {
+    describe('invalid parameters', function () {
         var options = {};
         beforeEach(function () {
             mon.attach(options, ['error']);
         });
-        it("must report event correctly", function () {
+        it('must report event correctly', function () {
             expect(function () {
                 options.error();
-            }).toThrow("Invalid event 'error' redirect parameters.");
+            }).toThrow('Invalid event \'error\' redirect parameters.');
         });
         afterEach(function () {
             mon.detach();

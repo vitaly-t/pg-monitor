@@ -1,15 +1,15 @@
 'use strict';
 
-var mon = require("../../lib");
+var mon = require('../../lib');
 
-describe("Task - Positive", function () {
+describe('Task - Positive', function () {
 
-    describe("start", function () {
+    describe('start', function () {
         var options = {}, info;
         var e = {
             ctx: {
                 start: new Date(),
-                tag: "test",
+                tag: 'test',
                 isTX: false
             }
         };
@@ -22,7 +22,7 @@ describe("Task - Positive", function () {
             mon.setLog(log);
             options.task(e);
         });
-        it("must be successful", function () {
+        it('must be successful', function () {
             expect(info.text).toBe('task(test)/start');
             expect('ctx' in info).toBe(true);
             expect(info.ctx.isTX).toBe(false);
@@ -33,7 +33,7 @@ describe("Task - Positive", function () {
         });
     });
 
-    describe("finish", function () {
+    describe('finish', function () {
         var text, cb, options = {
             task: function (e) {
                 cb = e;
@@ -45,7 +45,7 @@ describe("Task - Positive", function () {
                 finish: new Date(dt.getTime() + 12345678),
                 tag: {
                     toString: function () {
-                        return "test";
+                        return 'test';
                     }
                 }
             }
@@ -61,10 +61,10 @@ describe("Task - Positive", function () {
 
             options.task(e);
         });
-        it("must be successful", function () {
+        it('must be successful', function () {
             expect(text).toBe('task(test)/end; duration: 03:25:45.678, success: false');
         });
-        it("must call the old method", function () {
+        it('must call the old method', function () {
             expect(cb).toEqual(e);
         });
         afterEach(function () {
@@ -75,16 +75,16 @@ describe("Task - Positive", function () {
 
 });
 
-describe("Task - Negative", function () {
-    describe("invalid parameters", function () {
+describe('Task - Negative', function () {
+    describe('invalid parameters', function () {
         var options = {};
         beforeEach(function () {
             mon.attach(options, ['task']);
         });
-        it("must report event correctly", function () {
+        it('must report event correctly', function () {
             expect(function () {
                 options.task();
-            }).toThrow("Invalid event 'task' redirect parameters.");
+            }).toThrow('Invalid event \'task\' redirect parameters.');
         });
         afterEach(function () {
             mon.detach();

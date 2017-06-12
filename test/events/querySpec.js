@@ -1,16 +1,16 @@
 'use strict';
 
-var mon = require("../../lib");
+var mon = require('../../lib');
 
-describe("Query - Positive", function () {
-    describe("within transaction", function () {
+describe('Query - Positive', function () {
+    describe('within transaction', function () {
         var options = {}, text = [], params = [1, 2, 3];
         var e = {
-            query: "begin",
+            query: 'begin',
             params: params,
             ctx: {
                 start: new Date(),
-                tag: "test"
+                tag: 'test'
             }
         };
         beforeEach(function () {
@@ -24,10 +24,10 @@ describe("Query - Positive", function () {
 
             options.query(e);
         });
-        it("must be successful", function () {
+        it('must be successful', function () {
             expect(text && text.length === 2).toBeTruthy();
             expect(text[0]).toBe('task(test): begin');
-            expect(text[1]).toBe("params: [1,2,3]");
+            expect(text[1]).toBe('params: [1,2,3]');
         });
         afterEach(function () {
             mon.detach();
@@ -35,7 +35,7 @@ describe("Query - Positive", function () {
         });
     });
 
-    describe("prepared statement", function () {
+    describe('prepared statement', function () {
         var cb, text, params = [1, 2, 3], options = {
             query: function (e) {
                 cb = e;
@@ -43,8 +43,8 @@ describe("Query - Positive", function () {
         };
         var e = {
             query: {
-                name: "queryName",
-                text: "queryText",
+                name: 'queryName',
+                text: 'queryText',
                 values: params
             },
             ctx: {
@@ -62,10 +62,10 @@ describe("Query - Positive", function () {
 
             options.query(e);
         });
-        it("must be successful", function () {
+        it('must be successful', function () {
             expect(text).toEqual('task: name="queryName", text="queryText", values=1,2,3');
         });
-        it("must call the old method", function () {
+        it('must call the old method', function () {
             expect(cb).toEqual(e);
         });
         afterEach(function () {
@@ -75,16 +75,16 @@ describe("Query - Positive", function () {
     });
 });
 
-describe("Query - Negative", function () {
-    describe("invalid parameters", function () {
+describe('Query - Negative', function () {
+    describe('invalid parameters', function () {
         var options = {};
         beforeEach(function () {
             mon.attach(options, ['query']);
         });
-        it("must report event correctly", function () {
+        it('must report event correctly', function () {
             expect(function () {
                 options.query();
-            }).toThrow("Invalid event 'query' redirect parameters.");
+            }).toThrow('Invalid event \'query\' redirect parameters.');
         });
         afterEach(function () {
             mon.detach();

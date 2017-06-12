@@ -1,14 +1,14 @@
 'use strict';
 
-var mon = require("../../lib");
+var mon = require('../../lib');
 
-describe("Transact - Positive", function () {
-    describe("start", function () {
+describe('Transact - Positive', function () {
+    describe('start', function () {
         var options = {}, info;
         var e = {
             ctx: {
                 start: new Date(),
-                tag: "test",
+                tag: 'test',
                 isTX: true
             }
         };
@@ -23,7 +23,7 @@ describe("Transact - Positive", function () {
 
             options.transact(e);
         });
-        it("must be successful", function () {
+        it('must be successful', function () {
             expect(info.text).toBe('tx(test)/start');
             expect('ctx' in info).toBe(true);
             expect(info.ctx.isTX).toBe(true);
@@ -34,7 +34,7 @@ describe("Transact - Positive", function () {
         });
     });
 
-    describe("finish", function () {
+    describe('finish', function () {
         var text, cb, options = {
             transact: function (e) {
                 cb = e;
@@ -44,7 +44,7 @@ describe("Transact - Positive", function () {
             ctx: {
                 start: new Date(),
                 finish: new Date(),
-                tag: "test"
+                tag: 'test'
             }
         };
         beforeEach(function () {
@@ -58,10 +58,10 @@ describe("Transact - Positive", function () {
 
             options.transact(e);
         });
-        it("must be successful", function () {
-            expect(text).toBe('tx(test)/end; duration: .000, success: false');
+        it('must be successful', function () {
+            expect(text).toContain('tx(test)/end; duration:');
         });
-        it("must call the old method", function () {
+        it('must call the old method', function () {
             expect(cb).toEqual(e);
         });
         afterEach(function () {
@@ -71,16 +71,16 @@ describe("Transact - Positive", function () {
     });
 });
 
-describe("Transact - Negative", function () {
-    describe("invalid parameters", function () {
+describe('Transact - Negative', function () {
+    describe('invalid parameters', function () {
         var options = {};
         beforeEach(function () {
             mon.attach(options, ['transact']);
         });
-        it("must report event correctly", function () {
+        it('must report event correctly', function () {
             expect(function () {
                 options.transact();
-            }).toThrow("Invalid event 'transact' redirect parameters.");
+            }).toThrow('Invalid event \'transact\' redirect parameters.');
         });
         afterEach(function () {
             mon.detach();

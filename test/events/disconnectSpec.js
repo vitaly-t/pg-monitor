@@ -1,15 +1,15 @@
 'use strict';
 
-var mon = require("../../lib");
+var mon = require('../../lib');
 
-describe("Disconnect - Positive", function () {
+describe('Disconnect - Positive', function () {
     var client = {
         connectionParameters: {
             user: 'guest',
             database: 'test'
         }
     };
-    describe("direct call", function () {
+    describe('direct call', function () {
         var options, text;
         beforeEach(function () {
             options = {}, text = null;
@@ -22,11 +22,11 @@ describe("Disconnect - Positive", function () {
             mon.setLog(log);
 
         });
-        it("must log detailed message", function () {
+        it('must log detailed message', function () {
             mon.disconnect(client);
             expect(text).toBe('disconnect(guest@test)');
         });
-        it("must log short message", function () {
+        it('must log short message', function () {
             mon.disconnect(client, 123, false);
             expect(text).toBe('disconnect');
         });
@@ -36,7 +36,7 @@ describe("Disconnect - Positive", function () {
         });
     });
 
-    describe("indirect call", function () {
+    describe('indirect call', function () {
         var options, text, ctx;
         beforeEach(function () {
             options = {
@@ -55,10 +55,10 @@ describe("Disconnect - Positive", function () {
 
             options.disconnect(client, 123);
         });
-        it("must log detailed message", function () {
+        it('must log detailed message', function () {
             expect(text).toBe('disconnect(guest@test)');
         });
-        it("must call the old method", function () {
+        it('must call the old method', function () {
             expect(ctx).toEqual(client);
         });
         afterEach(function () {
@@ -68,16 +68,16 @@ describe("Disconnect - Positive", function () {
     });
 });
 
-describe("Disconnect - Negative", function () {
-    describe("invalid parameters", function () {
+describe('Disconnect - Negative', function () {
+    describe('invalid parameters', function () {
         var options = {};
         beforeEach(function () {
             mon.attach(options, ['disconnect']);
         });
-        it("must report event correctly", function () {
+        it('must report event correctly', function () {
             expect(function () {
                 options.disconnect();
-            }).toThrow("Invalid event 'disconnect' redirect parameters.");
+            }).toThrow('Invalid event \'disconnect\' redirect parameters.');
         });
         afterEach(function () {
             mon.detach();

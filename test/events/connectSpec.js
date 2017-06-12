@@ -1,15 +1,15 @@
 'use strict';
 
-var mon = require("../../lib");
+var mon = require('../../lib');
 
-describe("Connect - Positive", function () {
+describe('Connect - Positive', function () {
     var client = {
         connectionParameters: {
             user: 'guest',
             database: 'test'
         }
     };
-    describe("direct call", function () {
+    describe('direct call', function () {
         var options, text;
         beforeEach(function () {
             options = {}, text = null;
@@ -21,11 +21,11 @@ describe("Connect - Positive", function () {
             };
             mon.setLog(log);
         });
-        it("must log detailed message", function () {
+        it('must log detailed message', function () {
             mon.connect(client, 123, true);
             expect(text).toBe('connect(guest@test)');
         });
-        it("must log short message", function () {
+        it('must log short message', function () {
             mon.connect(client, 123, true, false);
             expect(text).toBe('connect');
         });
@@ -35,7 +35,7 @@ describe("Connect - Positive", function () {
         });
     });
 
-    describe("indirect call", function () {
+    describe('indirect call', function () {
         var options, text, ctx;
         beforeEach(function () {
             options = {
@@ -53,10 +53,10 @@ describe("Connect - Positive", function () {
 
             options.connect(client, 123, false);
         });
-        it("must log detailed message", function () {
+        it('must log detailed message', function () {
             expect(text).toBe('connect(guest@test)');
         });
-        it("must call the old method", function () {
+        it('must call the old method', function () {
             expect(ctx).toEqual(client);
         });
         afterEach(function () {
@@ -66,17 +66,17 @@ describe("Connect - Positive", function () {
     });
 });
 
-describe("Connect - Negative", function () {
-    describe("invalid parameters", function () {
+describe('Connect - Negative', function () {
+    describe('invalid parameters', function () {
         var options = {};
         beforeEach(function () {
             mon.attach(options, ['connect']);
             mon.setDetailed(true);
         });
-        it("must report event correctly", function () {
+        it('must report event correctly', function () {
             expect(function () {
                 options.connect();
-            }).toThrow("Invalid event 'connect' redirect parameters.");
+            }).toThrow('Invalid event \'connect\' redirect parameters.');
         });
         afterEach(function () {
             mon.detach();
