@@ -1,21 +1,21 @@
 'use strict';
 
-var mon = require('../../lib');
+const mon = require('../../lib');
 
 describe('Error - Positive', function () {
     describe('within transaction', function () {
-        var context = {
+        const context = {
             query: 'hello',
             ctx: {
                 start: new Date(),
                 tag: 'test'
             }
         };
-        var options = {}, text = [];
+        const options = {}, text = [];
         beforeEach(function () {
             mon.attach(options, ['error']);
 
-            var log = function (msg, info) {
+            const log = function (msg, info) {
                 text.push(info.text);
                 info.display = false;
             };
@@ -33,14 +33,14 @@ describe('Error - Positive', function () {
         });
     });
     describe('inherited callback', function () {
-        var context = {
+        const context = {
             query: 'hello',
             params: [1, 2, 3],
             ctx: {
                 start: new Date()
             }
         };
-        var cb = {}, options = {
+        const cb = {}, options = {
             error: function (err, e) {
                 cb.err = err;
                 cb.e = e;
@@ -49,7 +49,7 @@ describe('Error - Positive', function () {
         beforeEach(function () {
             mon.attach(options, ['error']);
 
-            var log = function (msg, info) {
+            const log = function (msg, info) {
                 info.display = false;
             };
             mon.setLog(log);
@@ -67,14 +67,14 @@ describe('Error - Positive', function () {
     });
 
     describe('query not a string', function () {
-        var context = {
+        const context = {
             query: 123
         };
-        var options = {}, text = [];
+        const options = {}, text = [];
         beforeEach(function () {
             mon.attach(options, ['error']);
 
-            var log = function (msg, info) {
+            const log = function (msg, info) {
                 text.push(info.text);
                 info.display = false;
             };
@@ -92,14 +92,14 @@ describe('Error - Positive', function () {
     });
 
     describe('query is a prepared statement with params', function () {
-        var context = {
+        const context = {
             query: {name: 'test-name', text: 'text-text', values: [123]}
         };
-        var options = {}, text = [];
+        const options = {}, text = [];
         beforeEach(function () {
             mon.attach(options, ['error']);
 
-            var log = function (msg, info) {
+            const log = function (msg, info) {
                 text.push(info.text);
                 info.display = false;
             };
@@ -117,14 +117,14 @@ describe('Error - Positive', function () {
     });
 
     describe('query is a prepared statement without params', function () {
-        var context = {
+        const context = {
             query: {name: 'test-name', text: 'text-text'}
         };
-        var options = {}, text = [];
+        const options = {}, text = [];
         beforeEach(function () {
             mon.attach(options, ['error']);
 
-            var log = function (msg, info) {
+            const log = function (msg, info) {
                 text.push(info.text);
                 info.display = false;
             };
@@ -142,14 +142,14 @@ describe('Error - Positive', function () {
     });
 
     describe('connection', function () {
-        var context = {
+        const context = {
             cn: 123
         };
-        var options = {}, text = [];
+        const options = {}, text = [];
         beforeEach(function () {
             mon.attach(options, ['error']);
 
-            var log = function (msg, info) {
+            const log = function (msg, info) {
                 text.push(info.text);
                 info.display = false;
             };
@@ -169,7 +169,7 @@ describe('Error - Positive', function () {
 
 describe('Error - Negative', function () {
     describe('invalid parameters', function () {
-        var options = {};
+        const options = {};
         beforeEach(function () {
             mon.attach(options, ['error']);
         });

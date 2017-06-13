@@ -32,7 +32,7 @@ describe('Theme - Positive', function () {
 
 describe('Theme - Negative', function () {
     describe('invalid parameters', function () {
-        var error = 'Invalid theme parameter specified.';
+        const error = 'Invalid theme parameter specified.';
         it('must throw an error', function () {
             expect(function () {
                 mon.setTheme();

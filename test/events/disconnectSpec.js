@@ -38,7 +38,7 @@ describe('Disconnect - Positive', function () {
     });
 
     describe('indirect call', function () {
-        var options, text, ctx;
+        let options, text, ctx;
         beforeEach(function () {
             options = {
                 disconnect: function (c) {
@@ -48,7 +48,7 @@ describe('Disconnect - Positive', function () {
             text = null;
             mon.attach(options, ['disconnect']);
 
-            var log = function (msg, info) {
+            const log = function (msg, info) {
                 text = info.text;
                 info.display = false;
             };
@@ -71,7 +71,7 @@ describe('Disconnect - Positive', function () {
 
 describe('Disconnect - Negative', function () {
     describe('invalid parameters', function () {
-        var options = {};
+        const options = {};
         beforeEach(function () {
             mon.attach(options, ['disconnect']);
         });

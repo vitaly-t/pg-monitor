@@ -1,11 +1,11 @@
 'use strict';
 
-var mon = require('../../lib');
+const mon = require('../../lib');
 
 describe('Transact - Positive', function () {
     describe('start', function () {
-        var options = {}, info;
-        var e = {
+        let info;
+        const options = {}, e = {
             ctx: {
                 start: new Date(),
                 tag: 'test',
@@ -15,7 +15,7 @@ describe('Transact - Positive', function () {
         beforeEach(function () {
             mon.attach(options, ['transact']);
 
-            var log = function (msg, i) {
+            const log = function (msg, i) {
                 info = i;
                 i.display = false;
             };
@@ -35,12 +35,13 @@ describe('Transact - Positive', function () {
     });
 
     describe('finish', function () {
-        var text, cb, options = {
+        let text, cb;
+        const options = {
             transact: function (e) {
                 cb = e;
             }
         };
-        var e = {
+        const e = {
             ctx: {
                 start: new Date(),
                 finish: new Date(),
@@ -50,7 +51,7 @@ describe('Transact - Positive', function () {
         beforeEach(function () {
             mon.attach(options, ['transact']);
 
-            var log = function (msg, info) {
+            const log = function (msg, info) {
                 text = info.text;
                 info.display = false;
             };
@@ -73,7 +74,7 @@ describe('Transact - Positive', function () {
 
 describe('Transact - Negative', function () {
     describe('invalid parameters', function () {
-        var options = {};
+        const options = {};
         beforeEach(function () {
             mon.attach(options, ['transact']);
         });

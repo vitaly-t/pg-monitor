@@ -1,11 +1,11 @@
 'use strict';
 
-var mon = require('../../lib');
+const mon = require('../../lib');
 
 describe('Query - Positive', function () {
     describe('within transaction', function () {
-        var options = {}, text = [], params = [1, 2, 3];
-        var e = {
+        const options = {}, text = [], params = [1, 2, 3];
+        const e = {
             query: 'begin',
             params: params,
             ctx: {
@@ -16,7 +16,7 @@ describe('Query - Positive', function () {
         beforeEach(function () {
             mon.attach(options, ['query']);
 
-            var log = function (msg, info) {
+            const log = function (msg, info) {
                 text.push(info.text);
                 info.display = false;
             };
@@ -36,12 +36,13 @@ describe('Query - Positive', function () {
     });
 
     describe('prepared statement', function () {
-        var cb, text, params = [1, 2, 3], options = {
+        let cb, text;
+        const params = [1, 2, 3], options = {
             query: function (e) {
                 cb = e;
             }
         };
-        var e = {
+        const e = {
             query: {
                 name: 'queryName',
                 text: 'queryText',
@@ -54,7 +55,7 @@ describe('Query - Positive', function () {
         beforeEach(function () {
             mon.attach(options, ['query']);
 
-            var log = function (msg, info) {
+            const log = function (msg, info) {
                 text = info.text;
                 info.display = false;
             };
@@ -77,7 +78,7 @@ describe('Query - Positive', function () {
 
 describe('Query - Negative', function () {
     describe('invalid parameters', function () {
-        var options = {};
+        const options = {};
         beforeEach(function () {
             mon.attach(options, ['query']);
         });

@@ -3,14 +3,14 @@
 const mon = require('../../lib');
 
 describe('Connect - Positive', function () {
-    var client = {
+    const client = {
         connectionParameters: {
             user: 'guest',
             database: 'test'
         }
     };
     describe('direct call', function () {
-        var options, text;
+        let options, text;
         beforeEach(function () {
             options = {};
             text = null;
