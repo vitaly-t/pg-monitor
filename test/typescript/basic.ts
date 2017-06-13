@@ -1,6 +1,6 @@
 import * as pgMonitor from '../../typescript/pg-monitor';
 
-var options = {};
+const options = {};
 
 pgMonitor.attach(options, ['query'], true);
 

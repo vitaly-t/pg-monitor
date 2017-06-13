@@ -1,21 +1,22 @@
 'use strict';
 
-var mon = require('../../lib');
+const mon = require('../../lib');
 
 describe('Disconnect - Positive', function () {
-    var client = {
+    const client = {
         connectionParameters: {
             user: 'guest',
             database: 'test'
         }
     };
     describe('direct call', function () {
-        var options, text;
+        let options, text;
         beforeEach(function () {
-            options = {}, text = null;
+            options = {};
+            text = null;
             mon.attach(options, ['disconnect']);
 
-            var log = function (msg, info) {
+            const log = function (msg, info) {
                 text = info.text;
                 info.display = false;
             };

@@ -1,11 +1,11 @@
 'use strict';
 
-var mon = require('../lib');
+const mon = require('../lib');
 
 describe('Attach - Positive', function () {
 
     describe('without override', function () {
-        var options = {};
+        const options = {};
         beforeEach(function () {
             mon.attach(options);
         });
@@ -23,7 +23,7 @@ describe('Attach - Positive', function () {
     });
 
     describe('select events', function () {
-        var options = {};
+        const options = {};
         beforeEach(function () {
             mon.attach(options, ['query', 'task']);
         });
@@ -41,11 +41,11 @@ describe('Attach - Positive', function () {
     });
 
     describe('restoring all options', function () {
-        var opt1 = {
+        const opt1 = {
             connect: 123,
             disconnect: undefined
         };
-        var opt2 = {
+        const opt2 = {
             connect: 123,
             disconnect: undefined
         };
@@ -57,11 +57,11 @@ describe('Attach - Positive', function () {
     });
 
     describe('restoring one option', function () {
-        var opt1 = {
+        const opt1 = {
             connect: 123,
             disconnect: undefined
         };
-        var opt2 = {
+        const opt2 = {
             connect: 123,
             disconnect: undefined
         };
@@ -89,7 +89,7 @@ describe('Attach - Negative', function () {
     });
 
     describe('repeated attachment', function () {
-        var options = {};
+        const options = {};
         beforeEach(function () {
             mon.attach(options);
         });

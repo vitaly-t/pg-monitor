@@ -1,6 +1,6 @@
 'use strict';
 
-var mon = require('../../lib');
+const mon = require('../../lib');
 
 describe('Connect - Positive', function () {
     var client = {
@@ -12,10 +12,11 @@ describe('Connect - Positive', function () {
     describe('direct call', function () {
         var options, text;
         beforeEach(function () {
-            options = {}, text = null;
+            options = {};
+            text = null;
             mon.attach(options, ['connect']);
 
-            var log = function (msg, info) {
+            const log = function (msg, info) {
                 text = info.text;
                 info.display = false;
             };
@@ -36,7 +37,7 @@ describe('Connect - Positive', function () {
     });
 
     describe('indirect call', function () {
-        var options, text, ctx;
+        let options, text, ctx;
         beforeEach(function () {
             options = {
                 connect: function (c) {
@@ -45,7 +46,7 @@ describe('Connect - Positive', function () {
             };
             text = null;
             mon.attach(options, ['connect']);
-            var log = function (msg, info) {
+            const log = function (msg, info) {
                 text = info.text;
                 info.display = false;
             };
@@ -68,7 +69,7 @@ describe('Connect - Positive', function () {
 
 describe('Connect - Negative', function () {
     describe('invalid parameters', function () {
-        var options = {};
+        const options = {};
         beforeEach(function () {
             mon.attach(options, ['connect']);
             mon.setDetailed(true);

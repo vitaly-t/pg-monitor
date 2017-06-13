@@ -9,9 +9,9 @@ Typescript should be able to pick up the definitions without any manual configur
 ### Usage
 
 ```ts
-import * as pgMonitor from "pg-monitor";
+import * as pgMonitor from 'pg-monitor';
 
-var pgOptions = {
+const pgOptions = {
     // Initialization Options object that's used for initializing pg-promise
 };
 

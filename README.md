@@ -75,9 +75,9 @@ $ npm run coverage
 # Usage
 
 ```js
-var monitor = require("pg-monitor");
+const monitor = require('pg-monitor');
 
-var options = {
+const options = {
     // your pg-promise initialization options;
 };
 
@@ -92,13 +92,13 @@ If, however, you want to have full control over event handling, you can use the 
 Example of forwarding events [query](https://github.com/vitaly-t/pg-promise#query) and [error](https://github.com/vitaly-t/pg-promise#error) manually:
 
 ```js
-var options = {
-    query: function (e) {
+const options = {
+    query: e => {
         /* do some of your own processing, if needed */
 
         monitor.query(e); // monitor the event;
     },
-    error: function (err, e) {
+    error: (err, e) => {
         /* do some of your own processing, if needed */
         
         monitor.error(err, e); // monitor the event;
@@ -115,7 +115,7 @@ See the API below for all the methods and options that you have.
 
 Adds event handlers to object `options` that's used during [pg-promise initialization](https://github.com/vitaly-t/pg-promise#initializing):
 ```js
-var pgp = pgpLib(options);
+const pgp = pgpLib(options);
 ```
 
 A repeated call (without calling [detach] first) will throw `Repeated attachments not supported, must call detach first.`
@@ -126,6 +126,7 @@ Optional array of event names to which to attach. Passing `null`/`undefined` wil
 to all known events.
 
 Example of attaching to just events `query` and `error`:
+
 ```js
 monitor.attach(options, ['query', 'error']);
 ```
@@ -266,10 +267,9 @@ For details, see [Color Themes](https://github.com/vitaly-t/pg-monitor/wiki/Colo
 This event is to let your application provide your own log for everything that appears on the screen.
 
 ```js
-var log = function(msg, info) {
+monitor.setLog((msg, info) => {
     // save the screen message into your own log;
-};
-monitor.setLog(log);
+});
 ```
 
 The notification occurs for every single line of text that appears on the screen, so you can
@@ -312,10 +312,10 @@ so you can easily see in which task/transaction context queries are executed.
 Tagging a task or transaction with [pg-promise] is very easy, by taking this code:
  
 ```js
-db.task(function (t) {
+db.task(t => {
     // task queries; 
 });
-db.tx(function (t) {
+db.tx(t => {
     // transaction queries; 
 });
 ```
@@ -323,10 +323,10 @@ db.tx(function (t) {
 and replacing it with this one:
 
 ```js
-db.task(tag, function (t) {
+db.task(tag, t => {
     // task queries; 
 });
-db.tx(tag, function (t) {
+db.tx(tag, t => {
     // transaction queries; 
 });
 ```
@@ -334,10 +334,10 @@ where `tag` is any object or value. In most cases you would want `tag` to be jus
 a string that represents the task/transaction name, like this:
 
 ```js
-db.task('MyTask', function (t) {
+db.task('MyTask', t => {
     // task queries; 
 });
-db.tx('MyTransaction', function (t) {
+db.tx('MyTransaction', t => {
     // transaction queries; 
 });
 ```

@@ -1,6 +1,6 @@
 'use strict';
 
-var mon = require('../lib');
+const mon = require('../lib');
 
 function dummy() {
 }
