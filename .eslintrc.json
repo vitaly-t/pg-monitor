@@ -6,7 +6,6 @@
   },
   "extends": "eslint:recommended",
   "parserOptions": {
-    "sourceType": "module"
   },
   "rules": {
     "no-else-return": "error",
@@ -14,8 +13,16 @@
     "no-whitespace-before-property": "error",
     "camelcase": "error",
     "new-cap": "error",
-    "no-console": 0,
+    "no-console": "error",
     "comma-dangle": "error",
+    "no-var": "error",
+    "indent": [
+      "error",
+      4,
+      {
+        "SwitchCase": 1
+      }
+    ],
     "quotes": [
       "error",
       "single"
