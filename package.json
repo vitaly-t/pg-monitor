@@ -37,13 +37,13 @@
     "npm": ">=2.15"
   },
   "dependencies": {
-    "cli-color": "^1.2.0"
+    "cli-color": "~1.2.0"
   },
   "devDependencies": {
-    "coveralls": "2.11",
-    "eslint": "^4.1.1",
-    "istanbul": "0.4",
-    "jasmine-node": "1.x",
-    "typescript": "^2.4.1"
+    "coveralls": "~3.0.0",
+    "eslint": "~4.8.0",
+    "istanbul": "~0.4.5",
+    "jasmine-node": "~1.14.5",
+    "typescript": "~2.5.3"
   }
 }
