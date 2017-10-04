@@ -93,12 +93,12 @@ Example of forwarding events [query](https://github.com/vitaly-t/pg-promise#quer
 
 ```js
 const options = {
-    query: e => {
+    query(e) {
         /* do some of your own processing, if needed */
 
         monitor.query(e); // monitor the event;
     },
-    error: (err, e) => {
+    error(err, e) {
         /* do some of your own processing, if needed */
         
         monitor.error(err, e); // monitor the event;
