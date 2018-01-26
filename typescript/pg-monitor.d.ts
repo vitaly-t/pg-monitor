@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-// Requires pg-monitor v0.8.0 or later.
+// Requires pg-monitor v0.8.5 or later.
 ////////////////////////////////////////
 
 // Event context extension for tasks + transactions;
@@ -40,10 +40,10 @@ interface IEventInfo {
     ctx?: ITaskContext
 }
 
-export function attach(options: Object, events?: Array<string>, override?: boolean): void
+export function attach(options: object, events?: Array<string>, override?: boolean): void
 
 export function attach(options: {
-    options: Object,
+    options: object,
     events?: Array<string>,
     override?: boolean
 }): void
@@ -58,14 +58,14 @@ export var detailed: boolean;
 
 export function setDetailed(value: boolean): void
 
-export function connect(client: Object, dc: any, fresh: boolean, detailed?: boolean): void
+export function connect(client: object, dc: any, fresh: boolean, detailed?: boolean): void
 
-export function disconnect(client: Object, dc: any, detailed?: boolean): void
+export function disconnect(client: object, dc: any, detailed?: boolean): void
 
-export function query(e: Object, detailed?: boolean): void
+export function query(e: object, detailed?: boolean): void
 
-export function task(e: Object): void
+export function task(e: object): void
 
-export function transact(e: Object): void
+export function transact(e: object): void
 
-export function error(err: any, e: Object, detailed?: boolean): void
+export function error(err: any, e: object, detailed?: boolean): void
