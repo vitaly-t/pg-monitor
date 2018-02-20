@@ -14,7 +14,8 @@ Events monitor for [pg-promise].
 * [Usage](#usage)
 * [API](#api)
   - [attach](#attachoptions-events-override)
-  - [detach](#detach)  
+  - [isAttached](#is-attached)
+  - [detach](#detach)
   - [connect](#connectclient-detailed)
   - [disconnect](#disconnectclient-detailed)
   - [query](#querye-detailed)
@@ -147,6 +148,10 @@ Example of overriding all known event handlers:
 ```js
 monitor.attach({options: options, override: true});
 ```
+
+## isAttached()
+
+Verifies if the monitor is currently attached, and returns a boolean.
 
 ## detach()
 

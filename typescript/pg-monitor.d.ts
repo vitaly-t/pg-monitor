@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-// Requires pg-monitor v0.8.5 or later.
+// Requires pg-monitor v0.9.0 or later.
 ////////////////////////////////////////
 
 // Event context extension for tasks + transactions;
@@ -49,6 +49,8 @@ export function attach(options: {
 }): void
 
 export function detach(): void;
+
+export function isAttached(): boolean;
 
 export function setTheme(theme: string | IColorTheme): void
 
