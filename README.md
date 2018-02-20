@@ -14,7 +14,7 @@ Events monitor for [pg-promise].
 * [Usage](#usage)
 * [API](#api)
   - [attach](#attachoptions-events-override)
-  - [isAttached](#is-attached)
+  - [isAttached](#isattached)
   - [detach](#detach)
   - [connect](#connectclient-detailed)
   - [disconnect](#disconnectclient-detailed)
@@ -29,16 +29,15 @@ Events monitor for [pg-promise].
 * [Useful Tips](#useful-tips)
  
 # About
-   
-   This library takes the flexible event system provided by [pg-promise]
-   and outputs it on screen, with full details available, and in the most informative way.
+
+This library takes the flexible event system provided by [pg-promise] and outputs it on screen,
+with full details available, and in the most informative way.
     
-   Its purpose is to give you the full picture of how the database is used in your application,
-   providing full details with the context, such as tasks and transactions in which
-   queries are executed.
+Its purpose is to give you the full picture of how the database is used in your application,
+providing full details with the context, such as tasks and transactions in which queries are executed.
    
-   In addition, it simplifies [events logging](#log) for your application.
-      
+In addition, it simplifies [events logging](#log) for your application.
+
 # Installing
 
 ```
