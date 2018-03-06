@@ -45,7 +45,7 @@ describe('Transact - Positive', () => {
             ctx: {
                 start: new Date(),
                 finish: new Date(),
-                tag: 'test'
+                tag: 123
             }
         };
         beforeEach(() => {
@@ -60,7 +60,7 @@ describe('Transact - Positive', () => {
             options.transact(e);
         });
         it('must be successful', () => {
-            expect(text).toContain('tx(test)/end; duration:');
+            expect(text).toContain('tx(123)/end; duration:');
         });
         it('must call the old method', () => {
             expect(cb).toEqual(e);
