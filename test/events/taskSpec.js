@@ -2,9 +2,9 @@
 
 const mon = require('../../lib');
 
-describe('Task - Positive', function () {
+describe('Task - Positive', () => {
 
-    describe('start', function () {
+    describe('start', () => {
         const options = {};
         let info;
         const e = {
@@ -14,30 +14,30 @@ describe('Task - Positive', function () {
                 isTX: false
             }
         };
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['task']);
-            const log = function (msg, i) {
+            const log = (msg, i) => {
                 info = i;
                 i.display = false;
             };
             mon.setLog(log);
             options.task(e);
         });
-        it('must be successful', function () {
+        it('must be successful', () => {
             expect(info.text).toBe('task(test)/start');
             expect('ctx' in info).toBe(true);
             expect(info.ctx.isTX).toBe(false);
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
     });
 
-    describe('finish', function () {
+    describe('finish', () => {
         let text, cb;
         const options = {
-            task: function (e) {
+            task: e => {
                 cb = e;
             }
         };
@@ -46,16 +46,16 @@ describe('Task - Positive', function () {
                 start: dt,
                 finish: new Date(dt.getTime() + 12345678),
                 tag: {
-                    toString: function () {
+                    toString: () => {
                         return 'test';
                     }
                 }
             }
         };
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['task']);
 
-            const log = function (msg, info) {
+            const log = (msg, info) => {
                 text = info.text;
                 info.display = false;
             };
@@ -63,13 +63,13 @@ describe('Task - Positive', function () {
 
             options.task(e);
         });
-        it('must be successful', function () {
+        it('must be successful', () => {
             expect(text).toBe('task(test)/end; duration: 03:25:45.678, success: false');
         });
-        it('must call the old method', function () {
+        it('must call the old method', () => {
             expect(cb).toEqual(e);
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
@@ -77,18 +77,18 @@ describe('Task - Positive', function () {
 
 });
 
-describe('Task - Negative', function () {
-    describe('invalid parameters', function () {
+describe('Task - Negative', () => {
+    describe('invalid parameters', () => {
         const options = {};
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['task']);
         });
-        it('must report event correctly', function () {
-            expect(function () {
+        it('must report event correctly', () => {
+            expect(() => {
                 options.task();
             }).toThrow('Invalid event \'task\' redirect parameters.');
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
         });
     });

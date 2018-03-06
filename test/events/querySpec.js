@@ -2,8 +2,8 @@
 
 const mon = require('../../lib');
 
-describe('Query - Positive', function () {
-    describe('within transaction', function () {
+describe('Query - Positive', () => {
+    describe('within transaction', () => {
         const options = {}, text = [], params = [1, 2, 3];
         const e = {
             query: 'begin',
@@ -13,10 +13,10 @@ describe('Query - Positive', function () {
                 tag: 'test'
             }
         };
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['query']);
 
-            const log = function (msg, info) {
+            const log = (msg, info) => {
                 text.push(info.text);
                 info.display = false;
             };
@@ -24,21 +24,21 @@ describe('Query - Positive', function () {
 
             options.query(e);
         });
-        it('must be successful', function () {
+        it('must be successful', () => {
             expect(text && text.length === 2).toBeTruthy();
             expect(text[0]).toBe('task(test): begin');
             expect(text[1]).toBe('params: [1,2,3]');
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
     });
 
-    describe('prepared statement', function () {
+    describe('prepared statement', () => {
         let cb, text;
         const params = [1, 2, 3], options = {
-            query: function (e) {
+            query: e => {
                 cb = e;
             }
         };
@@ -52,10 +52,10 @@ describe('Query - Positive', function () {
                 start: new Date()
             }
         };
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['query']);
 
-            const log = function (msg, info) {
+            const log = (msg, info) => {
                 text = info.text;
                 info.display = false;
             };
@@ -63,31 +63,31 @@ describe('Query - Positive', function () {
 
             options.query(e);
         });
-        it('must be successful', function () {
+        it('must be successful', () => {
             expect(text).toEqual('task: name="queryName", text="queryText", values=1,2,3');
         });
-        it('must call the old method', function () {
+        it('must call the old method', () => {
             expect(cb).toEqual(e);
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
     });
 });
 
-describe('Query - Negative', function () {
-    describe('invalid parameters', function () {
+describe('Query - Negative', () => {
+    describe('invalid parameters', () => {
         const options = {};
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['query']);
         });
-        it('must report event correctly', function () {
-            expect(function () {
+        it('must report event correctly', () => {
+            expect(() => {
                 options.query();
             }).toThrow('Invalid event \'query\' redirect parameters.');
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
         });
     });

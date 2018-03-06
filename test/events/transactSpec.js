@@ -2,8 +2,8 @@
 
 const mon = require('../../lib');
 
-describe('Transact - Positive', function () {
-    describe('start', function () {
+describe('Transact - Positive', () => {
+    describe('start', () => {
         let info;
         const options = {}, e = {
             ctx: {
@@ -12,10 +12,10 @@ describe('Transact - Positive', function () {
                 isTX: true
             }
         };
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['transact']);
 
-            const log = function (msg, i) {
+            const log = (msg, i) => {
                 info = i;
                 i.display = false;
             };
@@ -23,21 +23,21 @@ describe('Transact - Positive', function () {
 
             options.transact(e);
         });
-        it('must be successful', function () {
+        it('must be successful', () => {
             expect(info.text).toBe('tx(test)/start');
             expect('ctx' in info).toBe(true);
             expect(info.ctx.isTX).toBe(true);
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
     });
 
-    describe('finish', function () {
+    describe('finish', () => {
         let text, cb;
         const options = {
-            transact: function (e) {
+            transact: e => {
                 cb = e;
             }
         };
@@ -48,10 +48,10 @@ describe('Transact - Positive', function () {
                 tag: 'test'
             }
         };
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['transact']);
 
-            const log = function (msg, info) {
+            const log = (msg, info) => {
                 text = info.text;
                 info.display = false;
             };
@@ -59,31 +59,31 @@ describe('Transact - Positive', function () {
 
             options.transact(e);
         });
-        it('must be successful', function () {
+        it('must be successful', () => {
             expect(text).toContain('tx(test)/end; duration:');
         });
-        it('must call the old method', function () {
+        it('must call the old method', () => {
             expect(cb).toEqual(e);
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
     });
 });
 
-describe('Transact - Negative', function () {
-    describe('invalid parameters', function () {
+describe('Transact - Negative', () => {
+    describe('invalid parameters', () => {
         const options = {};
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['transact']);
         });
-        it('must report event correctly', function () {
-            expect(function () {
+        it('must report event correctly', () => {
+            expect(() => {
                 options.transact();
             }).toThrow('Invalid event \'transact\' redirect parameters.');
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
         });
     });

@@ -2,53 +2,53 @@
 
 const mon = require('../../lib');
 
-describe('Disconnect - Positive', function () {
+describe('Disconnect - Positive', () => {
     const client = {
         connectionParameters: {
             user: 'guest',
             database: 'test'
         }
     };
-    describe('direct call', function () {
+    describe('direct call', () => {
         let options, text;
-        beforeEach(function () {
+        beforeEach(() => {
             options = {};
             text = null;
             mon.attach(options, ['disconnect']);
 
-            const log = function (msg, info) {
+            const log = (msg, info) => {
                 text = info.text;
                 info.display = false;
             };
             mon.setLog(log);
 
         });
-        it('must log detailed message', function () {
+        it('must log detailed message', () => {
             mon.disconnect(client);
             expect(text).toBe('disconnect(guest@test)');
         });
-        it('must log short message', function () {
+        it('must log short message', () => {
             mon.disconnect(client, 123, false);
             expect(text).toBe('disconnect');
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
     });
 
-    describe('indirect call', function () {
+    describe('indirect call', () => {
         let options, text, ctx;
-        beforeEach(function () {
+        beforeEach(() => {
             options = {
-                disconnect: function (c) {
+                disconnect: c => {
                     ctx = c;
                 }
             };
             text = null;
             mon.attach(options, ['disconnect']);
 
-            const log = function (msg, info) {
+            const log = (msg, info) => {
                 text = info.text;
                 info.display = false;
             };
@@ -56,31 +56,31 @@ describe('Disconnect - Positive', function () {
 
             options.disconnect(client, 123);
         });
-        it('must log detailed message', function () {
+        it('must log detailed message', () => {
             expect(text).toBe('disconnect(guest@test)');
         });
-        it('must call the old method', function () {
+        it('must call the old method', () => {
             expect(ctx).toEqual(client);
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
     });
 });
 
-describe('Disconnect - Negative', function () {
-    describe('invalid parameters', function () {
+describe('Disconnect - Negative', () => {
+    describe('invalid parameters', () => {
         const options = {};
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['disconnect']);
         });
-        it('must report event correctly', function () {
-            expect(function () {
+        it('must report event correctly', () => {
+            expect(() => {
                 options.disconnect();
             }).toThrow('Invalid event \'disconnect\' redirect parameters.');
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
         });
     });

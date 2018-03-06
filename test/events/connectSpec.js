@@ -2,51 +2,51 @@
 
 const mon = require('../../lib');
 
-describe('Connect - Positive', function () {
+describe('Connect - Positive', () => {
     const client = {
         connectionParameters: {
             user: 'guest',
             database: 'test'
         }
     };
-    describe('direct call', function () {
+    describe('direct call', () => {
         let options, text;
-        beforeEach(function () {
+        beforeEach(() => {
             options = {};
             text = null;
             mon.attach(options, ['connect']);
 
-            const log = function (msg, info) {
+            const log = (msg, info) => {
                 text = info.text;
                 info.display = false;
             };
             mon.setLog(log);
         });
-        it('must log detailed message', function () {
+        it('must log detailed message', () => {
             mon.connect(client, 123, true);
             expect(text).toBe('connect(guest@test)');
         });
-        it('must log short message', function () {
+        it('must log short message', () => {
             mon.connect(client, 123, true, false);
             expect(text).toBe('connect');
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
     });
 
-    describe('indirect call', function () {
+    describe('indirect call', () => {
         let options, text, ctx;
-        beforeEach(function () {
+        beforeEach(() => {
             options = {
-                connect: function (c) {
+                connect: c => {
                     ctx = c;
                 }
             };
             text = null;
             mon.attach(options, ['connect']);
-            const log = function (msg, info) {
+            const log = (msg, info) => {
                 text = info.text;
                 info.display = false;
             };
@@ -54,32 +54,32 @@ describe('Connect - Positive', function () {
 
             options.connect(client, 123, false);
         });
-        it('must log detailed message', function () {
+        it('must log detailed message', () => {
             expect(text).toBe('connect(guest@test)');
         });
-        it('must call the old method', function () {
+        it('must call the old method', () => {
             expect(ctx).toEqual(client);
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
     });
 });
 
-describe('Connect - Negative', function () {
-    describe('invalid parameters', function () {
+describe('Connect - Negative', () => {
+    describe('invalid parameters', () => {
         const options = {};
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['connect']);
             mon.setDetailed(true);
         });
-        it('must report event correctly', function () {
-            expect(function () {
+        it('must report event correctly', () => {
+            expect(() => {
                 options.connect();
             }).toThrow('Invalid event \'connect\' redirect parameters.');
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
         });
     });

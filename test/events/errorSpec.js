@@ -2,8 +2,8 @@
 
 const mon = require('../../lib');
 
-describe('Error - Positive', function () {
-    describe('within transaction', function () {
+describe('Error - Positive', () => {
+    describe('within transaction', () => {
         const context = {
             query: 'hello',
             ctx: {
@@ -12,10 +12,10 @@ describe('Error - Positive', function () {
             }
         };
         const options = {}, text = [];
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['error']);
 
-            const log = function (msg, info) {
+            const log = (msg, info) => {
                 text.push(info.text);
                 info.display = false;
             };
@@ -23,16 +23,16 @@ describe('Error - Positive', function () {
 
             options.error('errMsg', context);
         });
-        it('must be successful', function () {
+        it('must be successful', () => {
             expect(text && text.length === 2).toBeTruthy();
             expect(text).toEqual(['error: errMsg', 'task(test): hello']);
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
     });
-    describe('inherited callback', function () {
+    describe('inherited callback', () => {
         const context = {
             query: 'hello',
             params: [1, 2, 3],
@@ -46,35 +46,35 @@ describe('Error - Positive', function () {
                 cb.e = e;
             }
         };
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['error']);
 
-            const log = function (msg, info) {
+            const log = (msg, info) => {
                 info.display = false;
             };
             mon.setLog(log);
 
             options.error('errMsg', context);
         });
-        it('must call the old method', function () {
+        it('must call the old method', () => {
             expect(cb.err).toBe('errMsg');
             expect(cb.e).toEqual(context);
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
     });
 
-    describe('query not a string', function () {
+    describe('query not a string', () => {
         const context = {
             query: 123
         };
         const options = {}, text = [];
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['error']);
 
-            const log = function (msg, info) {
+            const log = (msg, info) => {
                 text.push(info.text);
                 info.display = false;
             };
@@ -82,24 +82,24 @@ describe('Error - Positive', function () {
 
             options.error('errMsg', context);
         });
-        it('must parse the value', function () {
+        it('must parse the value', () => {
             expect(text).toEqual(['error: errMsg', 'query: 123']);
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
     });
 
-    describe('query is a prepared statement with params', function () {
+    describe('query is a prepared statement with params', () => {
         const context = {
             query: {name: 'test-name', text: 'text-text', values: [123]}
         };
         const options = {}, text = [];
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['error']);
 
-            const log = function (msg, info) {
+            const log = (msg, info) => {
                 text.push(info.text);
                 info.display = false;
             };
@@ -107,24 +107,24 @@ describe('Error - Positive', function () {
 
             options.error('errMsg', context);
         });
-        it('must parse the value', function () {
+        it('must parse the value', () => {
             expect(text).toEqual(['error: errMsg', 'query: {"name":"test-name","text":"text-text","values":[123]}']);
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
     });
 
-    describe('query is a prepared statement without params', function () {
+    describe('query is a prepared statement without params', () => {
         const context = {
             query: {name: 'test-name', text: 'text-text'}
         };
         const options = {}, text = [];
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['error']);
 
-            const log = function (msg, info) {
+            const log = (msg, info) => {
                 text.push(info.text);
                 info.display = false;
             };
@@ -132,24 +132,24 @@ describe('Error - Positive', function () {
 
             options.error('errMsg', context);
         });
-        it('must parse the value', function () {
+        it('must parse the value', () => {
             expect(text).toEqual(['error: errMsg', 'query: {"name":"test-name","text":"text-text"}']);
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
     });
 
-    describe('connection', function () {
+    describe('connection', () => {
         const context = {
             cn: 123
         };
         const options = {}, text = [];
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['error']);
 
-            const log = function (msg, info) {
+            const log = (msg, info) => {
                 text.push(info.text);
                 info.display = false;
             };
@@ -157,28 +157,28 @@ describe('Error - Positive', function () {
 
             options.error('errMsg', context);
         });
-        it('must parse the value', function () {
+        it('must parse the value', () => {
             expect(text).toEqual(['error: errMsg', 'connection: 123']);
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
             mon.setLog(null);
         });
     });
 });
 
-describe('Error - Negative', function () {
-    describe('invalid parameters', function () {
+describe('Error - Negative', () => {
+    describe('invalid parameters', () => {
         const options = {};
-        beforeEach(function () {
+        beforeEach(() => {
             mon.attach(options, ['error']);
         });
-        it('must report event correctly', function () {
-            expect(function () {
+        it('must report event correctly', () => {
+            expect(() => {
                 options.error();
             }).toThrow('Invalid event \'error\' redirect parameters.');
         });
-        afterEach(function () {
+        afterEach(() => {
             mon.detach();
         });
     });

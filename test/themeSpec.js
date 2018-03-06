@@ -2,12 +2,12 @@
 
 const mon = require('../lib');
 
-function dummy() {
-}
+const dummy = () => {
+};
 
-describe('Theme - Positive', function () {
-    describe('valid customization', function () {
-        it('must be successful', function () {
+describe('Theme - Positive', () => {
+    describe('valid customization', () => {
+        it('must be successful', () => {
             expect(
                 mon.setTheme({
                     time: dummy,
@@ -23,42 +23,42 @@ describe('Theme - Positive', function () {
             ).toBeUndefined();
         });
     });
-    describe('valid theme name', function () {
-        it('must be successful', function () {
+    describe('valid theme name', () => {
+        it('must be successful', () => {
             expect(mon.setTheme('matrix')).toBeUndefined();
         });
     });
 });
 
-describe('Theme - Negative', function () {
-    describe('invalid parameters', function () {
+describe('Theme - Negative', () => {
+    describe('invalid parameters', () => {
         const error = 'Invalid theme parameter specified.';
-        it('must throw an error', function () {
-            expect(function () {
+        it('must throw an error', () => {
+            expect(() => {
                 mon.setTheme();
             }).toThrow(error);
-            expect(function () {
+            expect(() => {
                 mon.setTheme(123);
             }).toThrow(error);
         });
     });
-    describe('non-existing theme', function () {
-        it('must throw an error', function () {
-            expect(function () {
+    describe('non-existing theme', () => {
+        it('must throw an error', () => {
+            expect(() => {
                 mon.setTheme('unknown');
             }).toThrow('Theme \'unknown\' does not exist.');
         });
     });
-    describe('missing attributes', function () {
-        it('must throw an error', function () {
-            expect(function () {
+    describe('missing attributes', () => {
+        it('must throw an error', () => {
+            expect(() => {
                 mon.setTheme({});
             }).toThrow('Invalid theme: property \'time\' is missing.');
         });
     });
-    describe('invalid attribute value', function () {
-        it('must throw an error', function () {
-            expect(function () {
+    describe('invalid attribute value', () => {
+        it('must throw an error', () => {
+            expect(() => {
                 mon.setTheme({
                     time: null
                 });
