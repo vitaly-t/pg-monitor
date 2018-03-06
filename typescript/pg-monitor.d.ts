@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-// Requires pg-monitor v0.9.0 or later.
+// Requires pg-monitor v0.9.1 or later.
 ////////////////////////////////////////
 
 // Event context extension for tasks + transactions;
@@ -40,6 +40,8 @@ interface IEventInfo {
     ctx?: ITaskContext
 }
 
+type ThemeName = 'dimmed' | 'bright' | 'monochrome' | 'minimalist' | 'matrix' | 'invertedMonochrome';
+
 export function attach(options: object, events?: Array<string>, override?: boolean): void
 
 export function attach(options: {
@@ -52,7 +54,7 @@ export function detach(): void;
 
 export function isAttached(): boolean;
 
-export function setTheme(theme: string | IColorTheme): void
+export function setTheme(theme: ThemeName | IColorTheme): void
 
 export function setLog(log: Function): void
 

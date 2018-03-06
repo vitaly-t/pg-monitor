@@ -12,13 +12,15 @@ pgMonitor.attach({
 
 pgMonitor.detach();
 
-let log = function(msg: string, info: pgMonitor.IEventInfo) {
+const log = function (msg: string, info: pgMonitor.IEventInfo) {
     console.log('Custom log: ', msg, info);
 };
 
 pgMonitor.setLog(log);
 
-pgMonitor.setTheme('matrix');
+const theme = 'matrix';
+
+pgMonitor.setTheme(theme);
 
 pgMonitor.setTheme({
     time: null,
