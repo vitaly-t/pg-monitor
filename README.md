@@ -89,7 +89,7 @@ by attaching to a set of events automatically.
 
 If, however, you want to have full control over event handling, you can use the manual event forwarding.
 
-Example of forwarding events [query](https://github.com/vitaly-t/pg-promise#query) and [error](https://github.com/vitaly-t/pg-promise#error) manually:
+Example of forwarding events [query] and [error] manually:
 
 ```js
 const options = {
@@ -113,7 +113,7 @@ See the API below for all the methods and options that you have.
 ## attach(options, [events], [override])
 **Alternative Syntax:** `attach({options, events, override});` 
 
-Adds event handlers to object `options` that's used during [pg-promise initialization](https://github.com/vitaly-t/pg-promise#initializing):
+Adds event handlers to object `options` that's used during [pg-promise initialization]:
 ```js
 const pgp = pgpLib(options);
 ```
@@ -133,7 +133,7 @@ monitor.attach(options, ['query', 'error']);
 
 Query-related events supported by pg-promise: `connect`, `disconnect`, `query`, `task`, `transact` and `error`.
 
-See also: [Initialization Options](https://github.com/vitaly-t/pg-promise#initialization-options).
+See also: [Initialization Options].
 
 #### [override]
 
@@ -182,7 +182,7 @@ When not set, it defaults to the value of [monitor.detailed].
 
 ## disconnect(client, dc, [detailed])
 
-Monitors and reports event [disconnect](http://vitaly-t.github.io/pg-promise/global.html#event:disconnect).
+Monitors and reports event [disconnect].
 
 #### client
 
@@ -200,7 +200,7 @@ When not set, it defaults to the value of [monitor.detailed].
 
 ## query(e, [detailed])
 
-Monitors and reports event [query](http://vitaly-t.github.io/pg-promise/global.html#event:query).
+Monitors and reports event [query].
 
 #### e
 
@@ -214,7 +214,7 @@ When not set, it defaults to the value of [monitor.detailed].
 
 ## task(e)
 
-Monitors and reports event [task](http://vitaly-t.github.io/pg-promise/global.html#event:task).
+Monitors and reports event [task].
 
 #### e
 
@@ -222,7 +222,7 @@ Event context object.
 
 ## transact(e)
 
-Monitors and reports event [transact](http://vitaly-t.github.io/pg-promise/global.html#event:transact).
+Monitors and reports event [transact].
 
 #### e
 
@@ -230,7 +230,7 @@ Event context object.
 
 ## error(err, e, [detailed])
 
-Monitors and reports event [error](http://vitaly-t.github.io/pg-promise/global.html#event:error).
+Monitors and reports event [error].
 
 #### err
 
@@ -291,7 +291,7 @@ Object with additional information about the event:
 the event's context details;
 * `text` - message text without the time in front (color attributes removed);
 * `event` - name of the event being logged.
-* `ctx` - Optional, [task/transaction context](http://vitaly-t.github.io/pg-promise/Task.html#.ctx) when available.
+* `ctx` - Optional, [task/transaction context] when available.
 
 If your intent is only to log events, while suppressing any screen output, you can
 do so on per-event basis, as shown below:
@@ -353,6 +353,14 @@ that returns the tag name.
 
 [pg-promise]:https://github.com/vitaly-t/pg-promise
 [monitor.detailed]:https://github.com/vitaly-t/pg-monitor#detailed-4
-[Client]:https://github.com/brianc/node-postgres/blob/master/lib/client.js#L12
+[Client]:https://node-postgres.com/api/client
 [attach]:https://github.com/vitaly-t/pg-monitor#attachoptions-events-override
 [detach]:https://github.com/vitaly-t/pg-monitor#detach
+[pg-promise initialization]:http://vitaly-t.github.io/pg-promise/module-pg-promise.html
+[Initialization Options]:http://vitaly-t.github.io/pg-promise/module-pg-promise.html
+[disconnect]:http://vitaly-t.github.io/pg-promise/global.html#event:disconnect
+[query]:http://vitaly-t.github.io/pg-promise/global.html#event:query
+[task]:http://vitaly-t.github.io/pg-promise/global.html#event:task
+[transact]:http://vitaly-t.github.io/pg-promise/global.html#event:transact
+[error]:http://vitaly-t.github.io/pg-promise/global.html#event:error
+[task/transaction context]:http://vitaly-t.github.io/pg-promise/global.html#TaskContext
