@@ -160,7 +160,7 @@ Calling it while not attached will throw `Event monitor not attached.`
 
 ## connect(client, dc, fresh, [detailed])
 
-Monitors and reports event [connect](http://vitaly-t.github.io/pg-promise/global.html#event:connect).
+Monitors and reports event [connect].
 
 #### client
 
@@ -358,6 +358,7 @@ that returns the tag name.
 [detach]:https://github.com/vitaly-t/pg-monitor#detach
 [pg-promise initialization]:http://vitaly-t.github.io/pg-promise/module-pg-promise.html
 [Initialization Options]:http://vitaly-t.github.io/pg-promise/module-pg-promise.html
+[connect]:http://vitaly-t.github.io/pg-promise/global.html#event:connect
 [disconnect]:http://vitaly-t.github.io/pg-promise/global.html#event:disconnect
 [query]:http://vitaly-t.github.io/pg-promise/global.html#event:query
 [task]:http://vitaly-t.github.io/pg-promise/global.html#event:task
