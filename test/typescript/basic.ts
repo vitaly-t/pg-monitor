@@ -2,13 +2,8 @@ import * as pgMonitor from '../../typescript/pg-monitor';
 
 const options = {};
 
+pgMonitor.attach(options);
 pgMonitor.attach(options, ['query'], true);
-
-pgMonitor.attach({
-    options: options,
-    events: [],
-    override: true
-});
 
 pgMonitor.detach();
 
@@ -22,24 +17,28 @@ const theme = 'matrix';
 
 pgMonitor.setTheme(theme);
 
+function colorFunction(...values: any[]) {
+    return 'hello!';
+}
+
 pgMonitor.setTheme({
-    time: null,
-    value: null,
-    cn: null,
-    tx: null,
-    paramTitle: null,
-    errorTitle: null,
-    query: () => {
-    },
-    special: null,
-    error: null
+    time: colorFunction,
+    value: colorFunction,
+    cn: colorFunction,
+    tx: colorFunction,
+    paramTitle: colorFunction,
+    errorTitle: colorFunction,
+    query: colorFunction,
+    special: colorFunction,
+    error: colorFunction
 });
 
 pgMonitor.setDetailed(false);
 
-pgMonitor.connect({}, 123, true, false);
+pgMonitor.connect({}, 123, 0, false);
 pgMonitor.disconnect({}, null, true);
 pgMonitor.query({});
 pgMonitor.task({});
 pgMonitor.transact({});
 pgMonitor.error('ops', {}, true);
+pgMonitor.isAttached();

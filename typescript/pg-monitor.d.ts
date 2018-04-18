@@ -1,54 +1,60 @@
 ////////////////////////////////////////
-// Requires pg-monitor v0.9.1 or later.
+// Requires pg-monitor v1.0.0 or later.
 ////////////////////////////////////////
 
 // Event context extension for tasks + transactions;
-// See: http://vitaly-t.github.io/pg-promise/Task.html#.ctx
+// See: http://vitaly-t.github.io/pg-promise/global.html#TaskContext
 interface ITaskContext {
 
     // these are set in the beginning of each task/transaction:
-    context: any
-    isFresh: boolean
-    isTX: boolean
-    start: Date
-    tag: any
-    dc: any
+    readonly context: any
+    readonly parent: ITaskContext | null
+    readonly connected: boolean
+    readonly inTransaction: boolean
+    readonly level: number
+    readonly useCount: number
+    readonly isTX: boolean
+    readonly start: Date
+    readonly tag: any
+    readonly dc: any
 
     // these are set at the end of each task/transaction:
-    finish: Date
-    success: boolean
-    result: any
+    readonly finish?: Date
+    readonly duration?: number
+    readonly success?: boolean
+    readonly result?: any
+
+    // this exists only inside transactions (isTX = true):
+    readonly txLevel?: number
 }
+
+type ColorFunction = (...values: any[]) => string;
 
 interface IColorTheme {
-    time: Function
-    value: Function
-    cn: Function
-    tx: Function
-    paramTitle: Function
-    errorTitle: Function
-    query: Function
-    special: Function
-    error: Function
+    time: ColorFunction
+    value: ColorFunction
+    cn: ColorFunction
+    tx: ColorFunction
+    paramTitle: ColorFunction
+    errorTitle: ColorFunction
+    query: ColorFunction
+    special: ColorFunction
+    error: ColorFunction
 }
 
+type LogEvent = 'connect' | 'disconnect' | 'query' | 'task' | 'transact' | 'error';
+
+type ThemeName = 'dimmed' | 'bright' | 'monochrome' | 'minimalist' | 'matrix' | 'invertedMonochrome';
+
 interface IEventInfo {
-    time: Date
+    time: Date | null
     text: string
-    event: string
+    event: LogEvent
     display: boolean
     ctx?: ITaskContext
 }
 
-type ThemeName = 'dimmed' | 'bright' | 'monochrome' | 'minimalist' | 'matrix' | 'invertedMonochrome';
-
-export function attach(options: object, events?: Array<string>, override?: boolean): void
-
-export function attach(options: {
-    options: object,
-    events?: Array<string>,
-    override?: boolean
-}): void
+export function attach(options: object, events?: Array<LogEvent>, override?: boolean): void
 
 export function detach(): void;
 
@@ -56,13 +62,13 @@ export function isAttached(): boolean;
 
 export function setTheme(theme: ThemeName | IColorTheme): void
 
-export function setLog(log: Function): void
+export function setLog(log: (msg: string, info: IEventInfo) => void): void
 
 export var detailed: boolean;
 
 export function setDetailed(value: boolean): void
 
-export function connect(client: object, dc: any, fresh: boolean, detailed?: boolean): void
+export function connect(client: object, dc: any, useCount: number, detailed?: boolean): void
 
 export function disconnect(client: object, dc: any, detailed?: boolean): void
 
