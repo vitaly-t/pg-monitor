@@ -6,7 +6,7 @@ pg-monitor
 
 Events monitor for [pg-promise].
 
-[![matrix](http://s2.postimg.org/4hgqhkzih/matrix.gif)](http://s2.postimg.org/4hgqhkzih/matrix.gif)
+[![matrix](https://raw.githubusercontent.com/vitaly-t/pg-monitor/master/.github/images/matrix.png)](https://raw.githubusercontent.com/vitaly-t/pg-monitor/master/.github/images/matrix.png)
 
 * [About](#about)
 * [Installing](#installing)
