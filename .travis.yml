@@ -1,8 +1,12 @@
 language: node_js
-node_js:
-- "4"
-- "6"
-- "8"
-- "10"
-script:
-  npm run travis
+sudo: required
+matrix:
+  include:
+  - node_js: "4"
+    script: "npm test"
+  - node_js: "6"
+    script: "npm run travis"
+  - node_js: "8"
+    script: "npm run travis"
+  - node_js: "10"
+    script: "npm run travis"
