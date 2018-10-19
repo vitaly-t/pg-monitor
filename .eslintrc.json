@@ -16,6 +16,7 @@
     "no-console": "error",
     "comma-dangle": "error",
     "no-var": "error",
+    "no-shadow": "error",
     "indent": [
       "error",
       4,
