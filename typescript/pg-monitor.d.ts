@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-// Requires pg-monitor v1.0.0 or later.
+// Requires pg-monitor v1.2.0 or later.
 ////////////////////////////////////////
 
 // Event context extension for tasks + transactions;
@@ -44,7 +44,14 @@ interface IColorTheme {
 
 type LogEvent = 'connect' | 'disconnect' | 'query' | 'task' | 'transact' | 'error';
 
-type ThemeName = 'dimmed' | 'bright' | 'monochrome' | 'minimalist' | 'matrix' | 'invertedMonochrome';
+type ThemeName =
+    'dimmed'
+    | 'bright'
+    | 'monochrome'
+    | 'minimalist'
+    | 'matrix'
+    | 'invertedMonochrome'
+    | 'invertedContrast';
 
 interface IEventInfo {
     time: Date | null
