@@ -1,8 +1,6 @@
-'use strict';
-
 const mon = require('../../lib');
 
-describe('Connect - Positive', () => {
+describe('Disconnect - Positive', () => {
     const client = {
         connectionParameters: {
             user: 'guest',
@@ -14,21 +12,22 @@ describe('Connect - Positive', () => {
         beforeEach(() => {
             options = {};
             text = null;
-            mon.attach(options, ['connect']);
+            mon.attach(options, ['disconnect']);
 
             const log = (msg, info) => {
                 text = info.text;
                 info.display = false;
             };
             mon.setLog(log);
+
         });
         it('must log detailed message', () => {
-            mon.connect(client, 123, true);
-            expect(text).toBe('connect(guest@test)');
+            mon.disconnect(client);
+            expect(text).toBe('disconnect(guest@test)');
         });
         it('must log short message', () => {
-            mon.connect(client, 123, true, false);
-            expect(text).toBe('connect');
+            mon.disconnect(client, 123, false);
+            expect(text).toBe('disconnect');
         });
         afterEach(() => {
             mon.detach();
@@ -40,22 +39,23 @@ describe('Connect - Positive', () => {
         let options, text, ctx;
         beforeEach(() => {
             options = {
-                connect: c => {
+                disconnect: c => {
                     ctx = c;
                 }
             };
             text = null;
-            mon.attach(options, ['connect']);
+            mon.attach(options, ['disconnect']);
+
             const log = (msg, info) => {
                 text = info.text;
                 info.display = false;
             };
             mon.setLog(log);
 
-            options.connect(client, 123, false);
+            options.disconnect(client, 123);
         });
         it('must log detailed message', () => {
-            expect(text).toBe('connect(guest@test)');
+            expect(text).toBe('disconnect(guest@test)');
         });
         it('must call the old method', () => {
             expect(ctx).toEqual(client);
@@ -67,17 +67,16 @@ describe('Connect - Positive', () => {
     });
 });
 
-describe('Connect - Negative', () => {
+describe('Disconnect - Negative', () => {
     describe('invalid parameters', () => {
         const options = {};
         beforeEach(() => {
-            mon.attach(options, ['connect']);
-            mon.setDetailed(true);
+            mon.attach(options, ['disconnect']);
         });
         it('must report event correctly', () => {
             expect(() => {
-                options.connect();
-            }).toThrow('Invalid event \'connect\' redirect parameters.');
+                options.disconnect();
+            }).toThrow('Invalid event \'disconnect\' redirect parameters.');
         });
         afterEach(() => {
             mon.detach();

@@ -1,5 +1,3 @@
-'use strict';
-
 const mon = require('../lib');
 
 const dummy = () => {
