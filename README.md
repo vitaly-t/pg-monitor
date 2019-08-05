@@ -6,7 +6,7 @@ pg-monitor
 
 Events monitor for [pg-promise].
 
-[![matrix](https://raw.githubusercontent.com/vitaly-t/pg-monitor/master/.github/images/matrix.png)](https://raw.githubusercontent.com/vitaly-t/pg-monitor/master/.github/images/matrix.png)
+[![matrix](https://raw.githubusercontent.com/vitaly-t/pg-monitor/master/.github/images/matrix.png)](https://raw.githubusercontent.com/vitaly-t/pg-monitor/master/.github/images/matrix.png) [![Greenkeeper badge](https://badges.greenkeeper.io/vitaly-t/pg-monitor.svg)](https://greenkeeper.io/)
 
 * [About](#about)
 * [Installing](#installing)
