@@ -3,7 +3,6 @@ pg-monitor
 
 [![Build Status](https://travis-ci.org/vitaly-t/pg-monitor.svg?branch=master)](https://travis-ci.org/vitaly-t/pg-monitor)
 [![Coverage Status](https://coveralls.io/repos/vitaly-t/pg-monitor/badge.svg?branch=master)](https://coveralls.io/r/vitaly-t/pg-monitor?branch=master)
-[![Greenkeeper badge](https://badges.greenkeeper.io/vitaly-t/pg-monitor.svg)](https://greenkeeper.io/)
 
 Events monitor for [pg-promise].
 
