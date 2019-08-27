@@ -10,6 +10,7 @@
   "rules": {
     "no-var": "error",
     "prefer-const": "error",
+    "prefer-arrow-callback": "error",
     "no-else-return": "error",
     "no-multi-spaces": "error",
     "no-whitespace-before-property": "error",
