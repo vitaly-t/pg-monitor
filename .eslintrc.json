@@ -8,6 +8,8 @@
   "parserOptions": {
   },
   "rules": {
+    "no-var": "error",
+    "prefer-const": "error",
     "no-else-return": "error",
     "no-multi-spaces": "error",
     "no-whitespace-before-property": "error",
@@ -15,7 +17,6 @@
     "new-cap": "error",
     "no-console": "error",
     "comma-dangle": "error",
-    "no-var": "error",
     "no-shadow": "error",
     "indent": [
       "error",
