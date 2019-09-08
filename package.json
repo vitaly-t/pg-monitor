@@ -40,9 +40,9 @@
   },
   "devDependencies": {
     "coveralls": "3.0.6",
-    "eslint": "6.2.2",
+    "eslint": "6.3.0",
     "istanbul": "0.4.5",
     "jasmine-node": "3.0.0",
-    "typescript": "3.5.3"
+    "typescript": "3.6.2"
   }
 }
