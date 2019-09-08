@@ -1,6 +1,6 @@
 ## TypeScript for pg-monitor
 
-Complete TypeScript declarations for [pg-monitor].
+Complete TypeScript 3.x (`strict` mode) declarations for [pg-monitor].
 
 ### Inclusion
 
