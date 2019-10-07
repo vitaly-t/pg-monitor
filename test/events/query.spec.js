@@ -63,7 +63,7 @@ describe('Query - Positive', () => {
             options.query(e);
         });
         it('must be successful', () => {
-            expect(text).toEqual('task(123): name="queryName", text="queryText", values=1,2,3');
+            expect(text).toEqual('task(123): name="queryName", text="queryText", values=[1,2,3]');
         });
         it('must call the old method', () => {
             expect(cb).toEqual(e);
