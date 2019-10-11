@@ -1,6 +1,6 @@
-const themes = require('./themes');
+import {Themes} from './themes';
 
-let cct = themes.dimmed; // current/default color theme;
+let cct = Themes.dimmed; // current/default color theme;
 
 // monitor state;
 const $state = {};
@@ -8,9 +8,17 @@ const $state = {};
 // supported events;
 const $events = ['connect', 'disconnect', 'query', 'error', 'task', 'transact'];
 
-const hasOwnProperty = (obj, propName) => Object.prototype.hasOwnProperty.call(obj, propName);
+// reusable error messages;
+const errors = {
+    redirectParams(event) {
+        return 'Invalid event \'' + event + '\' redirect parameters.';
+    }
+};
 
-const monitor = {
+// 9 spaces for the time offset:
+const timeGap = ' '.repeat(9);
+
+export class Monitor {
 
     ///////////////////////////////////////////////
     // 'connect' event handler;
@@ -30,7 +38,7 @@ const monitor = {
         } else {
             print(null, event, cct.cn('connect'));
         }
-    },
+    }
 
     ///////////////////////////////////////////////
     // 'connect' event handler;
@@ -50,7 +58,7 @@ const monitor = {
         } else {
             print(null, event, cct.cn('disconnect'));
         }
-    },
+    }
 
     ///////////////////////////////////////////////
     // 'query' event handler;
@@ -112,7 +120,7 @@ const monitor = {
             }
             print(e, event, timeGap + cct.paramTitle('params: ') + cct.value(p), true);
         }
-    },
+    }
 
     ///////////////////////////////////////////////
     // 'task' event handler;
@@ -138,7 +146,7 @@ const monitor = {
             msg += cct.tx('; duration: ') + cct.value(duration) + cct.tx(', success: ') + cct.value(!!e.ctx.success);
         }
         print(e, event, msg);
-    },
+    }
 
     ///////////////////////////////////////////////
     // 'transact' event handler;
@@ -164,7 +172,7 @@ const monitor = {
             msg += cct.tx('; duration: ') + cct.value(duration) + cct.tx(', success: ') + cct.value(!!e.ctx.success);
         }
         print(e, event, msg);
-    },
+    }
 
     ///////////////////////////////////////////////
     // 'error' event handler;
@@ -215,7 +223,7 @@ const monitor = {
         if (e.params) {
             print(e, event, timeGap + cct.paramTitle('params: ') + cct.value(toJson(e.params)), true);
         }
-    },
+    }
 
     /////////////////////////////////////////////////////////
     // attaches to pg-promise initialization options object:
@@ -343,11 +351,11 @@ const monitor = {
                 options.error = self.error;
             }
         }
-    },
+    }
 
     isAttached() {
         return !!$state.options;
-    },
+    }
 
     /////////////////////////////////////////////////////////
     // detaches from all events to which was attached during
@@ -367,7 +375,7 @@ const monitor = {
             }
         });
         $state.options = null;
-    },
+    }
 
     //////////////////////////////////////////////////////////////////
     // sets a new theme either by its name (from the predefined ones),
@@ -398,19 +406,19 @@ const monitor = {
                 throw new Error(err);
             }
         }
-    },
+    }
 
     ////////////////////////////////////////////////////
     // global 'detailed' flag override, to report all
     // of the optional details that are supported;
-    detailed: true,
+    detailed: true;
 
     //////////////////////////////////////////////////////////////////
     // sets a new value to the detailed var. This function is needed
     // to support the value attribution in Typescript.
     setDetailed(value) {
         this.detailed = !!value;
-    },
+    }
 
     //////////////////////////////////////////////////////////////////
     // sets a custom log function to support the function attribution
@@ -418,124 +426,5 @@ const monitor = {
     setLog(log) {
         module.exports.log = typeof log === 'function' ? log : null;
     }
-};
 
-// prints the text on screen, optionally
-// notifying the client of the log events;
-function print(e, event, text, isExtraLine) {
-    let t = null, s = text;
-    if (!isExtraLine) {
-        t = new Date();
-        s = cct.time(formatTime(t)) + ' ' + text;
-    }
-    let display = true;
-    const log = module.exports.log;
-    if (typeof log === 'function') {
-        // the client expects log notifications;
-        const info = {
-            event: event,
-            time: t,
-            text: removeColors(text).trim()
-        };
-        if (e && e.ctx) {
-            info.ctx = e.ctx;
-        }
-        log(removeColors(s), info);
-        display = info.display === undefined || !!info.display;
-    }
-    // istanbul ignore next: cannot test the next
-    // block without writing things into the console;
-    if (display) {
-        if (!process.stdout.isTTY) {
-            s = removeColors(s);
-        }
-        // eslint-disable-next-line
-        console.log(s);
-    }
 }
-
-// formats time as '00:00:00';
-function formatTime(t) {
-    return padZeros(t.getHours(), 2) + ':' + padZeros(t.getMinutes(), 2) + ':' + padZeros(t.getSeconds(), 2);
-}
-
-// formats duration value (in milliseconds) as '00:00:00.000',
-// shortened to just the values that are applicable.
-function formatDuration(d) {
-    const hours = Math.floor(d / 3600000);
-    const minutes = Math.floor((d - hours * 3600000) / 60000);
-    const seconds = Math.floor((d - hours * 3600000 - minutes * 60000) / 1000);
-    const ms = d - hours * 3600000 - minutes * 60000 - seconds * 1000;
-    let s = '.' + padZeros(ms, 3); // milliseconds are shown always;
-    if (d >= 1000) {
-        // seconds are to be shown;
-        s = padZeros(seconds, 2) + s;
-        if (d >= 60000) {
-            // minutes are to be shown;
-            s = padZeros(minutes, 2) + ':' + s;
-            if (d >= 3600000) {
-                // hours are to be shown;
-                s = padZeros(hours, 2) + ':' + s;
-            }
-        }
-    }
-    return s;
-}
-
-// removes color elements from the text;
-function removeColors(text) {
-    /*eslint no-control-regex: 0*/
-    return text.replace(/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]/g, '');
-}
-
-function padZeros(value, n) {
-    let str = value.toString();
-    while (str.length < n)
-        str = '0' + str;
-    return str;
-}
-
-// extracts tag name from a tag object/value;
-function getTagName(event) {
-    let sTag;
-    const tag = event.ctx.tag;
-    if (tag) {
-        switch (typeof tag) {
-            case 'string':
-                sTag = tag;
-                break;
-            case 'number':
-                if (Number.isFinite(tag)) {
-                    sTag = tag.toString();
-                }
-                break;
-            case 'object':
-                // A tag-object must have its own method toString(), in order to be converted automatically;
-                if (hasOwnProperty(tag, 'toString') && typeof tag.toString === 'function') {
-                    sTag = tag.toString();
-                }
-                break;
-            default:
-                break;
-        }
-    }
-    return sTag;
-}
-
-////////////////////////////////////////////
-// Simpler check for null/undefined;
-function isNull(value) {
-    return value === null || value === undefined;
-}
-
-///////////////////////////////////////////////////////////////
-// Adds support for BigInt, to be rendered like in JavaScript,
-// as an open value, with 'n' in the end.
-function toJson(data) {
-    if (data !== undefined) {
-        return JSON.stringify(data, (_, v) => typeof v === 'bigint' ? `${v}#bigint` : v)
-            .replace(/"(-?\d+)#bigint"/g, (_, a) => a + 'n');
-    }
-}
-
-module.exports = monitor;

@@ -1,27 +1,58 @@
-const color = require('cli-color');
+import * as color from 'cli-color';
 
-///////////////////////////////////////////////////////////
-// Supported color attributes:
-//
-// time - timestamp color;
-// value - color for any value;
-// cn - connect/disconnect color;
-// tx - transaction start/finish color;
-// paramTitle - color for parameter titles: params/query/tx;
-// errorTitle - color for error title: 'error';
-// query - color for regular queries;
-// special - color for special queries: begin/commit/rollback;
-// error - error message color;
-///////////////////////////////////////////////////////////
+export interface ITheme {
+    /**
+     * timestamp color;
+     */
+    time: string,
 
-const themes = {
+    /**
+     * color for any value;
+     */
+    value: string,
 
-    /////////////////////////////////////////
-    // Themes for black or dark backgrounds
-    /////////////////////////////////////////
+    /**
+     * connect/disconnect color;
+     */
+    cn: string,
 
-    // dimmed palette (the default theme);
-    dimmed: {
+    /**
+     * transaction start/finish color;
+     */
+    tx: string,
+
+    /**
+     * color for parameter titles: params/query/tx;
+     */
+    paramTitle: string,
+
+    /**
+     * color for error title: 'error';
+     */
+    errorTitle: string,
+
+    /**
+     * color for regular queries;
+     */
+    query: string,
+
+    /**
+     * color for special queries: begin/commit/rollback;
+     */
+    special: string,
+
+    /**
+     * error message color;
+     */
+    error: string
+}
+
+export class Themes {
+
+    /**
+     * dimmed palette (the default theme);
+     */
+    static dimmed: ITheme = {
         time: color.bgWhite.black,
         value: color.white,
         cn: color.yellow,
@@ -31,10 +62,12 @@ const themes = {
         query: color.whiteBright,
         special: color.green,
         error: color.red
-    },
+    };
 
-    // bright palette;
-    bright: {
+    /**
+     * bright palette;
+     */
+    static bright: ITheme = {
         time: color.bgBlue.whiteBright,
         value: color.white,
         cn: color.yellowBright,
@@ -44,10 +77,12 @@ const themes = {
         query: color.whiteBright,
         special: color.greenBright,
         error: color.redBright
-    },
+    };
 
-    // black + white + grey;
-    monochrome: {
+    /**
+     * black + white + grey;
+     */
+    static monochrome: ITheme = {
         time: color.bgWhite.black,
         value: color.whiteBright,
         cn: color.white,
@@ -57,10 +92,12 @@ const themes = {
         query: color.whiteBright,
         special: color.whiteBright,
         error: color.whiteBright
-    },
+    };
 
-    // colors without distraction;
-    minimalist: {
+    /**
+     * colors without distraction;
+     */
+    static minimalist: ITheme = {
         time: color.bgWhite.black,
         value: color.white,
         cn: color.yellow,
@@ -70,10 +107,12 @@ const themes = {
         query: color.whiteBright,
         special: color.whiteBright,
         error: color.red
-    },
+    };
 
-    // classy green;
-    matrix: {
+    /**
+     * classy green;
+     */
+    static matrix: ITheme = {
         time: color.bgGreen.black,
         value: color.white,
         cn: color.green,
@@ -83,14 +122,16 @@ const themes = {
         query: color.whiteBright,
         special: color.whiteBright,
         error: color.greenBright
-    },
+    };
 
     ///////////////////////////////////////////
     // Themes for white or bright backgrounds
     ///////////////////////////////////////////
 
-    // black + white + grey;
-    invertedMonochrome: {
+    /**
+     * black + white + grey;
+     */
+    static invertedMonochrome: ITheme = {
         time: color.bgWhite.black,
         value: color.blackBright,
         cn: color.black,
@@ -100,10 +141,12 @@ const themes = {
         query: color.blackBright,
         special: color.blackBright,
         error: color.blackBright
-    },
+    };
 
-    // colorful contrast, with enforced white background
-    invertedContrast: {
+    /**
+     * colorful contrast, with enforced white background
+     */
+    static invertedContrast: ITheme = {
         time: color.bgBlue.white,
         value: color.bgWhiteBright.blueBright,
         cn: color.bgWhiteBright.black,
@@ -113,7 +156,12 @@ const themes = {
         query: color.bgWhiteBright.green,
         special: color.bgWhiteBright.cyan,
         error: color.bgWhiteBright.redBright
-    }
-};
+    };
 
-module.exports = themes;
+}
+
+export type ThemeName = keyof Themes;
+
+export function getTheme(name: ThemeName): ITheme {
+    return Themes[name];
+}
