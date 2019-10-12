@@ -4,47 +4,47 @@ export interface ITheme {
     /**
      * timestamp color;
      */
-    time: string,
+    time: color.Format,
 
     /**
      * color for any value;
      */
-    value: string,
+    value: color.Format,
 
     /**
      * connect/disconnect color;
      */
-    cn: string,
+    cn: color.Format,
 
     /**
      * transaction start/finish color;
      */
-    tx: string,
+    tx: color.Format,
 
     /**
      * color for parameter titles: params/query/tx;
      */
-    paramTitle: string,
+    paramTitle: color.Format,
 
     /**
      * color for error title: 'error';
      */
-    errorTitle: string,
+    errorTitle: color.Format,
 
     /**
      * color for regular queries;
      */
-    query: string,
+    query: color.Format,
 
     /**
      * color for special queries: begin/commit/rollback;
      */
-    special: string,
+    special: color.Format,
 
     /**
      * error message color;
      */
-    error: string
+    error: color.Format
 }
 
 export class Themes {

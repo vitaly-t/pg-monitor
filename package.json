@@ -39,6 +39,7 @@
     "cli-color": "2.0.0"
   },
   "devDependencies": {
+    "@types/cli-color": "0.3.29",
     "coveralls": "3.0.7",
     "eslint": "6.5.1",
     "istanbul": "0.4.5",

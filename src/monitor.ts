@@ -1,4 +1,5 @@
 import {Themes} from './themes';
+import {formatDuration, getTagName, isNull, print, toJson} from './utils';
 
 let cct = Themes.dimmed; // current/default color theme;
 
@@ -31,7 +32,7 @@ export class Monitor {
         if (!cp) {
             throw new TypeError(errors.redirectParams(event));
         }
-        const d = (detailed === undefined) ? monitor.detailed : !!detailed;
+        const d = (detailed === undefined) ? this.detailed : !!detailed;
         if (d) {
             const countInfo = typeof useCount === 'number' ? cct.cn('; useCount: ') + cct.value(useCount) : '';
             print(null, event, cct.cn('connect(') + cct.value(cp.user + '@' + cp.database) + cct.cn(')') + countInfo);
@@ -51,7 +52,7 @@ export class Monitor {
         if (!cp) {
             throw new TypeError(errors.redirectParams(event));
         }
-        const d = (detailed === undefined) ? monitor.detailed : !!detailed;
+        const d = (detailed === undefined) ? this.detailed : !!detailed;
         if (d) {
             // report user@database details;
             print(null, event, cct.cn('disconnect(') + cct.value(cp.user + '@' + cp.database) + cct.cn(')'));
@@ -102,7 +103,7 @@ export class Monitor {
         if (!prepared) {
             qText = special ? cct.special(q) : cct.query(q);
         }
-        const d = (detailed === undefined) ? monitor.detailed : !!detailed;
+        const d = (detailed === undefined) ? this.detailed : !!detailed;
         if (d && e.ctx) {
             // task/transaction details are to be reported;
             const sTag = getTagName(e), prefix = e.ctx.isTX ? 'tx' : 'task';
@@ -206,7 +207,7 @@ export class Monitor {
             print(e, event, timeGap + cct.paramTitle('connection: ') + cct.value(toJson(e.cn)), true);
         } else {
             if (q !== undefined) {
-                const d = (detailed === undefined) ? monitor.detailed : !!detailed;
+                const d = (detailed === undefined) ? this.detailed : !!detailed;
                 if (d && e.ctx) {
                     // transaction details are to be reported;
                     const sTag = getTagName(e), prefix = e.ctx.isTX ? 'tx' : 'task';
@@ -254,7 +255,7 @@ export class Monitor {
 
         $state.options = options;
 
-        const self = monitor;
+        const self = this;
 
         // attaching to 'connect' event:
         if (!hasFilter || events.indexOf('connect') !== -1) {

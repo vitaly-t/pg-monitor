@@ -1,3 +1,37 @@
+// prints the text on screen, optionally
+// notifying the client of the log events;
+export function print(e:any, event:any, text:string, isExtraLine?:boolean) {
+    let t = null, s = text;
+    if (!isExtraLine) {
+        t = new Date();
+        s = cct.time(formatTime(t)) + ' ' + text;
+    }
+    let display = true;
+    const log = module.exports.log;
+    if (typeof log === 'function') {
+        // the client expects log notifications;
+        const info = {
+            event: event,
+            time: t,
+            text: removeColors(text).trim()
+        };
+        if (e && e.ctx) {
+            info.ctx = e.ctx;
+        }
+        log(removeColors(s), info);
+        display = info.display === undefined || !!info.display;
+    }
+    // istanbul ignore next: cannot test the next
+    // block without writing things into the console;
+    if (display) {
+        if (!process.stdout.isTTY) {
+            s = removeColors(s);
+        }
+        // eslint-disable-next-line
+        console.log(s);
+    }
+}
+
 // formats time as '00:00:00';
 export function formatTime(t) {
     return padZeros(t.getHours(), 2) + ':' + padZeros(t.getMinutes(), 2) + ':' + padZeros(t.getSeconds(), 2);
