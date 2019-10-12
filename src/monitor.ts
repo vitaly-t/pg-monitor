@@ -1,8 +1,6 @@
-import {Themes} from './themes';
-import {EventName, IEventContext, IInitOptions} from './types';
+import {ITheme, Themes} from './themes';
+import {EventName, IClient, IEventContext, IInitOptions} from './types';
 import {formatDuration, getTagName, isNull, print, toJson} from './utils';
-
-let cct = Themes.dimmed; // current/default color theme;
 
 // monitor state;
 const $state = {};
@@ -22,12 +20,18 @@ const timeGap = ' '.repeat(9);
 
 export class Monitor {
 
+    /**
+     * Current Color Theme.
+     */
+    cct: ITheme;
+
     private initOptions: IInitOptions | void;
 
     detailed: boolean;
 
     constructor() {
         this.detailed = true;
+        this.cct = Themes.dimmed;
     }
 
     ///////////////////////////////////////////////
@@ -35,18 +39,17 @@ export class Monitor {
     // parameters:
     // - client - the only parameter for the event;
     // - detailed - optional, indicates that user@database is to be reported;
-    connect(client: any, dc: any, useCount: number) {
+    connect(client: IClient, dc: any, useCount: number) {
         const event = 'connect';
         const cp = client ? client.connectionParameters : null;
         if (!cp) {
             throw new TypeError(errors.redirectParams(event));
         }
-        const d = (detailed === undefined) ? this.detailed : !!detailed;
-        if (d) {
-            const countInfo = typeof useCount === 'number' ? cct.cn('; useCount: ') + cct.value(useCount) : '';
-            print(null, event, cct.cn('connect(') + cct.value(cp.user + '@' + cp.database) + cct.cn(')') + countInfo);
+        if (this.detailed) {
+            const countInfo = typeof useCount === 'number' ? this.cct.cn('; useCount: ') + this.cct.value(useCount) : '';
+            print(null, event, this.cct.cn('connect(') + this.cct.value(cp.user + '@' + cp.database) + this.cct.cn(')') + countInfo);
         } else {
-            print(null, event, cct.cn('connect'));
+            print(null, event, this.cct.cn('connect'));
         }
     }
 
@@ -61,12 +64,11 @@ export class Monitor {
         if (!cp) {
             throw new TypeError(errors.redirectParams(event));
         }
-        const d = (detailed === undefined) ? this.detailed : !!detailed;
-        if (d) {
+        if (this.detailed) {
             // report user@database details;
-            print(null, event, cct.cn('disconnect(') + cct.value(cp.user + '@' + cp.database) + cct.cn(')'));
+            print(null, event, this.cct.cn('disconnect(') + this.cct.value(cp.user + '@' + cp.database) + this.cct.cn(')'));
         } else {
-            print(null, event, cct.cn('disconnect'));
+            print(null, event, this.cct.cn('disconnect'));
         }
     }
 
@@ -97,29 +99,28 @@ export class Monitor {
                 prepared = true;
                 const msg = [];
                 if ('name' in q) {
-                    msg.push(cct.query('name=') + '"' + cct.value(q.name) + '"');
+                    msg.push(this.cct.query('name=') + '"' + this.cct.value(q.name) + '"');
                 }
                 if ('text' in q) {
-                    msg.push(cct.query('text=') + '"' + cct.value(q.text) + '"');
+                    msg.push(this.cct.query('text=') + '"' + this.cct.value(q.text) + '"');
                 }
                 if (Array.isArray(q.values) && q.values.length) {
-                    msg.push(cct.query('values=') + cct.value(toJson(q.values)));
+                    msg.push(this.cct.query('values=') + this.cct.value(toJson(q.values)));
                 }
                 q = msg.join(', ');
             }
         }
         let qText = q;
         if (!prepared) {
-            qText = special ? cct.special(q) : cct.query(q);
+            qText = special ? this.cct.special(q) : this.cct.query(q);
         }
-        const d = (detailed === undefined) ? this.detailed : !!detailed;
-        if (d && e.ctx) {
+        if (this.detailed && e.ctx) {
             // task/transaction details are to be reported;
             const sTag = getTagName(e), prefix = e.ctx.isTX ? 'tx' : 'task';
             if (sTag) {
-                qText = cct.tx(prefix + '(') + cct.value(sTag) + cct.tx('): ') + qText;
+                qText = this.cct.tx(prefix + '(') + this.cct.value(sTag) + this.cct.tx('): ') + qText;
             } else {
-                qText = cct.tx(prefix + ': ') + qText;
+                qText = this.cct.tx(prefix + ': ') + qText;
             }
         }
         print(e, event, qText);
@@ -128,7 +129,7 @@ export class Monitor {
             if (typeof p !== 'string') {
                 p = toJson(p);
             }
-            print(e, event, timeGap + cct.paramTitle('params: ') + cct.value(p), true);
+            print(e, event, timeGap + this.cct.paramTitle('params: ') + this.cct.value(p), true);
         }
     }
 
@@ -141,19 +142,19 @@ export class Monitor {
         if (!e || !e.ctx) {
             throw new TypeError(errors.redirectParams(event));
         }
-        let msg = cct.tx('task');
+        let msg = this.cct.tx('task');
         const sTag = getTagName(e);
         if (sTag) {
-            msg += cct.tx('(') + cct.value(sTag) + cct.tx(')');
+            msg += this.cct.tx('(') + this.cct.value(sTag) + this.cct.tx(')');
         }
         if (e.ctx.finish) {
-            msg += cct.tx('/end');
+            msg += this.cct.tx('/end');
         } else {
-            msg += cct.tx('/start');
+            msg += this.cct.tx('/start');
         }
         if (e.ctx.finish) {
-            const duration = formatDuration(e.ctx.finish - e.ctx.start);
-            msg += cct.tx('; duration: ') + cct.value(duration) + cct.tx(', success: ') + cct.value(!!e.ctx.success);
+            const duration = formatDuration(e.ctx.finish.getDate() - e.ctx.start.getDate());
+            msg += this.cct.tx('; duration: ') + this.cct.value(duration) + this.cct.tx(', success: ') + this.cct.value(!!e.ctx.success);
         }
         print(e, event, msg);
     }
@@ -167,19 +168,19 @@ export class Monitor {
         if (!e || !e.ctx) {
             throw new TypeError(errors.redirectParams(event));
         }
-        let msg = cct.tx('tx');
+        let msg = this.cct.tx('tx');
         const sTag = getTagName(e);
         if (sTag) {
-            msg += cct.tx('(') + cct.value(sTag) + cct.tx(')');
+            msg += this.cct.tx('(') + this.cct.value(sTag) + this.cct.tx(')');
         }
         if (e.ctx.finish) {
-            msg += cct.tx('/end');
+            msg += this.cct.tx('/end');
         } else {
-            msg += cct.tx('/start');
+            msg += this.cct.tx('/start');
         }
         if (e.ctx.finish) {
-            const duration = formatDuration(e.ctx.finish - e.ctx.start);
-            msg += cct.tx('; duration: ') + cct.value(duration) + cct.tx(', success: ') + cct.value(!!e.ctx.success);
+            const duration = formatDuration(e.ctx.finish.getDate() - e.ctx.start.getDate());
+            msg += this.cct.tx('; duration: ') + this.cct.value(duration) + this.cct.tx(', success: ') + this.cct.value(!!e.ctx.success);
         }
         print(e, event, msg);
     }
@@ -196,7 +197,7 @@ export class Monitor {
         if (!e || typeof e !== 'object') {
             throw new TypeError(errors.redirectParams(event));
         }
-        print(e, event, cct.errorTitle('error: ') + cct.error(errMsg));
+        print(e, event, this.cct.errorTitle('error: ') + this.cct.error(errMsg));
         let q = e.query;
         if (q !== undefined && typeof q !== 'string') {
             if (typeof q === 'object' && ('name' in q || 'text' in q)) {
@@ -213,25 +214,24 @@ export class Monitor {
         }
         if (e.cn) {
             // a connection issue;
-            print(e, event, timeGap + cct.paramTitle('connection: ') + cct.value(toJson(e.cn)), true);
+            print(e, event, timeGap + this.cct.paramTitle('connection: ') + this.cct.value(toJson(e.cn)), true);
         } else {
             if (q !== undefined) {
-                const d = (detailed === undefined) ? this.detailed : !!detailed;
-                if (d && e.ctx) {
+                if (this.detailed && e.ctx) {
                     // transaction details are to be reported;
                     const sTag = getTagName(e), prefix = e.ctx.isTX ? 'tx' : 'task';
                     if (sTag) {
-                        print(e, event, timeGap + cct.paramTitle(prefix + '(') + cct.value(sTag) + cct.paramTitle('): ') + cct.value(q), true);
+                        print(e, event, timeGap + this.cct.paramTitle(prefix + '(') + this.cct.value(sTag) + this.cct.paramTitle('): ') + this.cct.value(q), true);
                     } else {
-                        print(e, event, timeGap + cct.paramTitle(prefix + ': ') + cct.value(q), true);
+                        print(e, event, timeGap + this.cct.paramTitle(prefix + ': ') + this.cct.value(q), true);
                     }
                 } else {
-                    print(e, event, timeGap + cct.paramTitle('query: ') + cct.value(q), true);
+                    print(e, event, timeGap + this.cct.paramTitle('query: ') + this.cct.value(q), true);
                 }
             }
         }
         if (e.params) {
-            print(e, event, timeGap + cct.paramTitle('params: ') + cct.value(toJson(e.params)), true);
+            print(e, event, timeGap + this.cct.paramTitle('params: ') + this.cct.value(toJson(e.params)), true);
         }
     }
 
@@ -400,7 +400,7 @@ export class Monitor {
         }
         if (typeof t === 'string') {
             if (t in themes) {
-                cct = themes[t];
+                this.cct = themes[t];
             } else {
                 throw new TypeError('Theme \'' + t + '\' does not exist.');
             }
@@ -414,7 +414,7 @@ export class Monitor {
                         throw new TypeError('Theme property \'' + p + '\' is invalid.');
                     }
                 }
-                cct = t;
+                this.cct = t;
             } else {
                 throw new Error(err);
             }
