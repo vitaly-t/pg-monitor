@@ -1,4 +1,5 @@
 import {Themes} from './themes';
+import {EventName, IEventContext, IInitOptions} from './types';
 import {formatDuration, getTagName, isNull, print, toJson} from './utils';
 
 let cct = Themes.dimmed; // current/default color theme;
@@ -21,12 +22,20 @@ const timeGap = ' '.repeat(9);
 
 export class Monitor {
 
+    private initOptions: IInitOptions | void;
+
+    detailed: boolean;
+
+    constructor() {
+        this.detailed = true;
+    }
+
     ///////////////////////////////////////////////
     // 'connect' event handler;
     // parameters:
     // - client - the only parameter for the event;
     // - detailed - optional, indicates that user@database is to be reported;
-    connect(client, dc, useCount, detailed) {
+    connect(client: any, dc: any, useCount: number) {
         const event = 'connect';
         const cp = client ? client.connectionParameters : null;
         if (!cp) {
@@ -46,7 +55,7 @@ export class Monitor {
     // parameters:
     // - client - the only parameter for the event;
     // - detailed - optional, indicates that user@database is to be reported;
-    disconnect(client, dc, detailed) {
+    disconnect(client: any, dc: any) {
         const event = 'disconnect';
         const cp = client ? client.connectionParameters : null;
         if (!cp) {
@@ -66,7 +75,7 @@ export class Monitor {
     // parameters:
     // - e - the only parameter for the event;
     // - detailed - optional, indicates that both task and transaction context are to be reported;
-    query(e, detailed) {
+    query(e: IEventContext) {
         const event = 'query';
         if (!e || !('query' in e)) {
             throw new TypeError(errors.redirectParams(event));
@@ -127,7 +136,7 @@ export class Monitor {
     // 'task' event handler;
     // parameters:
     // - e - the only parameter for the event;
-    task(e) {
+    task(e: IEventContext) {
         const event = 'task';
         if (!e || !e.ctx) {
             throw new TypeError(errors.redirectParams(event));
@@ -153,7 +162,7 @@ export class Monitor {
     // 'transact' event handler;
     // parameters:
     // - e - the only parameter for the event;
-    transact(e) {
+    transact(e: IEventContext) {
         const event = 'transact';
         if (!e || !e.ctx) {
             throw new TypeError(errors.redirectParams(event));
@@ -181,7 +190,7 @@ export class Monitor {
     // - err - error-text parameter for the original event;
     // - e - error context object for the original event;
     // - detailed - optional, indicates that transaction context is to be reported;
-    error(err, e, detailed) {
+    error(err: any, e: IEventContext) {
         const event = 'error';
         const errMsg = err ? (err.message || err) : null;
         if (!e || typeof e !== 'object') {
@@ -231,15 +240,16 @@ export class Monitor {
     // - options - the options object;
     // - events - optional, list of events to attach to;
     // - override - optional, overrides the existing event handlers;
-    attach(options, events, override) {
+    attach(initOptions: IInitOptions, options?: { events?: EventName[], override?: boolean }) {
 
+        /*
         if (options && options.options && typeof options.options === 'object') {
             events = options.events;
             override = options.override;
             options = options.options;
-        }
+        }*/
 
-        if ($state.options) {
+        if (this.initOptions) {
             throw new Error('Repeated attachments not supported, must call detach first.');
         }
 
@@ -247,13 +257,15 @@ export class Monitor {
             throw new TypeError('Initialization object \'options\' must be specified.');
         }
 
+        const events = options && options.events;
+
         const hasFilter = Array.isArray(events);
 
         if (!isNull(events) && !hasFilter) {
             throw new TypeError('Invalid parameter \'events\' passed.');
         }
 
-        $state.options = options;
+        this.initOptions = initOptions;
 
         const self = this;
 
@@ -362,7 +374,7 @@ export class Monitor {
     // detaches from all events to which was attached during
     // the last `attach` call.
     detach() {
-        if (!$state.options) {
+        if (this.initOptions) {
             throw new Error('Event monitor not attached.');
         }
         $events.forEach(e => {
@@ -375,7 +387,7 @@ export class Monitor {
                 delete $state[e];
             }
         });
-        $state.options = null;
+        this.initOptions = null;
     }
 
     //////////////////////////////////////////////////////////////////
@@ -409,11 +421,6 @@ export class Monitor {
         }
     }
 
-    ////////////////////////////////////////////////////
-    // global 'detailed' flag override, to report all
-    // of the optional details that are supported;
-    detailed: true;
-
     //////////////////////////////////////////////////////////////////
     // sets a new value to the detailed var. This function is needed
     // to support the value attribution in Typescript.
@@ -422,8 +429,7 @@ export class Monitor {
     }
 
     //////////////////////////////////////////////////////////////////
-    // sets a custom log function to support the function attribution
-    // in Typescript.
+    // sets a custom log function to support the function attribution in Typescript.
     setLog(log) {
         module.exports.log = typeof log === 'function' ? log : null;
     }
