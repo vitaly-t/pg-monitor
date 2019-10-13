@@ -1,16 +1,10 @@
-import {ITheme, Themes} from './themes';
-import {EventName, IClient, IEventContext, IInitOptions} from './types';
+import {ITheme, ThemeName, Themes} from './themes';
+import {allEvents, EventName, IClient, IEventContext, IInitOptions} from './types';
 import {formatDuration, getTagName, isNull, print, toJson} from './utils';
-
-// monitor state;
-const $state = {};
-
-// supported events;
-const $events = ['connect', 'disconnect', 'query', 'error', 'task', 'transact'];
 
 // reusable error messages;
 const errors = {
-    redirectParams(event) {
+    redirectParams(event: string) {
         return 'Invalid event \'' + event + '\' redirect parameters.';
     }
 };
@@ -21,15 +15,28 @@ const timeGap = ' '.repeat(9);
 export class Monitor {
 
     /**
+     * Attachment state.
+     */
+    private state: { [name in keyof IInitOptions]: any };
+
+    /**
      * Current Color Theme.
      */
     cct: ITheme;
 
-    private initOptions: IInitOptions | void;
+    /**
+     * Attached Initialization Options object.
+     */
+    private initOptions: IInitOptions | null;
 
+    /**
+     * Detailed output flag.
+     */
     detailed: boolean;
 
     constructor() {
+        this.state = {};
+        this.initOptions = null;
         this.detailed = true;
         this.cct = Themes.dimmed;
     }
@@ -201,7 +208,7 @@ export class Monitor {
         let q = e.query;
         if (q !== undefined && typeof q !== 'string') {
             if (typeof q === 'object' && ('name' in q || 'text' in q)) {
-                const tmp = {};
+                const tmp: { [name: string]: any } = {};
                 const names = ['name', 'text', 'values'];
                 names.forEach(n => {
                     if (n in q) {
@@ -257,7 +264,8 @@ export class Monitor {
             throw new TypeError('Initialization object \'options\' must be specified.');
         }
 
-        const events = options && options.events;
+        let events = options && options.events;
+        const override = options && options.override;
 
         const hasFilter = Array.isArray(events);
 
@@ -265,109 +273,111 @@ export class Monitor {
             throw new TypeError('Invalid parameter \'events\' passed.');
         }
 
+        events = events || [];
+
         this.initOptions = initOptions;
 
         const self = this;
 
         // attaching to 'connect' event:
         if (!hasFilter || events.indexOf('connect') !== -1) {
-            $state.connect = {
-                value: options.connect,
-                exists: 'connect' in options
+            this.state.connect = {
+                value: initOptions.connect,
+                exists: 'connect' in initOptions
             };
-            if (typeof options.connect === 'function' && !override) {
-                options.connect = function (client, dc, useCount) {
-                    $state.connect.value(client, dc, useCount); // call the original handler;
+            if (typeof initOptions.connect === 'function' && !override) {
+                initOptions.connect = function (client, dc, useCount) {
+                    this.state.connect.value(client, dc, useCount); // call the original handler;
                     self.connect(client, dc, useCount);
                 };
             } else {
-                options.connect = self.connect;
+                initOptions.connect = self.connect;
             }
         }
 
         // attaching to 'disconnect' event:
         if (!hasFilter || events.indexOf('disconnect') !== -1) {
-            $state.disconnect = {
-                value: options.disconnect,
-                exists: 'disconnect' in options
+            this.state.disconnect = {
+                value: initOptions.disconnect,
+                exists: 'disconnect' in initOptions
             };
-            if (typeof options.disconnect === 'function' && !override) {
-                options.disconnect = function (client, dc) {
-                    $state.disconnect.value(client, dc); // call the original handler;
+            if (typeof initOptions.disconnect === 'function' && !override) {
+                initOptions.disconnect = function (client, dc) {
+                    this.state.disconnect.value(client, dc); // call the original handler;
                     self.disconnect(client, dc);
                 };
             } else {
-                options.disconnect = self.disconnect;
+                initOptions.disconnect = self.disconnect;
             }
         }
 
         // attaching to 'query' event:
         if (!hasFilter || events.indexOf('query') !== -1) {
-            $state.query = {
-                value: options.query,
-                exists: 'query' in options
+            this.state.query = {
+                value: initOptions.query,
+                exists: 'query' in initOptions
             };
-            if (typeof options.query === 'function' && !override) {
-                options.query = function (e) {
-                    $state.query.value(e); // call the original handler;
+            if (typeof initOptions.query === 'function' && !override) {
+                initOptions.query = function (e) {
+                    this.state.query.value(e); // call the original handler;
                     self.query(e);
                 };
             } else {
-                options.query = self.query;
+                initOptions.query = self.query;
             }
         }
 
         // attaching to 'task' event:
         if (!hasFilter || events.indexOf('task') !== -1) {
-            $state.task = {
-                value: options.task,
-                exists: 'task' in options
+            this.state.task = {
+                value: initOptions.task,
+                exists: 'task' in initOptions
             };
-            if (typeof options.task === 'function' && !override) {
-                options.task = function (e) {
-                    $state.task.value(e); // call the original handler;
+            if (typeof initOptions.task === 'function' && !override) {
+                initOptions.task = function (e) {
+                    this.state.task.value(e); // call the original handler;
                     self.task(e);
                 };
             } else {
-                options.task = self.task;
+                initOptions.task = self.task;
             }
         }
 
         // attaching to 'transact' event:
         if (!hasFilter || events.indexOf('transact') !== -1) {
-            $state.transact = {
-                value: options.transact,
+            this.state.transact = {
+                value: initOptions.transact,
                 exists: 'transact' in options
             };
-            if (typeof options.transact === 'function' && !override) {
-                options.transact = function (e) {
-                    $state.transact.value(e); // call the original handler;
+            if (typeof initOptions.transact === 'function' && !override) {
+                initOptions.transact = function (e) {
+                    this.state.transact.value(e); // call the original handler;
                     self.transact(e);
                 };
             } else {
-                options.transact = self.transact;
+                initOptions.transact = self.transact;
             }
         }
 
         // attaching to 'error' event:
         if (!hasFilter || events.indexOf('error') !== -1) {
-            $state.error = {
-                value: options.error,
-                exists: 'error' in options
+            this.state.error = {
+                value: initOptions.error,
+                exists: 'error' in initOptions
             };
-            if (typeof options.error === 'function' && !override) {
-                options.error = function (err, e) {
-                    $state.error.value(err, e); // call the original handler;
+            if (typeof initOptions.error === 'function' && !override) {
+                initOptions.error = function (err, e) {
+                    this.state.error.value(err, e); // call the original handler;
                     self.error(err, e);
                 };
             } else {
-                options.error = self.error;
+                initOptions.error = self.error;
             }
         }
     }
 
     isAttached() {
-        return !!$state.options;
+        return !!this.initOptions;
     }
 
     /////////////////////////////////////////////////////////
@@ -377,14 +387,14 @@ export class Monitor {
         if (this.initOptions) {
             throw new Error('Event monitor not attached.');
         }
-        $events.forEach(e => {
-            if (e in $state) {
-                if ($state[e].exists) {
-                    $state.options[e] = $state[e].value;
+        allEvents.forEach(e => {
+            if (e in this.state) {
+                if (this.state[e].exists) {
+                    this.state.options[e] = this.state[e].value;
                 } else {
-                    delete $state.options[e];
+                    delete this.state.options[e];
                 }
-                delete $state[e];
+                delete this.state[e];
             }
         });
         this.initOptions = null;
@@ -393,7 +403,7 @@ export class Monitor {
     //////////////////////////////////////////////////////////////////
     // sets a new theme either by its name (from the predefined ones),
     // or as a new object with all colors specified.
-    setTheme(t) {
+    setTheme(t: ITheme | ThemeName) {
         const err = 'Invalid theme parameter specified.';
         if (!t) {
             throw new TypeError(err);
@@ -422,15 +432,8 @@ export class Monitor {
     }
 
     //////////////////////////////////////////////////////////////////
-    // sets a new value to the detailed var. This function is needed
-    // to support the value attribution in Typescript.
-    setDetailed(value) {
-        this.detailed = !!value;
-    }
-
-    //////////////////////////////////////////////////////////////////
     // sets a custom log function to support the function attribution in Typescript.
-    setLog(log) {
+    setLog(log: any) {
         module.exports.log = typeof log === 'function' ? log : null;
     }
 

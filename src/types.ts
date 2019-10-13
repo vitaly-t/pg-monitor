@@ -1,5 +1,7 @@
 export type EventName = 'connect' | 'disconnect' | 'query' | 'error' | 'task' | 'transact';
 
+export const allEvents: EventName[] = ['connect', 'disconnect', 'query', 'error', 'task', 'transact'];
+
 export interface IInitOptions {
     connect?: (client: IClient, dc: any, useCount: number) => void
     disconnect?: (client: IClient, dc: any) => void
@@ -28,5 +30,5 @@ export interface ITaskContext {
     isTX: boolean;
     start: Date;
     finish: Date;
-    success?:boolean;
+    success?: boolean;
 }
