@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "@types/cli-color": "0.3.29",
+    "@types/node": "^12.7.12",
     "coveralls": "3.0.7",
     "eslint": "6.5.1",
     "istanbul": "0.4.5",

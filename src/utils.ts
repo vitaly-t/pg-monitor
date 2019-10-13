@@ -1,6 +1,8 @@
 // prints the text on screen, optionally
 // notifying the client of the log events;
-export function print(e:any, event:any, text:string, isExtraLine?:boolean) {
+import {IEventContext} from './types';
+
+export function print(e: any, event: any, text: string, isExtraLine?: boolean) {
     let t = null, s = text;
     if (!isExtraLine) {
         t = new Date();
@@ -33,13 +35,13 @@ export function print(e:any, event:any, text:string, isExtraLine?:boolean) {
 }
 
 // formats time as '00:00:00';
-export function formatTime(t) {
+export function formatTime(t: Date): string {
     return padZeros(t.getHours(), 2) + ':' + padZeros(t.getMinutes(), 2) + ':' + padZeros(t.getSeconds(), 2);
 }
 
 // formats duration value (in milliseconds) as '00:00:00.000',
 // shortened to just the values that are applicable.
-export function formatDuration(d) {
+export function formatDuration(d: number): string {
     const hours = Math.floor(d / 3600000);
     const minutes = Math.floor((d - hours * 3600000) / 60000);
     const seconds = Math.floor((d - hours * 3600000 - minutes * 60000) / 1000);
@@ -61,24 +63,25 @@ export function formatDuration(d) {
 }
 
 // removes color elements from the text;
-export function removeColors(text) {
+export function removeColors(text: string): string {
     /*eslint no-control-regex: 0*/
     return text.replace(/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]/g, '');
 }
 
-export function padZeros(value, n) {
+export function padZeros(value: number, n: number): string {
     let str = value.toString();
     while (str.length < n)
         str = '0' + str;
     return str;
 }
 
-const hasOwnProperty = (obj, propName) => Object.prototype.hasOwnProperty.call(obj, propName);
+export function hasOwnProperty(obj: object, propName: string): boolean {
+    return Object.prototype.hasOwnProperty.call(obj, propName)
+}
 
-// extracts tag name from a tag object/value;
-export function getTagName(event) {
+export function getTagName(e: IEventContext): string | undefined {
     let sTag;
-    const tag = event.ctx.tag;
+    const tag = e.ctx && e.ctx.tag;
     if (tag) {
         switch (typeof tag) {
             case 'string':
@@ -104,14 +107,14 @@ export function getTagName(event) {
 
 ////////////////////////////////////////////
 // Simpler check for null/undefined;
-export function isNull(value) {
+export function isNull(value: any) {
     return value === null || value === undefined;
 }
 
 ///////////////////////////////////////////////////////////////
 // Adds support for BigInt, to be rendered like in JavaScript,
 // as an open value, with 'n' in the end.
-export function toJson(data) {
+export function toJson(data: any) {
     if (data !== undefined) {
         return JSON.stringify(data, (_, v) => typeof v === 'bigint' ? `${v}#bigint` : v)
             .replace(/"(-?\d+)#bigint"/g, (_, a) => a + 'n');

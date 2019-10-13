@@ -1,6 +1,6 @@
 import {ITheme, ThemeName, Themes} from './themes';
 import {allEvents, EventName, IClient, IEventContext, IInitOptions} from './types';
-import {formatDuration, getTagName, isNull, print, toJson} from './utils';
+import {formatDuration, getTagName, hasOwnProperty, isNull, print, toJson} from './utils';
 
 // reusable error messages;
 const errors = {
@@ -404,19 +404,19 @@ export class Monitor {
     // sets a new theme either by its name (from the predefined ones),
     // or as a new object with all colors specified.
     setTheme(t: ITheme | ThemeName) {
-        const err = 'Invalid theme parameter specified.';
+        const err = new TypeError('Invalid theme parameter specified.');
         if (!t) {
-            throw new TypeError(err);
+            throw err;
         }
         if (typeof t === 'string') {
-            if (t in themes) {
-                this.cct = themes[t];
+            if (t in Themes) {
+                this.cct = Themes[t];
             } else {
                 throw new TypeError('Theme \'' + t + '\' does not exist.');
             }
         } else {
             if (typeof t === 'object') {
-                for (const p in themes.monochrome) {
+                for (const p in Themes.monochrome) {
                     if (!hasOwnProperty(t, p)) {
                         throw new TypeError('Invalid theme: property \'' + p + '\' is missing.');
                     }
@@ -426,7 +426,7 @@ export class Monitor {
                 }
                 this.cct = t;
             } else {
-                throw new Error(err);
+                throw err;
             }
         }
     }
