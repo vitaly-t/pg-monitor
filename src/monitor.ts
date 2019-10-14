@@ -17,17 +17,17 @@ export class Monitor {
     /**
      * Attachment state.
      */
-    private state: { [name in keyof IInitOptions]: any };
-
-    /**
-     * Current Color Theme.
-     */
-    cct: ITheme;
+    private state: IInitOptions;
 
     /**
      * Attached Initialization Options object.
      */
     private initOptions: IInitOptions | null;
+
+    /**
+     * Current Color Theme.
+     */
+    cct: ITheme;
 
     /**
      * Detailed output flag.
@@ -46,7 +46,7 @@ export class Monitor {
     // parameters:
     // - client - the only parameter for the event;
     // - detailed - optional, indicates that user@database is to be reported;
-    connect(client: IClient, dc: any, useCount: number) {
+    connect(client: IClient, dc: any, useCount: number): void {
         const event = 'connect';
         const cp = client ? client.connectionParameters : null;
         if (!cp) {
@@ -65,7 +65,7 @@ export class Monitor {
     // parameters:
     // - client - the only parameter for the event;
     // - detailed - optional, indicates that user@database is to be reported;
-    disconnect(client: any, dc: any) {
+    disconnect(client: IClient, dc: any): void {
         const event = 'disconnect';
         const cp = client ? client.connectionParameters : null;
         if (!cp) {
@@ -84,7 +84,7 @@ export class Monitor {
     // parameters:
     // - e - the only parameter for the event;
     // - detailed - optional, indicates that both task and transaction context are to be reported;
-    query(e: IEventContext) {
+    query(e: IEventContext): void {
         const event = 'query';
         if (!e || !('query' in e)) {
             throw new TypeError(errors.redirectParams(event));
@@ -144,7 +144,7 @@ export class Monitor {
     // 'task' event handler;
     // parameters:
     // - e - the only parameter for the event;
-    task(e: IEventContext) {
+    task(e: IEventContext): void {
         const event = 'task';
         if (!e || !e.ctx) {
             throw new TypeError(errors.redirectParams(event));
@@ -170,7 +170,7 @@ export class Monitor {
     // 'transact' event handler;
     // parameters:
     // - e - the only parameter for the event;
-    transact(e: IEventContext) {
+    transact(e: IEventContext): void {
         const event = 'transact';
         if (!e || !e.ctx) {
             throw new TypeError(errors.redirectParams(event));
@@ -198,7 +198,7 @@ export class Monitor {
     // - err - error-text parameter for the original event;
     // - e - error context object for the original event;
     // - detailed - optional, indicates that transaction context is to be reported;
-    error(err: any, e: IEventContext) {
+    error(err: any, e: IEventContext): void {
         const event = 'error';
         const errMsg = err ? (err.message || err) : null;
         if (!e || typeof e !== 'object') {
@@ -247,14 +247,7 @@ export class Monitor {
     // - options - the options object;
     // - events - optional, list of events to attach to;
     // - override - optional, overrides the existing event handlers;
-    attach(initOptions: IInitOptions, options?: { events?: EventName[], override?: boolean }) {
-
-        /*
-        if (options && options.options && typeof options.options === 'object') {
-            events = options.events;
-            override = options.override;
-            options = options.options;
-        }*/
+    attach(initOptions: IInitOptions, options?: { events?: EventName[], override?: boolean }): void {
 
         if (this.initOptions) {
             throw new Error('Repeated attachments not supported, must call detach first.');
@@ -281,13 +274,10 @@ export class Monitor {
 
         // attaching to 'connect' event:
         if (!hasFilter || events.indexOf('connect') !== -1) {
-            this.state.connect = {
-                value: initOptions.connect,
-                exists: 'connect' in initOptions
-            };
             if (typeof initOptions.connect === 'function' && !override) {
+                self.state.connect = initOptions.connect;
                 initOptions.connect = function (client, dc, useCount) {
-                    this.state.connect.value(client, dc, useCount); // call the original handler;
+                    self.state.connect && self.state.connect(client, dc, useCount); // call the original handler;
                     self.connect(client, dc, useCount);
                 };
             } else {
@@ -376,25 +366,25 @@ export class Monitor {
         }
     }
 
-    isAttached() {
+    isAttached(): boolean {
         return !!this.initOptions;
     }
 
     /////////////////////////////////////////////////////////
     // detaches from all events to which was attached during
     // the last `attach` call.
-    detach() {
-        if (this.initOptions) {
+    detach(): void {
+        if (!this.initOptions) {
             throw new Error('Event monitor not attached.');
         }
-        allEvents.forEach(e => {
-            if (e in this.state) {
-                if (this.state[e].exists) {
-                    this.state.options[e] = this.state[e].value;
-                } else {
-                    delete this.state.options[e];
-                }
+        const init: IInitOptions = this.initOptions && this.initOptions;
+        // SEE: https://stackoverflow.com/questions/58380515/copying-a-same-key-property-error-in-typescript
+        allEvents.forEach((e: EventName) => {
+            if (this.state[e]) {
+                init[e] = this.state[e] as any;
                 delete this.state[e];
+            } else {
+                delete init[e];
             }
         });
         this.initOptions = null;
@@ -403,7 +393,7 @@ export class Monitor {
     //////////////////////////////////////////////////////////////////
     // sets a new theme either by its name (from the predefined ones),
     // or as a new object with all colors specified.
-    setTheme(t: ITheme | ThemeName) {
+    setTheme(t: ITheme | ThemeName): void {
         const err = new TypeError('Invalid theme parameter specified.');
         if (!t) {
             throw err;
@@ -433,7 +423,7 @@ export class Monitor {
 
     //////////////////////////////////////////////////////////////////
     // sets a custom log function to support the function attribution in Typescript.
-    setLog(log: any) {
+    setLog(log: any): void {
         module.exports.log = typeof log === 'function' ? log : null;
     }
 
