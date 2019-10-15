@@ -47,6 +47,8 @@ export interface ITheme {
     error: color.Format
 }
 
+export const themeAttrs: (keyof ITheme)[] = ['time', 'value', 'cn', 'tx', 'paramTitle', 'errorTitle', 'query', 'special', 'error'];
+
 export class Themes {
 
     /**

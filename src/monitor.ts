@@ -1,4 +1,4 @@
-import {ITheme, ThemeName, Themes} from './themes';
+import {ITheme, themeAttrs, ThemeName, Themes} from './themes';
 import {allEvents, EventName, IClient, IEventContext, IInitOptions} from './types';
 import {formatDuration, getTagName, hasOwnProperty, isNull, print, toJson} from './utils';
 
@@ -257,9 +257,8 @@ export class Monitor {
             throw new TypeError('Initialization object \'options\' must be specified.');
         }
 
-        let events = options && options.events;
+        let events: EventName[] = options && options.events || [];
         const override = options && options.override;
-
         const hasFilter = Array.isArray(events);
 
         if (!isNull(events) && !hasFilter) {
@@ -267,103 +266,27 @@ export class Monitor {
         }
 
         events = events || [];
-
         this.initOptions = initOptions;
-
         const self = this;
 
-        // attaching to 'connect' event:
-        if (!hasFilter || events.indexOf('connect') !== -1) {
-            if (typeof initOptions.connect === 'function' && !override) {
-                self.state.connect = initOptions.connect;
-                initOptions.connect = function (client, dc, useCount) {
-                    self.state.connect && self.state.connect(client, dc, useCount); // call the original handler;
-                    self.connect(client, dc, useCount);
-                };
-            } else {
-                initOptions.connect = self.connect;
+        const attach = (e: EventName) => {
+            if (!hasFilter || events.indexOf(e) !== -1) {
+                if (typeof initOptions[e] === 'function' && !override) {
+                    self.state[e] = initOptions[e] as any;
+                    initOptions[e] = function () {
+                        if (typeof self.state[e] === 'function') {
+                            (self.state[e] as any).apply(null, arguments); // call the original handler;
+                        }
+                        (self[e] as any).apply(null, arguments);
+                    };
+                } else {
+                    initOptions[e] = self[e] as any;
+                }
             }
-        }
-
-        // attaching to 'disconnect' event:
-        if (!hasFilter || events.indexOf('disconnect') !== -1) {
-            this.state.disconnect = {
-                value: initOptions.disconnect,
-                exists: 'disconnect' in initOptions
-            };
-            if (typeof initOptions.disconnect === 'function' && !override) {
-                initOptions.disconnect = function (client, dc) {
-                    this.state.disconnect.value(client, dc); // call the original handler;
-                    self.disconnect(client, dc);
-                };
-            } else {
-                initOptions.disconnect = self.disconnect;
-            }
-        }
-
-        // attaching to 'query' event:
-        if (!hasFilter || events.indexOf('query') !== -1) {
-            this.state.query = {
-                value: initOptions.query,
-                exists: 'query' in initOptions
-            };
-            if (typeof initOptions.query === 'function' && !override) {
-                initOptions.query = function (e) {
-                    this.state.query.value(e); // call the original handler;
-                    self.query(e);
-                };
-            } else {
-                initOptions.query = self.query;
-            }
-        }
-
-        // attaching to 'task' event:
-        if (!hasFilter || events.indexOf('task') !== -1) {
-            this.state.task = {
-                value: initOptions.task,
-                exists: 'task' in initOptions
-            };
-            if (typeof initOptions.task === 'function' && !override) {
-                initOptions.task = function (e) {
-                    this.state.task.value(e); // call the original handler;
-                    self.task(e);
-                };
-            } else {
-                initOptions.task = self.task;
-            }
-        }
-
-        // attaching to 'transact' event:
-        if (!hasFilter || events.indexOf('transact') !== -1) {
-            this.state.transact = {
-                value: initOptions.transact,
-                exists: 'transact' in options
-            };
-            if (typeof initOptions.transact === 'function' && !override) {
-                initOptions.transact = function (e) {
-                    this.state.transact.value(e); // call the original handler;
-                    self.transact(e);
-                };
-            } else {
-                initOptions.transact = self.transact;
-            }
-        }
-
-        // attaching to 'error' event:
-        if (!hasFilter || events.indexOf('error') !== -1) {
-            this.state.error = {
-                value: initOptions.error,
-                exists: 'error' in initOptions
-            };
-            if (typeof initOptions.error === 'function' && !override) {
-                initOptions.error = function (err, e) {
-                    this.state.error.value(err, e); // call the original handler;
-                    self.error(err, e);
-                };
-            } else {
-                initOptions.error = self.error;
-            }
-        }
+        };
+        allEvents.forEach(e => {
+            attach(e);
+        });
     }
 
     isAttached(): boolean {
@@ -406,14 +329,14 @@ export class Monitor {
             }
         } else {
             if (typeof t === 'object') {
-                for (const p in Themes.monochrome) {
-                    if (!hasOwnProperty(t, p)) {
-                        throw new TypeError('Invalid theme: property \'' + p + '\' is missing.');
+                themeAttrs.forEach(a => {
+                    if (!hasOwnProperty(t, a)) {
+                        throw new TypeError('Invalid theme: property \'' + a + '\' is missing.');
                     }
-                    if (typeof t[p] !== 'function') {
-                        throw new TypeError('Theme property \'' + p + '\' is invalid.');
+                    if (typeof t[a] !== 'function') {
+                        throw new TypeError('Theme property \'' + a + '\' is invalid.');
                     }
-                }
+                });
                 this.cct = t;
             } else {
                 throw err;
