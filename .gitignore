@@ -3,6 +3,7 @@ node_modules/
 coverage/
 *.map
 
+dist/
 typescript/*.js
 test/typescript/*.js
 package-lock.json
