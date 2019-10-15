@@ -1,52 +1,29 @@
-import {ITheme, themeAttrs, ThemeName, Themes} from './themes';
-import {allEvents, EventName, IClient, IEventContext, IInitOptions} from './types';
-import {formatDuration, formatTime, getTagName, hasOwnProperty, isNull, removeColors, toJson} from './utils';
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const themes_1 = require("./themes");
+const types_1 = require("./types");
+const utils_1 = require("./utils");
 // reusable error messages;
 const errors = {
-    redirectParams(event: string) {
+    redirectParams(event) {
         return 'Invalid event \'' + event + '\' redirect parameters.';
     }
 };
-
 // 9 spaces for the time offset:
 const timeGap = ' '.repeat(9);
-
-export class Monitor {
-
-    /**
-     * Attachment state.
-     */
-    private state: IInitOptions;
-
-    /**
-     * Attached Initialization Options object.
-     */
-    private initOptions: IInitOptions | null;
-
-    /**
-     * Current Color Theme.
-     */
-    cct: ITheme;
-
-    /**
-     * Detailed output flag.
-     */
-    detailed: boolean;
-
+class Monitor {
     constructor() {
         this.state = {};
         this.initOptions = null;
         this.detailed = true;
-        this.cct = Themes.dimmed;
+        this.cct = themes_1.Themes.dimmed;
     }
-
     ///////////////////////////////////////////////
     // 'connect' event handler;
     // parameters:
     // - client - the only parameter for the event;
     // - detailed - optional, indicates that user@database is to be reported;
-    connect(client: IClient, dc: any, useCount: number): void {
+    connect(client, dc, useCount) {
         const event = 'connect';
         const cp = client ? client.connectionParameters : null;
         if (!cp) {
@@ -55,17 +32,17 @@ export class Monitor {
         if (this.detailed) {
             const countInfo = typeof useCount === 'number' ? this.cct.cn('; useCount: ') + this.cct.value(useCount) : '';
             this.print(null, event, this.cct.cn('connect(') + this.cct.value(cp.user + '@' + cp.database) + this.cct.cn(')') + countInfo);
-        } else {
+        }
+        else {
             this.print(null, event, this.cct.cn('connect'));
         }
     }
-
     ///////////////////////////////////////////////
     // 'connect' event handler;
     // parameters:
     // - client - the only parameter for the event;
     // - detailed - optional, indicates that user@database is to be reported;
-    disconnect(client: IClient, dc: any): void {
+    disconnect(client, dc) {
         const event = 'disconnect';
         const cp = client ? client.connectionParameters : null;
         if (!cp) {
@@ -74,17 +51,17 @@ export class Monitor {
         if (this.detailed) {
             // report user@database details;
             this.print(null, event, this.cct.cn('disconnect(') + this.cct.value(cp.user + '@' + cp.database) + this.cct.cn(')'));
-        } else {
+        }
+        else {
             this.print(null, event, this.cct.cn('disconnect'));
         }
     }
-
     ///////////////////////////////////////////////
     // 'query' event handler;
     // parameters:
     // - e - the only parameter for the event;
     // - detailed - optional, indicates that both task and transaction context are to be reported;
-    query(e: IEventContext): void {
+    query(e) {
         const event = 'query';
         if (!e || !('query' in e)) {
             throw new TypeError(errors.redirectParams(event));
@@ -100,7 +77,8 @@ export class Monitor {
                     break;
                 }
             }
-        } else {
+        }
+        else {
             if (typeof q === 'object' && ('name' in q || 'text' in q)) {
                 // Either a Prepared Statement or a Parameterized Query;
                 prepared = true;
@@ -112,7 +90,7 @@ export class Monitor {
                     msg.push(this.cct.query('text=') + '"' + this.cct.value(q.text) + '"');
                 }
                 if (Array.isArray(q.values) && q.values.length) {
-                    msg.push(this.cct.query('values=') + this.cct.value(toJson(q.values)));
+                    msg.push(this.cct.query('values=') + this.cct.value(utils_1.toJson(q.values)));
                 }
                 q = msg.join(', ');
             }
@@ -123,10 +101,11 @@ export class Monitor {
         }
         if (this.detailed && e.ctx) {
             // task/transaction details are to be reported;
-            const sTag = getTagName(e), prefix = e.ctx.isTX ? 'tx' : 'task';
+            const sTag = utils_1.getTagName(e), prefix = e.ctx.isTX ? 'tx' : 'task';
             if (sTag) {
                 qText = this.cct.tx(prefix + '(') + this.cct.value(sTag) + this.cct.tx('): ') + qText;
-            } else {
+            }
+            else {
                 qText = this.cct.tx(prefix + ': ') + qText;
             }
         }
@@ -134,71 +113,70 @@ export class Monitor {
         if (e.params) {
             let p = e.params;
             if (typeof p !== 'string') {
-                p = toJson(p);
+                p = utils_1.toJson(p);
             }
             this.print(e, event, timeGap + this.cct.paramTitle('params: ') + this.cct.value(p), true);
         }
     }
-
     ///////////////////////////////////////////////
     // 'task' event handler;
     // parameters:
     // - e - the only parameter for the event;
-    task(e: IEventContext): void {
+    task(e) {
         const event = 'task';
         if (!e || !e.ctx) {
             throw new TypeError(errors.redirectParams(event));
         }
         let msg = this.cct.tx('task');
-        const sTag = getTagName(e);
+        const sTag = utils_1.getTagName(e);
         if (sTag) {
             msg += this.cct.tx('(') + this.cct.value(sTag) + this.cct.tx(')');
         }
         if (e.ctx.finish) {
             msg += this.cct.tx('/end');
-        } else {
+        }
+        else {
             msg += this.cct.tx('/start');
         }
         if (e.ctx.finish) {
-            const duration = formatDuration(e.ctx.finish.getDate() - e.ctx.start.getDate());
+            const duration = utils_1.formatDuration(e.ctx.finish.getDate() - e.ctx.start.getDate());
             msg += this.cct.tx('; duration: ') + this.cct.value(duration) + this.cct.tx(', success: ') + this.cct.value(!!e.ctx.success);
         }
         this.print(e, event, msg);
     }
-
     ///////////////////////////////////////////////
     // 'transact' event handler;
     // parameters:
     // - e - the only parameter for the event;
-    transact(e: IEventContext): void {
+    transact(e) {
         const event = 'transact';
         if (!e || !e.ctx) {
             throw new TypeError(errors.redirectParams(event));
         }
         let msg = this.cct.tx('tx');
-        const sTag = getTagName(e);
+        const sTag = utils_1.getTagName(e);
         if (sTag) {
             msg += this.cct.tx('(') + this.cct.value(sTag) + this.cct.tx(')');
         }
         if (e.ctx.finish) {
             msg += this.cct.tx('/end');
-        } else {
+        }
+        else {
             msg += this.cct.tx('/start');
         }
         if (e.ctx.finish) {
-            const duration = formatDuration(e.ctx.finish.getDate() - e.ctx.start.getDate());
+            const duration = utils_1.formatDuration(e.ctx.finish.getDate() - e.ctx.start.getDate());
             msg += this.cct.tx('; duration: ') + this.cct.value(duration) + this.cct.tx(', success: ') + this.cct.value(!!e.ctx.success);
         }
         this.print(e, event, msg);
     }
-
     ///////////////////////////////////////////////
     // 'error' event handler;
     // parameters:
     // - err - error-text parameter for the original event;
     // - e - error context object for the original event;
     // - detailed - optional, indicates that transaction context is to be reported;
-    error(err: any, e: IEventContext): void {
+    error(err, e) {
         const event = 'error';
         const errMsg = err ? (err.message || err) : null;
         if (!e || typeof e !== 'object') {
@@ -208,7 +186,7 @@ export class Monitor {
         let q = e.query;
         if (q !== undefined && typeof q !== 'string') {
             if (typeof q === 'object' && ('name' in q || 'text' in q)) {
-                const tmp: { [name: string]: any } = {};
+                const tmp = {};
                 const names = ['name', 'text', 'values'];
                 names.forEach(n => {
                     if (n in q) {
@@ -217,120 +195,117 @@ export class Monitor {
                 });
                 q = tmp;
             }
-            q = toJson(q);
+            q = utils_1.toJson(q);
         }
         if (e.cn) {
             // a connection issue;
-            this.print(e, event, timeGap + this.cct.paramTitle('connection: ') + this.cct.value(toJson(e.cn)), true);
-        } else {
+            this.print(e, event, timeGap + this.cct.paramTitle('connection: ') + this.cct.value(utils_1.toJson(e.cn)), true);
+        }
+        else {
             if (q !== undefined) {
                 if (this.detailed && e.ctx) {
                     // transaction details are to be reported;
-                    const sTag = getTagName(e), prefix = e.ctx.isTX ? 'tx' : 'task';
+                    const sTag = utils_1.getTagName(e), prefix = e.ctx.isTX ? 'tx' : 'task';
                     if (sTag) {
                         this.print(e, event, timeGap + this.cct.paramTitle(prefix + '(') + this.cct.value(sTag) + this.cct.paramTitle('): ') + this.cct.value(q), true);
-                    } else {
+                    }
+                    else {
                         this.print(e, event, timeGap + this.cct.paramTitle(prefix + ': ') + this.cct.value(q), true);
                     }
-                } else {
+                }
+                else {
                     this.print(e, event, timeGap + this.cct.paramTitle('query: ') + this.cct.value(q), true);
                 }
             }
         }
         if (e.params) {
-            this.print(e, event, timeGap + this.cct.paramTitle('params: ') + this.cct.value(toJson(e.params)), true);
+            this.print(e, event, timeGap + this.cct.paramTitle('params: ') + this.cct.value(utils_1.toJson(e.params)), true);
         }
     }
-
     /////////////////////////////////////////////////////////
     // attaches to pg-promise initialization options object:
     // - options - the options object;
     // - events - optional, list of events to attach to;
     // - override - optional, overrides the existing event handlers;
-    attach(initOptions: IInitOptions, options?: { events?: EventName[], override?: boolean }): void {
-
+    attach(initOptions, options) {
         if (this.initOptions) {
             throw new Error('Repeated attachments not supported, must call detach first.');
         }
-
         if (!options || typeof options !== 'object') {
             throw new TypeError('Initialization object \'options\' must be specified.');
         }
-
-        let events: EventName[] = options && options.events || [];
+        let events = options && options.events || [];
         const override = options && options.override;
         const hasFilter = Array.isArray(events);
-
-        if (!isNull(events) && !hasFilter) {
+        if (!utils_1.isNull(events) && !hasFilter) {
             throw new TypeError('Invalid parameter \'events\' passed.');
         }
-
         events = events || [];
         this.initOptions = initOptions;
         const self = this;
-
-        const attach = (e: EventName) => {
+        const attach = (e) => {
             if (!hasFilter || events.indexOf(e) !== -1) {
                 if (typeof initOptions[e] === 'function' && !override) {
-                    self.state[e] = initOptions[e] as any;
+                    self.state[e] = initOptions[e];
                     initOptions[e] = function () {
                         if (typeof self.state[e] === 'function') {
-                            (self.state[e] as any).apply(null, arguments); // call the original handler;
+                            self.state[e].apply(null, arguments); // call the original handler;
                         }
-                        (self[e] as any).apply(null, arguments);
+                        self[e].apply(null, arguments);
                     };
-                } else {
-                    initOptions[e] = self[e] as any;
+                }
+                else {
+                    initOptions[e] = self[e];
                 }
             }
         };
-        allEvents.forEach(e => {
+        types_1.allEvents.forEach(e => {
             attach(e);
         });
     }
-
-    isAttached(): boolean {
+    isAttached() {
         return !!this.initOptions;
     }
-
     /////////////////////////////////////////////////////////
     // detaches from all events to which was attached during
     // the last `attach` call.
-    detach(): void {
+    detach() {
         if (!this.initOptions) {
             throw new Error('Event monitor not attached.');
         }
-        const init: IInitOptions = this.initOptions && this.initOptions;
+        const init = this.initOptions && this.initOptions;
         // SEE: https://stackoverflow.com/questions/58380515/copying-a-same-key-property-error-in-typescript
-        allEvents.forEach((e: EventName) => {
+        types_1.allEvents.forEach((e) => {
             if (this.state[e]) {
-                init[e] = this.state[e] as any;
+                init[e] = this.state[e];
                 delete this.state[e];
-            } else {
+            }
+            else {
                 delete init[e];
             }
         });
         this.initOptions = null;
     }
-
     //////////////////////////////////////////////////////////////////
     // sets a new theme either by its name (from the predefined ones),
     // or as a new object with all colors specified.
-    setTheme(t: ITheme | ThemeName): void {
+    setTheme(t) {
         const err = new TypeError('Invalid theme parameter specified.');
         if (!t) {
             throw err;
         }
         if (typeof t === 'string') {
-            if (t in Themes) {
-                this.cct = Themes[t];
-            } else {
+            if (t in themes_1.Themes) {
+                this.cct = themes_1.Themes[t];
+            }
+            else {
                 throw new TypeError('Theme \'' + t + '\' does not exist.');
             }
-        } else {
+        }
+        else {
             if (typeof t === 'object') {
-                themeAttrs.forEach(a => {
-                    if (!hasOwnProperty(t, a)) {
+                themes_1.themeAttrs.forEach(a => {
+                    if (!utils_1.hasOwnProperty(t, a)) {
                         throw new TypeError('Invalid theme: property \'' + a + '\' is missing.');
                     }
                     if (typeof t[a] !== 'function') {
@@ -338,23 +313,22 @@ export class Monitor {
                     }
                 });
                 this.cct = t;
-            } else {
+            }
+            else {
                 throw err;
             }
         }
     }
-
     //////////////////////////////////////////////////////////////////
     // sets a custom log function to support the function attribution in Typescript.
-    setLog(log: any): void {
+    setLog(log) {
         module.exports.log = typeof log === 'function' ? log : null;
     }
-
-    private print(e: IEventContext | null, event: EventName, text: string, isExtraLine?: boolean) {
+    print(e, event, text, isExtraLine) {
         let t = null, s = text;
         if (!isExtraLine) {
             t = new Date();
-            s = this.cct.time(formatTime(t)) + ' ' + text;
+            s = this.cct.time(utils_1.formatTime(t)) + ' ' + text;
         }
         let display = true;
         const log = module.exports.log;
@@ -363,25 +337,25 @@ export class Monitor {
             const info = {
                 event: event,
                 time: t,
-                text: removeColors(text).trim(),
+                text: utils_1.removeColors(text).trim(),
                 ctx: null,
                 display: undefined
             };
             if (e && e.ctx) {
-                info.ctx = e.ctx as any;
+                info.ctx = e.ctx;
             }
-            log(removeColors(s), info);
+            log(utils_1.removeColors(s), info);
             display = info.display === undefined || !!info.display;
         }
         // istanbul ignore next: cannot test the next
         // block without writing things into the console;
         if (display) {
             if (!process.stdout.isTTY) {
-                s = removeColors(s);
+                s = utils_1.removeColors(s);
             }
             // eslint-disable-next-line
             console.log(s);
         }
     }
-
 }
+exports.Monitor = Monitor;
