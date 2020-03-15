@@ -1,6 +1,8 @@
-const mon = require('../../lib');
+import {expect} from '../';
+import {Monitor} from '../../src/monitor';
 
 describe('Query - Positive', () => {
+    const mon = new Monitor();
     describe('within transaction', () => {
         const options = {}, text = [], params = [1, 2, 3];
         const e = {
@@ -12,7 +14,7 @@ describe('Query - Positive', () => {
             }
         };
         beforeEach(() => {
-            mon.attach(options, ['query']);
+            mon.attach(options, {events: ['query']});
 
             const log = (msg, info) => {
                 text.push(info.text);
@@ -23,9 +25,9 @@ describe('Query - Positive', () => {
             options.query(e);
         });
         it('must be successful', () => {
-            expect(text && text.length === 2).toBeTruthy();
-            expect(text[0]).toBe('task(test): begin');
-            expect(text[1]).toBe('params: [1,2,3]');
+            expect(text && text.length === 2).to.be.true;
+            expect(text[0]).to.equal('task(test): begin');
+            expect(text[1]).to.equal('params: [1,2,3]');
         });
         afterEach(() => {
             mon.detach();
@@ -52,7 +54,7 @@ describe('Query - Positive', () => {
             }
         };
         beforeEach(() => {
-            mon.attach(options, ['query']);
+            mon.attach(options, {events: ['query']});
 
             const log = (msg, info) => {
                 text = info.text;
@@ -63,10 +65,10 @@ describe('Query - Positive', () => {
             options.query(e);
         });
         it('must be successful', () => {
-            expect(text).toEqual('task(123): name="queryName", text="queryText", values=[1,2,3]');
+            expect(text).to.equal('task(123): name="queryName", text="queryText", values=[1,2,3]');
         });
         it('must call the old method', () => {
-            expect(cb).toEqual(e);
+            expect(cb).to.equal(e);
         });
         afterEach(() => {
             mon.detach();
@@ -76,15 +78,16 @@ describe('Query - Positive', () => {
 });
 
 describe('Query - Negative', () => {
+    const mon = new Monitor();
     describe('invalid parameters', () => {
         const options = {};
         beforeEach(() => {
-            mon.attach(options, ['query']);
+            mon.attach(options, {events: ['query']});
         });
         it('must report event correctly', () => {
             expect(() => {
                 options.query();
-            }).toThrow('Invalid event \'query\' redirect parameters.');
+            }).to.throw(`Invalid event 'query' redirect parameters.`);
         });
         afterEach(() => {
             mon.detach();

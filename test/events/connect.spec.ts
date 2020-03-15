@@ -1,4 +1,5 @@
-const mon = require('../../lib');
+import {expect} from '../';
+import {IInitOptions} from "../../src/types";
 
 describe('Connect - Positive', () => {
     const client = {
@@ -12,7 +13,7 @@ describe('Connect - Positive', () => {
         beforeEach(() => {
             options = {};
             text = null;
-            mon.attach(options, ['connect']);
+            mon.attach(options, {events: ['connect']});
 
             const log = (msg, info) => {
                 text = info.text;
@@ -53,10 +54,10 @@ describe('Connect - Positive', () => {
             options.connect(client, 123, false);
         });
         it('must log detailed message', () => {
-            expect(text).toBe('connect(guest@test)');
+            expect(text).to.equal('connect(guest@test)');
         });
         it('must call the old method', () => {
-            expect(ctx).toEqual(client);
+            expect(ctx).to.equal(client);
         });
         afterEach(() => {
             mon.detach();
@@ -67,7 +68,7 @@ describe('Connect - Positive', () => {
 
 describe('Connect - Negative', () => {
     describe('invalid parameters', () => {
-        const options = {};
+        const options:IInitOptions = {};
         beforeEach(() => {
             mon.attach(options, ['connect']);
             mon.setDetailed(true);
@@ -75,7 +76,7 @@ describe('Connect - Negative', () => {
         it('must report event correctly', () => {
             expect(() => {
                 options.connect();
-            }).toThrow('Invalid event \'connect\' redirect parameters.');
+            }).to.throw('Invalid event \'connect\' redirect parameters.');
         });
         afterEach(() => {
             mon.detach();

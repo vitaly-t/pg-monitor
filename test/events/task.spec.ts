@@ -1,7 +1,9 @@
-const mon = require('../../lib');
+import {expect} from '../';
+import {Monitor} from '../../src/monitor';
 
 describe('Task - Positive', () => {
 
+    const mon = new Monitor();
     describe('start', () => {
         const options = {};
         let info;
@@ -13,7 +15,7 @@ describe('Task - Positive', () => {
             }
         };
         beforeEach(() => {
-            mon.attach(options, ['task']);
+            mon.attach(options, {events: ['task']});
             const log = (msg, i) => {
                 info = i;
                 i.display = false;
@@ -22,9 +24,9 @@ describe('Task - Positive', () => {
             options.task(e);
         });
         it('must be successful', () => {
-            expect(info.text).toBe('task(test)/start');
-            expect('ctx' in info).toBe(true);
-            expect(info.ctx.isTX).toBe(false);
+            expect(info.text).to.equal('task(test)/start');
+            expect('ctx' in info).to.be.true;
+            expect(info.ctx.isTX).to.be.false;
         });
         afterEach(() => {
             mon.detach();
@@ -51,7 +53,7 @@ describe('Task - Positive', () => {
             }
         };
         beforeEach(() => {
-            mon.attach(options, ['task']);
+            mon.attach(options, {events: ['task']});
 
             const log = (msg, info) => {
                 text = info.text;
@@ -62,10 +64,10 @@ describe('Task - Positive', () => {
             options.task(e);
         });
         it('must be successful', () => {
-            expect(text).toBe('task(test)/end; duration: 03:25:45.678, success: false');
+            expect(text).to.equal('task(test)/end; duration: 03:25:45.678, success: false');
         });
         it('must call the old method', () => {
-            expect(cb).toEqual(e);
+            expect(cb).to.equal(e);
         });
         afterEach(() => {
             mon.detach();
@@ -76,15 +78,16 @@ describe('Task - Positive', () => {
 });
 
 describe('Task - Negative', () => {
+    const mon = new Monitor();
     describe('invalid parameters', () => {
         const options = {};
         beforeEach(() => {
-            mon.attach(options, ['task']);
+            mon.attach(options, {events: ['task']});
         });
         it('must report event correctly', () => {
             expect(() => {
                 options.task();
-            }).toThrow('Invalid event \'task\' redirect parameters.');
+            }).to.throw(`Invalid event 'task' redirect parameters.`);
         });
         afterEach(() => {
             mon.detach();

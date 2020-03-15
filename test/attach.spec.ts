@@ -27,6 +27,7 @@ describe('Attach - Positive', () => {
     });
 
     describe('select events', () => {
+        const mon = new Monitor();
         const options: IInitOptions = {};
         beforeEach(() => {
             mon.attach(options, {events: ['query', 'task']});
@@ -45,6 +46,7 @@ describe('Attach - Positive', () => {
     });
 
     describe('restoring all options', () => {
+        const mon = new Monitor();
         const opt1: IInitOptions = {
             connect: 123 as any,
             disconnect: undefined
@@ -61,6 +63,7 @@ describe('Attach - Positive', () => {
     });
 
     describe('restoring one option', () => {
+        const mon = new Monitor();
         const opt1: IInitOptions = {
             connect: 123 as any,
             disconnect: undefined
@@ -80,6 +83,7 @@ describe('Attach - Positive', () => {
 
 describe('Attach - Negative', () => {
 
+    const mon = new Monitor();
     it('must reject invalid options', () => {
         expect(() => {
             mon.attach();

@@ -1,4 +1,4 @@
-const mon = require('../../lib');
+import {expect} from '../';
 
 describe('Disconnect - Positive', () => {
     const client = {

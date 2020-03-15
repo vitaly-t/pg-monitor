@@ -1,6 +1,8 @@
-const mon = require('../../lib');
+import {expect} from '../';
+import {Monitor} from '../../src/monitor';
 
 describe('Transact - Positive', () => {
+    const mon = new Monitor();
     describe('start', () => {
         let info;
         const options = {}, e = {
@@ -11,7 +13,7 @@ describe('Transact - Positive', () => {
             }
         };
         beforeEach(() => {
-            mon.attach(options, ['transact']);
+            mon.attach(options, {events: ['transact']});
 
             const log = (msg, i) => {
                 info = i;
@@ -22,9 +24,9 @@ describe('Transact - Positive', () => {
             options.transact(e);
         });
         it('must be successful', () => {
-            expect(info.text).toBe('tx(test)/start');
-            expect('ctx' in info).toBe(true);
-            expect(info.ctx.isTX).toBe(true);
+            expect(info.text).to.equal('tx(test)/start');
+            expect('ctx' in info).to.be.true;
+            expect(info.ctx.isTX).to.be.true;
         });
         afterEach(() => {
             mon.detach();
@@ -47,7 +49,7 @@ describe('Transact - Positive', () => {
             }
         };
         beforeEach(() => {
-            mon.attach(options, ['transact']);
+            mon.attach(options, {events: ['transact']});
 
             const log = (msg, info) => {
                 text = info.text;
@@ -61,7 +63,7 @@ describe('Transact - Positive', () => {
             expect(text).toContain('tx(123)/end; duration:');
         });
         it('must call the old method', () => {
-            expect(cb).toEqual(e);
+            expect(cb).to.equal(e);
         });
         afterEach(() => {
             mon.detach();
@@ -71,15 +73,16 @@ describe('Transact - Positive', () => {
 });
 
 describe('Transact - Negative', () => {
+    const mon = new Monitor();
     describe('invalid parameters', () => {
         const options = {};
         beforeEach(() => {
-            mon.attach(options, ['transact']);
+            mon.attach(options, {events: ['transact']});
         });
         it('must report event correctly', () => {
             expect(() => {
                 options.transact();
-            }).toThrow('Invalid event \'transact\' redirect parameters.');
+            }).to.throw(`Invalid event 'transact' redirect parameters.`);
         });
         afterEach(() => {
             mon.detach();
