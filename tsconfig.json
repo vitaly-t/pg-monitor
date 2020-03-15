@@ -3,10 +3,10 @@
     "esModuleInterop": true,
     "module": "commonjs",
     "target": "ES2017",
-    "strict": true,
-    "noUnusedLocals": true
+    "strict": true
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "test/events"
   ]
 }

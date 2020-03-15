@@ -159,7 +159,6 @@ export class Themes {
         special: color.bgWhiteBright.cyan,
         error: color.bgWhiteBright.redBright
     };
-
 }
 
 export type ThemeName = keyof Themes;

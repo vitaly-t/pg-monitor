@@ -1,54 +1,51 @@
-import {expect} from './';
-import {Monitor} from '../src/monitor';
-import {IInitOptions} from '../src/types';
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const _1 = require("./");
+const monitor_1 = require("../src/monitor");
 describe('Attach - Positive', () => {
-
     describe('without override', () => {
-        const mon = new Monitor();
-        const options: IInitOptions = {};
+        const mon = new monitor_1.Monitor();
+        const options = {};
         beforeEach(() => {
             mon.attach(options);
         });
         it('must add new handlers without overriding', () => {
-            expect(options.connect).to.be.instanceOf(Function);
-            expect(options.disconnect).to.be.instanceOf(Function);
-            expect(options.query).to.be.instanceOf(Function);
-            expect(options.error).to.be.instanceOf(Function);
-            expect(options.transact).to.be.instanceOf(Function);
-            expect(options.task).to.be.instanceOf(Function);
+            _1.expect(options.connect).to.be.instanceOf(Function);
+            _1.expect(options.disconnect).to.be.instanceOf(Function);
+            _1.expect(options.query).to.be.instanceOf(Function);
+            _1.expect(options.error).to.be.instanceOf(Function);
+            _1.expect(options.transact).to.be.instanceOf(Function);
+            _1.expect(options.task).to.be.instanceOf(Function);
         });
         it('must be attached', () => {
-            expect(mon.isAttached()).to.be.true;
+            _1.expect(mon.isAttached()).to.be.true;
         });
         afterEach(() => {
             mon.detach();
         });
     });
-
     describe('select events', () => {
-        const mon = new Monitor();
-        const options: IInitOptions = {};
+        const mon = new monitor_1.Monitor();
+        const options = {};
         beforeEach(() => {
-            mon.attach(options, {events: ['query', 'task']});
+            mon.attach(options, { events: ['query', 'task'] });
         });
         it('must set only the events specified', () => {
-            expect(options.connect).to.be.undefined;
-            expect(options.disconnect).to.be.undefined;
-            expect(options.query).to.be.instanceOf(Function);
-            expect(options.error).to.be.undefined;
-            expect(options.transact).to.be.undefined;
-            expect(options.task).to.be.instanceOf(Function);
+            _1.expect(options.connect).to.be.undefined;
+            _1.expect(options.disconnect).to.be.undefined;
+            _1.expect(options.query).to.be.instanceOf(Function);
+            _1.expect(options.error).to.be.undefined;
+            _1.expect(options.transact).to.be.undefined;
+            _1.expect(options.task).to.be.instanceOf(Function);
         });
         afterEach(() => {
             mon.detach();
         });
     });
-
     describe('restoring all options', () => {
-        const mon = new Monitor();
-        const opt1: IInitOptions = {
-            connect: 123 as any,
+        const mon = new monitor_1.Monitor();
+        const opt1 = {
+            connect: 123,
             disconnect: undefined
         };
         const opt2 = {
@@ -58,14 +55,13 @@ describe('Attach - Positive', () => {
         it('must restore all properties', () => {
             mon.attach(opt1);
             mon.detach();
-            expect(opt1).to.equal(opt2);
+            _1.expect(opt1).to.equal(opt2);
         });
     });
-
     describe('restoring one option', () => {
-        const mon = new Monitor();
-        const opt1: IInitOptions = {
-            connect: 123 as any,
+        const mon = new monitor_1.Monitor();
+        const opt1 = {
+            connect: 123,
             disconnect: undefined
         };
         const opt2 = {
@@ -73,36 +69,32 @@ describe('Attach - Positive', () => {
             disconnect: undefined
         };
         it('must restore all properties', () => {
-            mon.attach(opt1, {events: ['query']});
+            mon.attach(opt1, { events: ['query'] });
             mon.detach();
-            expect(opt1).to.equal(opt2);
+            _1.expect(opt1).to.equal(opt2);
         });
     });
-
 });
-
 describe('Attach - Negative', () => {
-
-    const mon = new Monitor();
+    const mon = new monitor_1.Monitor();
     it('must reject invalid options', () => {
-        expect(() => {
-            mon.attach(undefined as any);
+        _1.expect(() => {
+            mon.attach(undefined);
         }).to.throw(`Initialization object 'options' must be specified.`);
-        expect(() => {
+        _1.expect(() => {
             mon.attach({
                 options: {},
                 events: 123
-            } as any);
+            });
         }).to.throw(`Invalid parameter 'events' passed.`);
     });
-
     describe('repeated attachment', () => {
         const options = {};
         beforeEach(() => {
             mon.attach(options);
         });
         it('must throw an error', () => {
-            expect(() => {
+            _1.expect(() => {
                 mon.attach(options);
             }).to.throw('Repeated attachments not supported, must call detach first.');
         });
@@ -110,10 +102,9 @@ describe('Attach - Negative', () => {
             mon.detach();
         });
     });
-
     describe('invalid detachment', () => {
         it('must throw an error', () => {
-            expect(() => {
+            _1.expect(() => {
                 mon.detach();
             }).to.throw('Event monitor not attached.');
         });
