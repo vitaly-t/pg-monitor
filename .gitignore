@@ -4,6 +4,7 @@ coverage/
 *.map
 
 dist/
+src/*.js
 typescript/*.js
 test/typescript/*.js
 package-lock.json
