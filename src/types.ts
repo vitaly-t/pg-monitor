@@ -1,7 +1,3 @@
-export type EventName = 'connect' | 'disconnect' | 'query' | 'task' | 'transact' | 'error';
-
-export const allEvents: EventName[] = ['connect', 'disconnect', 'query', 'task', 'transact', 'error'];
-
 export interface IInitOptions {
     connect?(client: IClient, dc: any, useCount: number): void
 
@@ -15,6 +11,10 @@ export interface IInitOptions {
 
     error?(err: any, e: IEventContext): void
 }
+
+export type EventName = keyof IInitOptions;
+
+export const eventNames: EventName[] = ['connect', 'disconnect', 'query', 'task', 'transact', 'error'];
 
 export interface IClient {
     connectionParameters: {

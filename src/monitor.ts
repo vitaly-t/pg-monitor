@@ -1,11 +1,11 @@
 import {ITheme, themeAttrs, ThemeName, Themes} from './themes';
-import {allEvents, EventName, IClient, IEventContext, IInitOptions} from './types';
+import {EventName, eventNames, IClient, IEventContext, IInitOptions} from './types';
 import {formatDuration, formatTime, getTagName, hasOwnProperty, isNull, removeColors, toJson} from './utils';
 
 // reusable error messages;
 const errors = {
     redirectParams(event: string) {
-        return 'Invalid event \'' + event + '\' redirect parameters.';
+        return `Invalid event '${event}' redirect parameters.`;
     }
 };
 
@@ -254,7 +254,7 @@ export class Monitor {
         }
 
         if (!options || typeof options !== 'object') {
-            throw new TypeError('Initialization object \'options\' must be specified.');
+            throw new TypeError(`Initialization object 'options' must be specified.`);
         }
 
         let events: EventName[] = options && options.events || [];
@@ -262,7 +262,7 @@ export class Monitor {
         const hasFilter = Array.isArray(events);
 
         if (!isNull(events) && !hasFilter) {
-            throw new TypeError('Invalid parameter \'events\' passed.');
+            throw new TypeError(`Invalid parameter 'events' passed.`);
         }
 
         events = events || [];
@@ -284,7 +284,7 @@ export class Monitor {
                 }
             }
         };
-        allEvents.forEach(e => {
+        eventNames.forEach(e => {
             attach(e);
         });
     }
@@ -302,7 +302,7 @@ export class Monitor {
         }
         const init: IInitOptions = this.initOptions && this.initOptions;
         // SEE: https://stackoverflow.com/questions/58380515/copying-a-same-key-property-error-in-typescript
-        allEvents.forEach((e: EventName) => {
+        eventNames.forEach(e => {
             if (this.state[e]) {
                 init[e] = this.state[e] as any;
                 delete this.state[e];
@@ -325,16 +325,16 @@ export class Monitor {
             if (t in Themes) {
                 this.cct = Themes[t];
             } else {
-                throw new TypeError('Theme \'' + t + '\' does not exist.');
+                throw new TypeError(`Theme '${t}' does not exist.`);
             }
         } else {
             if (typeof t === 'object') {
                 themeAttrs.forEach(a => {
                     if (!hasOwnProperty(t, a)) {
-                        throw new TypeError('Invalid theme: property \'' + a + '\' is missing.');
+                        throw new TypeError(`Invalid theme: property ' ${a}' is missing.`);
                     }
                     if (typeof t[a] !== 'function') {
-                        throw new TypeError('Theme property \'' + a + '\' is invalid.');
+                        throw new TypeError(`Theme property '${a}' is invalid.`);
                     }
                 });
                 this.cct = t;
@@ -383,5 +383,4 @@ export class Monitor {
             console.log(s);
         }
     }
-
 }
