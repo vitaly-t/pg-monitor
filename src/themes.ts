@@ -54,7 +54,7 @@ export class Themes {
     /**
      * dimmed palette (the default theme);
      */
-    static dimmed: ITheme = {
+    dimmed: ITheme = {
         time: color.bgWhite.black,
         value: color.white,
         cn: color.yellow,
@@ -69,7 +69,7 @@ export class Themes {
     /**
      * bright palette;
      */
-    static bright: ITheme = {
+    bright: ITheme = {
         time: color.bgBlue.whiteBright,
         value: color.white,
         cn: color.yellowBright,
@@ -84,7 +84,7 @@ export class Themes {
     /**
      * black + white + grey;
      */
-    static monochrome: ITheme = {
+    monochrome: ITheme = {
         time: color.bgWhite.black,
         value: color.whiteBright,
         cn: color.white,
@@ -99,7 +99,7 @@ export class Themes {
     /**
      * colors without distraction;
      */
-    static minimalist: ITheme = {
+    minimalist: ITheme = {
         time: color.bgWhite.black,
         value: color.white,
         cn: color.yellow,
@@ -114,7 +114,7 @@ export class Themes {
     /**
      * classy green;
      */
-    static matrix: ITheme = {
+    matrix: ITheme = {
         time: color.bgGreen.black,
         value: color.white,
         cn: color.green,
@@ -133,7 +133,7 @@ export class Themes {
     /**
      * black + white + grey;
      */
-    static invertedMonochrome: ITheme = {
+    invertedMonochrome: ITheme = {
         time: color.bgWhite.black,
         value: color.blackBright,
         cn: color.black,
@@ -148,7 +148,7 @@ export class Themes {
     /**
      * colorful contrast, with enforced white background
      */
-    static invertedContrast: ITheme = {
+    invertedContrast: ITheme = {
         time: color.bgBlue.white,
         value: color.bgWhiteBright.blueBright,
         cn: color.bgWhiteBright.black,
@@ -163,7 +163,3 @@ export class Themes {
 }
 
 export type ThemeName = keyof Themes;
-
-export function getTheme(name: ThemeName): ITheme {
-    return Themes[name];
-}

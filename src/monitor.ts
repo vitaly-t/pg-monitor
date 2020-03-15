@@ -2,6 +2,8 @@ import {ITheme, themeAttrs, ThemeName, Themes} from './themes';
 import {EventName, eventNames, IClient, IEventContext, IInitOptions} from './types';
 import {formatDuration, formatTime, getTagName, hasOwnProperty, isNull, removeColors, toJson} from './utils';
 
+const allThemes = new Themes();
+
 // reusable error messages;
 const errors = {
     redirectParams(event: string) {
@@ -38,7 +40,7 @@ export class Monitor {
         this.state = {};
         this.initOptions = null;
         this.detailed = true;
-        this.cct = Themes.dimmed;
+        this.cct = allThemes.dimmed;
     }
 
     ///////////////////////////////////////////////
@@ -323,7 +325,7 @@ export class Monitor {
         }
         if (typeof t === 'string') {
             if (t in Themes) {
-                this.cct = Themes[t];
+                this.cct = allThemes[t];
             } else {
                 throw new TypeError(`Theme '${t}' does not exist.`);
             }

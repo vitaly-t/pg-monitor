@@ -1,22 +1,25 @@
-const mon = require('../lib');
+import {expect} from './';
+import {Monitor} from '../src/monitor';
+import {IInitOptions} from '../src/types';
 
 describe('Attach - Positive', () => {
 
     describe('without override', () => {
-        const options = {};
+        const mon = new Monitor();
+        const options: IInitOptions = {};
         beforeEach(() => {
             mon.attach(options);
         });
         it('must add new handlers without overriding', () => {
-            expect(options.connect instanceof Function).toBe(true);
-            expect(options.disconnect instanceof Function).toBe(true);
-            expect(options.query instanceof Function).toBe(true);
-            expect(options.error instanceof Function).toBe(true);
-            expect(options.transact instanceof Function).toBe(true);
-            expect(options.task instanceof Function).toBe(true);
+            expect(options.connect).to.be.instanceOf(Function);
+            expect(options.disconnect).to.be.instanceOf(Function);
+            expect(options.query).to.be.instanceOf(Function);
+            expect(options.error).to.be.instanceOf(Function);
+            expect(options.transact).to.be.instanceOf(Function);
+            expect(options.task).to.be.instanceOf(Function);
         });
         it('must be attached', () => {
-            expect(mon.isAttached()).toBe(true);
+            expect(mon.isAttached()).to.be.true;
         });
         afterEach(() => {
             mon.detach();
@@ -24,17 +27,17 @@ describe('Attach - Positive', () => {
     });
 
     describe('select events', () => {
-        const options = {};
+        const options: IInitOptions = {};
         beforeEach(() => {
-            mon.attach(options, ['query', 'task']);
+            mon.attach(options, {events: ['query', 'task']});
         });
         it('must set only the events specified', () => {
-            expect(options.connect).toBe(undefined);
-            expect(options.disconnect).toBe(undefined);
-            expect(options.query instanceof Function).toBe(true);
-            expect(options.error).toBe(undefined);
-            expect(options.transact).toBe(undefined);
-            expect(options.task instanceof Function).toBe(true);
+            expect(options.connect).to.be.undefined;
+            expect(options.disconnect).to.be.undefined;
+            expect(options.query).to.be.instanceOf(Function);
+            expect(options.error).to.be.undefined;
+            expect(options.transact).to.be.undefined;
+            expect(options.task).to.be.instanceOf(Function);
         });
         afterEach(() => {
             mon.detach();
@@ -42,8 +45,8 @@ describe('Attach - Positive', () => {
     });
 
     describe('restoring all options', () => {
-        const opt1 = {
-            connect: 123,
+        const opt1: IInitOptions = {
+            connect: 123 as any,
             disconnect: undefined
         };
         const opt2 = {
@@ -53,13 +56,13 @@ describe('Attach - Positive', () => {
         it('must restore all properties', () => {
             mon.attach(opt1);
             mon.detach();
-            expect(opt1).toEqual(opt2);
+            expect(opt1).to.equal(opt2);
         });
     });
 
     describe('restoring one option', () => {
-        const opt1 = {
-            connect: 123,
+        const opt1: IInitOptions = {
+            connect: 123 as any,
             disconnect: undefined
         };
         const opt2 = {
@@ -67,9 +70,9 @@ describe('Attach - Positive', () => {
             disconnect: undefined
         };
         it('must restore all properties', () => {
-            mon.attach(opt1, ['query']);
+            mon.attach(opt1, {events: ['query']});
             mon.detach();
-            expect(opt1).toEqual(opt2);
+            expect(opt1).to.equal(opt2);
         });
     });
 
@@ -80,13 +83,13 @@ describe('Attach - Negative', () => {
     it('must reject invalid options', () => {
         expect(() => {
             mon.attach();
-        }).toThrow('Initialization object \'options\' must be specified.');
+        }).to.throw(`Initialization object 'options' must be specified.`);
         expect(() => {
             mon.attach({
                 options: {},
                 events: 123
-            });
-        }).toThrow('Invalid parameter \'events\' passed.');
+            } as any);
+        }).to.throw(`Invalid parameter 'events' passed.`);
     });
 
     describe('repeated attachment', () => {
@@ -97,7 +100,7 @@ describe('Attach - Negative', () => {
         it('must throw an error', () => {
             expect(() => {
                 mon.attach(options);
-            }).toThrow('Repeated attachments not supported, must call detach first.');
+            }).to.throw('Repeated attachments not supported, must call detach first.');
         });
         afterEach(() => {
             mon.detach();
@@ -108,7 +111,7 @@ describe('Attach - Negative', () => {
         it('must throw an error', () => {
             expect(() => {
                 mon.detach();
-            }).toThrow('Event monitor not attached.');
+            }).to.throw('Event monitor not attached.');
         });
     });
 });
