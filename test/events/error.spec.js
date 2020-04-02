@@ -39,7 +39,7 @@ describe('Error - Positive', () => {
             }
         };
         const cb = {}, options = {
-            error: function (err, e) {
+            error: (err, e) => {
                 cb.err = err;
                 cb.e = e;
             }
