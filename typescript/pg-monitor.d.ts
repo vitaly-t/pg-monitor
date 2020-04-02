@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-// Requires pg-monitor v1.3.0 or later.
+// Requires pg-monitor v1.4.0 or later.
 ////////////////////////////////////////
 
 // Event context extension for tasks + transactions;
@@ -55,6 +55,7 @@ type ThemeName =
 
 interface IEventInfo {
     time: Date | null
+    colorText: string
     text: string
     event: LogEvent
     display: boolean

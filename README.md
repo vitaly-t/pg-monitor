@@ -289,6 +289,7 @@ Object with additional information about the event:
 
 * `time` - `Date` object that was used for the screen, or `null` when it is an extra line with
 the event's context details;
+* `colorText` - color-coded message text, without time in front;
 * `text` - message text without the time in front (color attributes removed);
 * `event` - name of the event being logged.
 * `ctx` - Optional, [task/transaction context] when available.

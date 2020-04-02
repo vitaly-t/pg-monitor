@@ -9,6 +9,7 @@
   },
   "rules": {
     "no-var": "error",
+    "object-shorthand": "error",
     "prefer-const": "error",
     "prefer-arrow-callback": "error",
     "no-else-return": "error",

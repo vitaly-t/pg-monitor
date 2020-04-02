@@ -5,7 +5,7 @@ describe('Query - Positive', () => {
         const options = {}, text = [], params = [1, 2, 3];
         const e = {
             query: 'begin',
-            params: params,
+            params,
             ctx: {
                 start: new Date(),
                 tag: 'test'
