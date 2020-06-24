@@ -76,12 +76,20 @@ $ npm run coverage
 
 ```js
 const monitor = require('pg-monitor');
+const pgp = require('pg-promise');
 
 const options = {
     // your pg-promise initialization options;
 };
 
-monitor.attach(options); // attach to all events at once;
+const cn = {
+    // connection options like username, password etc
+}
+
+const db = pgp(options)(cn);
+
+// mutate the options object passed to pg-promise, attaching to all events at once:
+monitor.attach(options);
 ```
 
 Method [attach](#attachoptions-events-override) is to provide the quickest way to start using the library,
@@ -116,6 +124,7 @@ See the API below for all the methods and options that you have.
 Adds event handlers to object `options` that's used during [pg-promise initialization]:
 ```js
 const pgp = pgpLib(options);
+monitor.attach(options); // mutates the options object
 ```
 
 A repeated call (without calling [detach] first) will throw `Repeated attachments not supported, must call detach first.`
@@ -138,7 +147,7 @@ See also: [Initialization Options].
 #### [override]
 
 By default, the method uses derivation logic - it will call the previously configured
-event handler, if you have one, and only then it will call the internal implementation.
+event handler, if you have one, and only then will it call the internal implementation.
 
 If, however, you want to override your own handlers, pass `override` = `true`.
 
