@@ -76,20 +76,18 @@ $ npm run coverage
 
 ```js
 const monitor = require('pg-monitor');
-const pgp = require('pg-promise');
 
-const options = {
-    // your pg-promise initialization options;
+const initOptions = {
+    // pg-promise initialization options;
 };
 
-const cn = {
-    // connection options like username, password etc
-}
+const pgp = require('pg-promise')(initOptions);
 
-const db = pgp(options)(cn);
+// attach to all pg-promise events of the initOptions object:
+monitor.attach(initOptions);
 
-// mutate the options object passed to pg-promise, attaching to all events at once:
-monitor.attach(options);
+// Example of attaching to just events 'query' and 'error':
+// monitor.attach(initOptions, ['query', 'error']); 
 ```
 
 Method [attach](#attachoptions-events-override) is to provide the quickest way to start using the library,
@@ -100,7 +98,7 @@ If, however, you want to have full control over event handling, you can use the 
 Example of forwarding events [query] and [error] manually:
 
 ```js
-const options = {
+const initOptions = {
     query(e) {
         /* do some of your own processing, if needed */
 
@@ -121,10 +119,10 @@ See the API below for all the methods and options that you have.
 ## attach(options, [events], [override])
 **Alternative Syntax:** `attach({options, events, override});` 
 
-Adds event handlers to object `options` that's used during [pg-promise initialization]:
+Adds event handlers to object `initOptions` that's used during [pg-promise initialization]:
+
 ```js
-const pgp = pgpLib(options);
-monitor.attach(options); // mutates the options object
+monitor.attach(initOptions); // mutates the options object to attach to all events
 ```
 
 A repeated call (without calling [detach] first) will throw `Repeated attachments not supported, must call detach first.`
@@ -137,7 +135,7 @@ to all known events.
 Example of attaching to just events `query` and `error`:
 
 ```js
-monitor.attach(options, ['query', 'error']);
+monitor.attach(initOptions, ['query', 'error']);
 ```
 
 Query-related events supported by pg-promise: `connect`, `disconnect`, `query`, `task`, `transact` and `error`.
@@ -154,7 +152,7 @@ If, however, you want to override your own handlers, pass `override` = `true`.
 Example of overriding all known event handlers:
 
 ```js
-monitor.attach({options: options, override: true});
+monitor.attach({options: initOptions, override: true});
 ```
 
 ## isAttached()
