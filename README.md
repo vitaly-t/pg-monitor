@@ -120,11 +120,14 @@ It works the same for all other events.
 ```ts
 import * as monitor from 'pg-monitor';
 
-const forward = (event: monitor.LogEvent, args: IArguments) => (monitor as any)[event].apply(monitor, [...args]);
+function forward(event: monitor.LogEvent, args: IArguments) {
+    // safe event forwarding into pg-monitor:
+    (monitor as any)[event].apply(monitor, [...args]);
+} 
 
 const options: IInitOptions = {
     connect() {
-        forward('connect', arguments); // safe event forwarding into pg-monitor
+        forward('connect', arguments);
     },
     disconnect() {
         forward('disconnect', arguments);
