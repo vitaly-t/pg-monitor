@@ -114,6 +114,27 @@ const initOptions = {
 
 See the API below for all the methods and options that you have.
 
+Below is a safe forwarding implemented in TypeScript, for events `connect`, `disconnect` and `query`.
+It works the same for all other events.
+
+```ts
+import * as monitor from 'pg-monitor';
+
+const forward = (event: monitor.LogEvent, args: IArguments) => (monitor as any)[event].apply(monitor, [...args]);
+
+const options: IInitOptions = {
+    connect() {
+        forward('connect', arguments); // safe event forwarding into pg-monitor
+    },
+    disconnect() {
+        forward('disconnect', arguments);
+    },
+    query() {
+        forward('query', arguments);
+    }
+};
+```
+
 # API
 
 ## attach(options, [events], [override])
