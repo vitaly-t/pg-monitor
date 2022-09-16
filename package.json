@@ -1,6 +1,6 @@
 {
   "name": "pg-monitor",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Event monitor for pg-promise.",
   "main": "lib/index.js",
   "typings": "typescript/pg-monitor.d.ts",
@@ -36,7 +36,7 @@
     "node": ">=7.6"
   },
   "dependencies": {
-    "cli-color": "2.0.0"
+    "cli-color": "2.0.3"
   },
   "devDependencies": {
     "coveralls": "3.1.0",
