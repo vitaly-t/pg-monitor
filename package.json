@@ -1,14 +1,13 @@
 {
   "name": "pg-monitor",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Event monitor for pg-promise.",
   "main": "lib/index.js",
   "typings": "typescript/pg-monitor.d.ts",
   "scripts": {
     "test": "jasmine-node test",
     "coverage": "istanbul cover ./node_modules/jasmine-node/bin/jasmine-node test",
-    "travis": "npm run lint && istanbul cover ./node_modules/jasmine-node/bin/jasmine-node test --captureExceptions && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "lint": "./node_modules/.bin/eslint ./lib ./test/*.js ./test/events"
+    "lint": "eslint ./lib ./test/*.js ./test/events"
   },
   "files": [
     "lib",
@@ -39,10 +38,10 @@
     "cli-color": "2.0.3"
   },
   "devDependencies": {
-    "coveralls": "3.1.0",
-    "eslint": "6.8.0",
+    "coveralls": "3.1.1",
+    "eslint": "8.23.1",
     "istanbul": "0.4.5",
     "jasmine-node": "3.0.0",
-    "typescript": "3.9.5"
+    "typescript": "4.8.3"
   }
 }
