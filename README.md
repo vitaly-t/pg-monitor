@@ -1,9 +1,6 @@
 pg-monitor
 ===========
 
-[![Build Status](https://travis-ci.org/vitaly-t/pg-monitor.svg?branch=master)](https://travis-ci.org/vitaly-t/pg-monitor)
-[![Coverage Status](https://coveralls.io/repos/vitaly-t/pg-monitor/badge.svg?branch=master)](https://coveralls.io/r/vitaly-t/pg-monitor?branch=master)
-
 Events monitor for [pg-promise].
 
 [![matrix](https://raw.githubusercontent.com/vitaly-t/pg-monitor/master/.github/images/matrix.png)](https://raw.githubusercontent.com/vitaly-t/pg-monitor/master/.github/images/matrix.png)
