@@ -13,20 +13,18 @@ describe('Disconnect - Positive', () => {
             options = {};
             text = null;
             mon.attach(options, ['disconnect']);
-
             const log = (msg, info) => {
                 text = info.text;
                 info.display = false;
             };
             mon.setLog(log);
-
         });
         it('must log detailed message', () => {
-            mon.disconnect(client);
+            mon.disconnect({client});
             expect(text).toBe('disconnect(guest@test)');
         });
         it('must log short message', () => {
-            mon.disconnect(client, 123, false);
+            mon.disconnect({client, dc: 123}, false);
             expect(text).toBe('disconnect');
         });
         afterEach(() => {
@@ -36,11 +34,11 @@ describe('Disconnect - Positive', () => {
     });
 
     describe('indirect call', () => {
-        let options, text, ctx;
+        let options, text, param;
         beforeEach(() => {
             options = {
-                disconnect: c => {
-                    ctx = c;
+                disconnect: e => {
+                    param = e;
                 }
             };
             text = null;
@@ -52,13 +50,13 @@ describe('Disconnect - Positive', () => {
             };
             mon.setLog(log);
 
-            options.disconnect(client, 123);
+            options.disconnect({client, dc: 123});
         });
         it('must log detailed message', () => {
             expect(text).toBe('disconnect(guest@test)');
         });
         it('must call the old method', () => {
-            expect(ctx).toEqual(client);
+            expect(param.client).toEqual(client);
         });
         afterEach(() => {
             mon.detach();

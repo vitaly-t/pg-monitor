@@ -186,7 +186,7 @@ Detaches from all the events to which attached after the last successful call to
 
 Calling it while not attached will throw `Event monitor not attached.`
 
-## connect(client, dc, fresh, [detailed])
+## connect({client, dc, useCount}, [detailed])
 
 Monitors and reports event [connect].
 
@@ -198,9 +198,9 @@ Monitors and reports event [connect].
 
 Database Context.
 
-#### fresh
+#### useCount
 
-Fresh connection flag.
+Number of times the connection has been used.
 
 #### [detailed]
 
@@ -208,7 +208,7 @@ Optional. When set, it reports such connection details as `user@database`.
 
 When not set, it defaults to the value of [monitor.detailed]. 
 
-## disconnect(client, dc, [detailed])
+## disconnect({client, dc}, [detailed])
 
 Monitors and reports event [disconnect].
 

@@ -21,11 +21,11 @@ describe('Connect - Positive', () => {
             mon.setLog(log);
         });
         it('must log detailed message', () => {
-            mon.connect(client, 123, true);
+            mon.connect({client, dc: 123}, true);
             expect(text).toBe('connect(guest@test)');
         });
         it('must log short message', () => {
-            mon.connect(client, 123, true, false);
+            mon.connect({client, dc: 123}, false);
             expect(text).toBe('connect');
         });
         afterEach(() => {
@@ -35,11 +35,11 @@ describe('Connect - Positive', () => {
     });
 
     describe('indirect call', () => {
-        let options, text, ctx;
+        let options, text, params;
         beforeEach(() => {
             options = {
-                connect: c => {
-                    ctx = c;
+                connect: e => {
+                    params = e;
                 }
             };
             text = null;
@@ -50,13 +50,13 @@ describe('Connect - Positive', () => {
             };
             mon.setLog(log);
 
-            options.connect(client, 123, false);
+            options.connect({client, dc: 123}, false);
         });
         it('must log detailed message', () => {
             expect(text).toBe('connect(guest@test)');
         });
         it('must call the old method', () => {
-            expect(ctx).toEqual(client);
+            expect(params.client).toEqual(client);
         });
         afterEach(() => {
             mon.detach();

@@ -1,6 +1,6 @@
 {
   "name": "pg-monitor",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "description": "Event monitor for pg-promise.",
   "main": "lib/index.js",
   "typings": "typescript/pg-monitor.d.ts",
@@ -32,16 +32,16 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=7.6"
+    "node": ">=14"
   },
   "dependencies": {
     "cli-color": "2.0.3"
   },
   "devDependencies": {
     "coveralls": "3.1.1",
-    "eslint": "8.23.1",
+    "eslint": "8.30.0",
     "istanbul": "0.4.5",
     "jasmine-node": "3.0.0",
-    "typescript": "4.8.3"
+    "typescript": "4.9.4"
   }
 }
