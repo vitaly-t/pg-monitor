@@ -41,7 +41,7 @@ In addition, it simplifies [events logging](#log) for your application.
 $ npm install pg-monitor
 ```
 
-The library has no direct dependency on [pg-promise], and will work with any of its versions.
+The library has no direct dependency on [pg-promise].
 
 # Testing
 
