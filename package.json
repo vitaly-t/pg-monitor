@@ -1,12 +1,11 @@
 {
   "name": "pg-monitor",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Event monitor for pg-promise.",
   "main": "lib/index.js",
   "typings": "typescript/pg-monitor.d.ts",
   "scripts": {
     "test": "jasmine-node test",
-    "coverage": "istanbul cover ./node_modules/jasmine-node/bin/jasmine-node test",
     "lint": "eslint ./lib ./test/*.js ./test/events"
   },
   "files": [
@@ -35,13 +34,11 @@
     "node": ">=14"
   },
   "dependencies": {
-    "cli-color": "2.0.3"
+    "cli-color": "2.0.4"
   },
   "devDependencies": {
-    "coveralls": "3.1.1",
-    "eslint": "8.30.0",
-    "istanbul": "0.4.5",
+    "eslint": "8.57.0",
     "jasmine-node": "3.0.0",
-    "typescript": "4.9.4"
+    "typescript": "5.4.4"
   }
 }
