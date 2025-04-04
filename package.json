@@ -1,6 +1,6 @@
 {
   "name": "pg-monitor",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "Event monitor for pg-promise.",
   "main": "lib/index.js",
   "typings": "typescript/pg-monitor.d.ts",
@@ -39,6 +39,6 @@
   "devDependencies": {
     "eslint": "8.57.0",
     "jasmine-node": "3.0.0",
-    "typescript": "5.4.4"
+    "typescript": "5.8.2"
   }
 }
