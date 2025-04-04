@@ -2,7 +2,7 @@ pg-monitor
 ===========
 
 [![Build Status](https://github.com/vitaly-t/pg-monitor/actions/workflows/ci.yml/badge.svg)](https://github.com/vitaly-t/pg-monitor/actions/workflows/ci.yml)
-[![Node Version](https://img.shields.io/badge/nodejs-14%20--%2020-green.svg?logo=node.js&style=flat)](https://nodejs.org)
+[![Node Version](https://img.shields.io/badge/nodejs-14%20--%2022-green.svg?logo=node.js&style=flat)](https://nodejs.org)
 
 Events monitor for [pg-promise].
 
