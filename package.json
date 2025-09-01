@@ -37,6 +37,7 @@
     "picocolors": "1.1.1"
   },
   "devDependencies": {
+    "@types/node": "24.3.0",
     "eslint": "9.34.0",
     "jasmine-node": "3.0.0",
     "typescript": "5.9.2"
