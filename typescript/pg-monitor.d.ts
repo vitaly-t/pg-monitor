@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-// Requires pg-monitor v2.1.0 or later.
+// Requires pg-monitor v3.1.0 or later.
 ////////////////////////////////////////
 
 // Event context extension for tasks + transactions;
